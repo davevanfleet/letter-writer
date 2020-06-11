@@ -4,12 +4,14 @@ import {GoogleApiWrapper} from 'google-maps-react';
 import Layout from './containers/Layout';
 import './App.css';
 import { config } from './constants';
+import Errors from './components/Errors';
 import Home from './containers/Home';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
   state = {
-    currentUser: null
+    currentUser: null,
+    errors: null
   }
   
   componentDidMount(){
@@ -23,7 +25,8 @@ class App extends Component {
       .then(json => {
           const user = JSON.parse(json.user)
           this.setState({
-            currentUser: user
+            currentUser: user,
+            errors: null
           })
       })
     }
@@ -50,6 +53,7 @@ class App extends Component {
       .then(r => r.json())
       .then(json => {
         console.log(json)
+        if(json.error){throw json.error}
         const user = JSON.parse(json.user)
         this.setState({
           currentUser: user
@@ -57,7 +61,9 @@ class App extends Component {
         localStorage.setItem('token', json.jwt)
       })
       .catch(e => {
-        console.log(e)
+        this.setState({
+          errors: e
+        })
       })
   }
 
@@ -87,6 +93,7 @@ class App extends Component {
         <div className="App">
           <Router>
             <Layout currentUser={this.state.currentUser} logout={this.logout}>
+              {this.state.errors ? <Errors error={this.state.errors} /> : null}
               <LoginForm login={this.login} />
             </Layout>
           </Router>
