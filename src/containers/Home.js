@@ -59,7 +59,7 @@ class Home extends Component {
     }
 
     render(){
-        const territories = this.state.territories.map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
+        const territories = this.state.territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
         return(
             <div>
                 <h3>Select a Territory</h3>
