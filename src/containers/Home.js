@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Territory from '../components/Territory';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import {GoogleApiWrapper} from 'google-maps-react';
 import { config } from '../constants';
 import uuid from 'uuid';
+import Territory from '../components/Territory';
 
 class Home extends Component {
     state = {
@@ -10,7 +12,8 @@ class Home extends Component {
         territoryName: '',
         territories: [],
         territory: '',
-        contacts: []
+        contacts: [],
+        contactsLoaded: false
     }
 
     componentDidMount(){
@@ -29,7 +32,8 @@ class Home extends Component {
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            contactsLoaded: false
         })
 
         const filterContacts = (polygon) => {
@@ -41,7 +45,8 @@ class Home extends Component {
                         return this.props.google.maps.geometry.poly.containsLocation(coords, polygon)
                     })
                     this.setState({
-                        contacts: filteredList
+                        contacts: filteredList,
+                        contactsLoaded: true
                     })
                 })
         }
@@ -63,13 +68,13 @@ class Home extends Component {
         return(
             <div>
                 <h3>Select a Territory</h3>
-                <form onSubmit={this.handleSubmit}>
+                <form id="territory-form" onSubmit={this.handleSubmit}>
                     <select name="territoryId" onChange={this.handleChange} value={this.state.territoryId}>
                         <option key={uuid()} value="0">Select a Territory</option>
                         {territories}
                     </select>
                 </form>
-                {this.state.territoryId > 0 ? <Territory contacts={this.state.contacts} name={this.state.territoryName} /> : null}
+                {this.state.contactsLoaded ? <Territory contacts={this.state.contacts} name={this.state.territoryName} /> : (this.state.territoryId > 0 ? <FontAwesomeIcon icon={faSpinner} size="6x" spin /> : null)}
             </div>
         )
     }

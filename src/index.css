@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#territory-form {
+  margin-bottom: 1em;
+}
+
+.btn {
+  margin-bottom: 1em;
+}
