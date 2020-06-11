@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import {GoogleApiWrapper} from 'google-maps-react';
 import Layout from './containers/Layout';
 import './App.css';
+import { config } from './constants';
 import Home from './containers/Home';
 import LoginForm from './components/LoginForm';
 
@@ -12,7 +14,7 @@ class App extends Component {
   
   componentDidMount(){
     const getCurrentUser = (token) => {
-      fetch(`http://localhost:8080/get_current_user`, {
+      fetch(`${config.url.API_URL}/get_current_user`, {
         headers: {
           "Auth": token
         }
@@ -44,7 +46,7 @@ class App extends Component {
       body: JSON.stringify(credentials)
     }
 
-    fetch("http://localhost:8080/login", configObj)
+    fetch(`${config.url.API_URL}/login`, configObj)
       .then(r => r.json())
       .then(json => {
         console.log(json)
@@ -94,4 +96,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  libraries: ['geometry']
+})(App)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Territory from '../components/Territory';
 import {GoogleApiWrapper} from 'google-maps-react';
+import { config } from '../constants';
 import uuid from 'uuid';
 
 class Home extends Component {
@@ -13,7 +14,7 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        fetch('http://localhost:8080/territories')
+        fetch(`${config.url.API_URL}/territories`)
             .then(r => r.json())
             .then(data => {
                 this.setState({
@@ -32,7 +33,7 @@ class Home extends Component {
         })
 
         const filterContacts = (polygon) => {
-            fetch('http://localhost:8080/contacts')
+            fetch(`${config.url.API_URL}/contacts`)
                 .then(r => r.json())
                 .then(d => {
                     const filteredList = d.filter(contact => {
@@ -45,7 +46,7 @@ class Home extends Component {
                 })
         }
 
-        fetch(`http://localhost:8080/territories/${e.target.value}`)
+        fetch(`${config.url.API_URL}/territories/${e.target.value}`)
                 .then(r => r.json())
                 .then(d => {
                     const territory = new this.props.google.maps.Polygon({paths: d.points})
