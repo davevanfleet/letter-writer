@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -12,7 +11,7 @@ const Layout = (props) => {
                     <Navbar.Brand>Home</Navbar.Brand>
                 </LinkContainer>
                 <Nav className="ml-auto">
-                    
+                    {props.currentUser ? <LinkContainer to="/"><Nav.Link onClick={event => props.logout(event)}>Logout</Nav.Link></LinkContainer> : null}
                 </Nav>
             </Navbar>
             {props.children}
@@ -20,4 +19,4 @@ const Layout = (props) => {
     )
 }
 
-export default withRouter(Layout)
+export default Layout

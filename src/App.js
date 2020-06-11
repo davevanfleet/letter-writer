@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Territory from './components/Territory';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Layout from './containers/Layout';
 import './App.css';
-import Home from './components/Home';
+import Home from './containers/Home';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
@@ -47,29 +46,51 @@ class App extends Component {
 
     fetch("http://localhost:8080/login", configObj)
       .then(r => r.json())
-      .then(data => {
-        console.log(data)
+      .then(json => {
+        console.log(json)
+        const user = JSON.parse(json.user)
+        this.setState({
+          currentUser: user
+        })
+        localStorage.setItem('token', json.jwt)
       })
       .catch(e => {
         console.log(e)
       })
   }
 
+  logout = (e) => {
+    e.preventDefault()
+    localStorage.clear()
+    this.setState({
+      currentUser: null
+    })
+  }
+
 
   render(){
-    return (
-      <div className="App">
-        <Router>
-          <Layout>
-            <Switch>
-                <Route exact path='/' component={Home} />
-                <Route extact path='/login' render={() => <LoginForm login={this.login}/> } />
-                <Route path='/territories/:territoryId' render={routerProps => {return <Territory territoryId={routerProps.match.params.territoryId} />}} />
-            </Switch>
-          </Layout>
-        </Router>
-      </div>
-    )
+    if (this.state.currentUser){
+      return (
+        <div className="App">
+          <Router>
+            <Layout currentUser={this.state.currentUser} logout={this.logout}>
+              <Home />
+            </Layout>
+          </Router>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div className="App">
+          <Router>
+            <Layout currentUser={this.state.currentUser} logout={this.logout}>
+              <LoginForm login={this.login} />
+            </Layout>
+          </Router>
+        </div>
+      )
+    }
   }
 }
 

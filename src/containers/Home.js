@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Territory from './Territory';
+import Territory from '../components/Territory';
 import {GoogleApiWrapper} from 'google-maps-react';
 import uuid from 'uuid';
 
