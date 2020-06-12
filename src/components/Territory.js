@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import uuid from 'uuid';
 import { CSVLink } from "react-csv";
+import CheckBox from './CheckBox';
 
 class Territory extends Component {
+    handleClick = (e) => {
+        e.preventdefault()
+        e.target.innerHTML = ''
+    }
+
     render(){
         const headers = [
             { label: "Name", key: "name" },
@@ -12,7 +18,7 @@ class Territory extends Component {
             { label: "Check When Finished", key: "blank"}
           ]
         
-        const contacts = this.props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td id={`checkbox-${contact.id}`}></td></tr>)
+        const contacts = this.props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
         return(
             <div>
                 <p>{this.props.contacts.length} Contacts Loaded</p>
