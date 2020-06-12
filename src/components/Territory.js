@@ -12,9 +12,10 @@ class Territory extends Component {
             { label: "Check When Finished", key: "blank"}
           ]
         
-        const contacts = this.props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td></tr>)
+        const contacts = this.props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td id={`checkbox-${contact.id}`}></td></tr>)
         return(
             <div>
+                <p>{this.props.contacts.length} Contacts Loaded</p>
                 <CSVLink data={this.props.contacts} 
                          headers={headers}
                          filename={`${this.props.name}.csv`}
