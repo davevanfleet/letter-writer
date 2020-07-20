@@ -3,7 +3,7 @@ import React from 'react';
 const Errors = (props) => {
     return (
         <div className="alert alert-danger">
-            {props.error}
+            {props.error.message}
         </div>
     )
 }

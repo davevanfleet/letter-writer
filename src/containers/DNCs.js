@@ -15,26 +15,41 @@ const DNCs = (props) => {
         setAddress(e.target.value)
     }
 
-    const [territory, setTerritory] = useState('')
+    const [territoryId, setTerritoryId] = useState('')
     const handleTerritoryChange = (e) => {
-        setTerritory(e.target.value)
+        setTerritoryId(e.target.value)
     }
 
     const submitDnc = (e) => {
         e.preventDefault()
+        const configObj = {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "accepts": "application/json"
+            },
+            "body": JSON.stringify({"dnc": address})
+        }
+        fetch(`${config.url.API_URL}/territories/${territoryId}/dncs`, configObj)
+            .then(r=>r.json())
+            .then(d => {
+                setAddress('')
+                setTerritoryId('0')
+            })
     } 
 
-    const sortedTerritories = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.name}>{t.name}</option>)
+    const sortedTerritories = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
 
     return(
         <>
-            <p>I pitty da fool that calls these fools</p>
+            <h3>Add new Do-Not-Call</h3>
             <form onSubmit={e => submitDnc(e)}>
                 <p>Address: <input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} /></p>
-                <p>Territory: <select name="territory" onChange={e => handleTerritoryChange(e)} value={territory}>
+                <p>Territory: <select name="territory" onChange={e => handleTerritoryChange(e)} value={territoryId}>
                         <option key={uuid()} value="0">Select a Territory</option>
                         {sortedTerritories}
                     </select></p>
+                <input type="submit" class="btn btn-primary" value="Add DNC" />
             </form>
         </>
     )
