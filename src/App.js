@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router,
+         Switch,
+         Route } from 'react-router-dom';
 import {GoogleApiWrapper} from 'google-maps-react';
 import Layout from './containers/Layout';
 import './App.css';
 import { config } from './constants';
 import Errors from './components/Errors';
 import Home from './components/Home';
+import Territories from './containers/Territories';
+import DNCs from './containers/DNCs';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
@@ -82,7 +86,17 @@ class App extends Component {
         <div className="App">
           <Router>
             <Layout currentUser={this.state.currentUser} logout={this.logout}>
-              <Home />
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route exact path="/territories">
+                  <Territories />
+                </Route>
+                <Route exact path="/DNCs">
+                  <DNCs />
+                </Route>
+              </Switch>
             </Layout>
           </Router>
         </div>
