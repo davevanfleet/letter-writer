@@ -6,7 +6,7 @@ import { config } from '../constants';
 import uuid from 'uuid';
 import Territory from '../components/Territory';
 
-class Home extends Component {
+class Territories extends Component {
     state = {
         territoryId: 0,
         territoryName: '',
@@ -83,4 +83,4 @@ class Home extends Component {
 export default GoogleApiWrapper({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['geometry']
-})(Home)
+})(Territories)

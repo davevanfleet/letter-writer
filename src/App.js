@@ -5,7 +5,7 @@ import Layout from './containers/Layout';
 import './App.css';
 import { config } from './constants';
 import Errors from './components/Errors';
-import Home from './containers/Home';
+import Home from './components/Home';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {

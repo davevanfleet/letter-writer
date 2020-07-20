@@ -10,6 +10,12 @@ const Layout = (props) => {
                 <LinkContainer to="/">
                     <Navbar.Brand>Home</Navbar.Brand>
                 </LinkContainer>
+                <LinkContainer to="/territories">
+                    <Navbar.Brand>Territories</Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to="/DNCs">
+                    <Navbar.Brand>DNCs</Navbar.Brand>
+                </LinkContainer>
                 <Nav className="ml-auto">
                     {props.currentUser ? <LinkContainer to="/"><Nav.Link onClick={event => props.logout(event)}>Logout</Nav.Link></LinkContainer> : null}
                 </Nav>
