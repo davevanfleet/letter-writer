@@ -12,8 +12,30 @@ const DNCList = (props) => {
         }
     },[props.territoryId])
 
+    const handleDeleteClick = (e, id) => {
+        e.preventDefault()
+        if (window.confirm("Are You sure you want to delete this do-not-call?")){
+            const configObj = {
+                "method": "DELETE",
+                "headers": {
+                    "content-type": "application/json",
+                    "accepts": "aplication/json"
+                }
+            }
+            fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs/${id}`, configObj)
+                .then(r => r.json())
+                .then(d => console.log(d))
+        }
+    }
+
     const rows = addresses.map((address) => {
-        return <tr><td>{address.address}</td><td>Edit</td><td>Delete</td></tr>
+        return (
+            <tr>
+                <td>{address.address}</td>
+                <td><button className="btn btn-warning">Edit</button></td>
+                <td><button className="btn btn-danger" onClick={(e) => handleDeleteClick(e, address.id)}>Delete</button></td>
+                </tr>
+        )
     })
 
     console.log(addresses)
