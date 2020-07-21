@@ -40,6 +40,7 @@ const DNCs = (props) => {
             .then(r=>r.json())
             .then(d => {
                 setAddress('')
+                setQuery(territoryId)
                 setTerritoryId('0')
             })
     } 
