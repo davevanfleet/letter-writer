@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { config } from '../constants';
 import uuid from 'uuid';
+import DNCList from '../components/DNCList'
 
 const DNCs = (props) => {
     const [territories, setTerritories] = useState([])
@@ -18,6 +19,11 @@ const DNCs = (props) => {
     const [territoryId, setTerritoryId] = useState('')
     const handleTerritoryChange = (e) => {
         setTerritoryId(e.target.value)
+    }
+
+    const [query, setQuery] = useState('')
+    const handleQueryChange = (e) => {
+        setQuery(e.target.value)
     }
 
     const submitDnc = (e) => {
@@ -42,15 +48,22 @@ const DNCs = (props) => {
 
     return(
         <>
-            <h3>Add new Do-Not-Call</h3>
+            <h3>Add New Do-Not-Call</h3>
             <form onSubmit={e => submitDnc(e)}>
                 <p>Address: <input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} /></p>
                 <p>Territory: <select name="territory" onChange={e => handleTerritoryChange(e)} value={territoryId}>
                         <option key={uuid()} value="0">Select a Territory</option>
                         {sortedTerritories}
                     </select></p>
-                <input type="submit" class="btn btn-primary" value="Add DNC" />
+                <input type="submit" className="btn btn-primary" value="Add DNC" />
             </form>
+            <br />
+            <h3>View Existing Do-Not-Calls</h3>
+            <p>Territory: <select name="territory" onChange={e => handleQueryChange(e)} value={query}>
+                <option key={uuid()} value="0">Select a Territory</option>
+                {sortedTerritories}
+            </select></p>
+            <DNCList territoryId={query} />
         </>
     )
 }
