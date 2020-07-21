@@ -24,7 +24,8 @@ const DNCList = (props) => {
             }
             fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs/${id}`, configObj)
                 .then(r => r.json())
-                .then(d => console.log(d))
+                .then(d => {
+                    setAddresses(addresses.filter(address => address.id !== id))})
         }
     }
 
