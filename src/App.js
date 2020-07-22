@@ -56,7 +56,6 @@ class App extends Component {
     fetch(`${config.url.API_URL}/login`, configObj)
       .then(r => r.json())
       .then(json => {
-        console.log(json)
         if(json.error){throw json.error}
         const user = JSON.parse(json.user)
         this.setState({

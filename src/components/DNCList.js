@@ -4,12 +4,12 @@ import { config } from '../constants';
 const DNCList = (props) => { 
     const [addresses, setAddresses] = useState([])
     useEffect(() => {
-        if(props.territoryId != 0){
+        if(parseInt(props.territoryId, 10) !== 0){
             fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs`)
                 .then(r => r.json())
                 .then(d => setAddresses(d))
                 .catch(e => console.log(e))
-        }
+        } else {console.log(props.territoryId)}
     },[props.territoryId])
 
     const handleDeleteClick = (e, id) => {
@@ -38,8 +38,6 @@ const DNCList = (props) => {
                 </tr>
         )
     })
-
-    console.log(addresses)
 
     return (
         <table className="table">
