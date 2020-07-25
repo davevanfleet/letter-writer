@@ -68,12 +68,10 @@ class Territories extends Component {
         return(
             <div>
                 <h3>Select a Territory</h3>
-                <form id="territory-form" onSubmit={this.handleSubmit}>
-                    <select name="territoryId" onChange={this.handleChange} value={this.state.territoryId}>
-                        <option key={uuid()} value="0">Select a Territory</option>
-                        {territories}
-                    </select>
-                </form>
+                <select name="territoryId" onChange={this.handleChange} value={this.state.territoryId}>
+                    <option key={uuid()} value="0">Select a Territory</option>
+                    {territories}
+                </select>
                 {this.state.contactsLoaded ? <Territory contacts={this.state.contacts} name={this.state.territoryName} /> : (this.state.territoryId > 0 ? <FontAwesomeIcon icon={faSpinner} size="6x" spin /> : null)}
             </div>
         )

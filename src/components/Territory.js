@@ -28,6 +28,7 @@ class Territory extends Component {
                          className="btn btn-primary">
                              Download Territory
                 </CSVLink>
+                <h2>Contacts</h2>
                 <Table>
                     <thead>
                         <tr>
@@ -39,6 +40,18 @@ class Territory extends Component {
                     </thead>
                     <tbody>
                         { contacts }
+                    </tbody>
+                </Table>
+                <h2>DNCs</h2>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Address:</th>
+                            <th>Date:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
                     </tbody>
                 </Table>
             </div>
