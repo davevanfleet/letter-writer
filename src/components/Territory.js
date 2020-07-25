@@ -5,10 +5,6 @@ import { CSVLink } from "react-csv";
 import CheckBox from './CheckBox';
 
 class Territory extends Component {
-    handleClick = (e) => {
-        e.preventdefault()
-        e.target.innerHTML = ''
-    }
 
     render(){
         const headers = [
@@ -19,6 +15,7 @@ class Territory extends Component {
           ]
         
         const contacts = this.props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
+        
         return(
             <div>
                 <p>{this.props.contacts.length} Contacts Loaded</p>
