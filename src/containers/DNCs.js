@@ -13,6 +13,15 @@ const DNCs = (props) => {
             .then(d => setTerritories(d))
     }, [])
 
+    const getDncs = () => {
+        fetch(`${config.url.API_URL}/dncs`)
+                .then(r => r.json())
+                .then(d => setAllDncs(d))
+    }
+
+    const [allDncs, setAllDncs] = useState([])
+    useEffect(getDncs, [])
+
     const [dnc, setDnc] = useState('')
 
     const [displayEdit, setDisplayEdit] = useState(false)
@@ -21,19 +30,23 @@ const DNCs = (props) => {
         setDnc(prevDnc)
         setDisplayEdit(true)
     }
-    const handleFinishEdit = (e) => {
-        e.preventDefault()
+    const handleFinishEdit = () => {
         setDisplayEdit(false)
+        getDncs()
         setDnc('')
+    }
+
+    const handleFinishCreate = () => {
+        getDncs()
     }
 
     const sortedTerritories = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
 
     return(
         <>
-            <DNCList sortedTerritories={sortedTerritories} handleEditClick={handleEditClick} />
+            <DNCList sortedTerritories={sortedTerritories} allDncs={allDncs} handleEditClick={handleEditClick} />
             <br />
-            {displayEdit ? <DNCEditForm dnc={dnc} handleFinishEdit={handleFinishEdit} /> : <DNCNewForm sortedTerritories={sortedTerritories} />  }      
+            {displayEdit ? <DNCEditForm dnc={dnc} handleFinishEdit={handleFinishEdit} /> : <DNCNewForm sortedTerritories={sortedTerritories} handleFinishCreate={handleFinishCreate} />  }      
         </>
     )
 }

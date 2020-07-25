@@ -46,6 +46,7 @@ const DNCNewForm = (props) => {
             .then(d => {
                 setAddress('')
                 setTerritoryId('0')
+                props.handleFinishCreate()
             })
     } 
 

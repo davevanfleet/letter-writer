@@ -10,13 +10,8 @@ const DNCList = (props) => {
 
     const [addresses, setAddresses] = useState([])
     useEffect(() => {
-        if(parseInt(query, 10) !== 0){
-            fetch(`${config.url.API_URL}/territories/${query}/dncs`)
-                .then(r => r.json())
-                .then(d => setAddresses(d))
-                .catch(e => console.log(e))
-        }
-    },[query])
+        setAddresses(props.allDncs.filter(dnc => dnc.territory_id === parseInt(query, 10)))
+    }, [query, props.allDncs])
 
     const handleDeleteClick = (e, id) => {
         e.preventDefault()

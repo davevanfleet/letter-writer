@@ -36,7 +36,7 @@ const DNCEditForm = (props) => {
         fetch(`${config.url.API_URL}/territories/${props.dnc.territory_id}/dncs/${props.dnc.id}`, configObj)
             .then(r => r.json())
             .then(d => {
-                props.handleFinishEdit(e)
+                props.handleFinishEdit()
             })
     }
 
