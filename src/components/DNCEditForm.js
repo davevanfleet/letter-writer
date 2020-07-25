@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { config } from '../constants';
 
 const DNCEditForm = (props) => {
@@ -11,6 +11,11 @@ const DNCEditForm = (props) => {
     const handleDateChange = (e) => {
         setDate(e.target.value)
     }
+
+    useEffect(() => {
+        setAddress(props.dnc.address)
+        setDate(props.dnc.date)
+    }, [props.dnc])
 
     const handleSubmit = (e) => {
         e.preventDefault()
