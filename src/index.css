@@ -19,3 +19,10 @@ code {
 .btn {
   margin-bottom: 1em;
 }
+
+.home * {
+  max-width: 500px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
