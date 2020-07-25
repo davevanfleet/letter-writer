@@ -6,7 +6,7 @@ import CheckBox from './CheckBox';
 import { config } from '../constants';
 
 const Territory = (props) => {
-    const [dncs, setDncs] = useState()
+    const [dncs, setDncs] = useState([])
     useEffect(() => {
         fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs`)
             .then(r => r.json())
@@ -20,8 +20,13 @@ const Territory = (props) => {
         { label: "Check When Finished", key: "blank"}
       ]
     
-    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
+    const dncHeaders = [
+      { label: "Address", key: "address" },
+      { label: "Date", key: "date" }
+    ]
     
+    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
+    const dncRows = dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
         <div>
             <p>{props.contacts.length} Contacts Loaded</p>
@@ -46,6 +51,12 @@ const Territory = (props) => {
                 </tbody>
             </Table>
             <h2>DNCs</h2>
+            <CSVLink data={dncs} 
+                     headers={dncHeaders}
+                     filename={`${props.name}-DNCs.csv`}
+                     className="btn btn-primary">
+                         Download DNCs
+            </CSVLink>
             <Table>
                 <thead>
                     <tr>
@@ -54,7 +65,7 @@ const Territory = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    {dncRows}
                 </tbody>
             </Table>
         </div>
