@@ -72,7 +72,7 @@ class Territories extends Component {
                     <option key={uuid()} value="0">Select a Territory</option>
                     {territories}
                 </select>
-                {this.state.contactsLoaded ? <Territory contacts={this.state.contacts} name={this.state.territoryName} territoryId={this.state.territoryId} /> : (this.state.territoryId > 0 ? <FontAwesomeIcon icon={faSpinner} size="6x" spin /> : null)}
+                {this.state.contactsLoaded ? <Territory contacts={this.state.contacts} name={this.state.territoryName} territoryId={this.state.territoryId} /> : (this.state.territoryId > 0 ? <><br /><FontAwesomeIcon icon={faSpinner} size="6x" spin /></> : null)}
             </div>
         )
     }

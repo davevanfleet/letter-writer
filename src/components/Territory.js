@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import uuid from 'uuid';
 import { CSVLink } from "react-csv";
+import emailjs from 'emailjs-com';
 import CheckBox from './CheckBox';
 import { config } from '../constants';
+
 
 const Territory = (props) => {
     const [dncs, setDncs] = useState([])
@@ -30,26 +32,6 @@ const Territory = (props) => {
     return(
         <div>
             <p>{props.contacts.length} Contacts Loaded</p>
-            <CSVLink data={props.contacts} 
-                     headers={headers}
-                     filename={`${props.name}.csv`}
-                     className="btn btn-primary">
-                         Download Territory
-            </CSVLink>
-            <h2>Contacts</h2>
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Name:</th>
-                        <th>Address:</th>
-                        <th>Phone:</th>
-                        <th>Check When Done:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { contacts }
-                </tbody>
-            </Table>
             <h2>DNCs</h2>
             <CSVLink data={dncs} 
                      headers={dncHeaders}
@@ -66,6 +48,26 @@ const Territory = (props) => {
                 </thead>
                 <tbody>
                     {dncRows}
+                </tbody>
+            </Table>
+            <h2>Contacts</h2>
+            <CSVLink data={props.contacts} 
+                     headers={headers}
+                     filename={`${props.name}.csv`}
+                     className="btn btn-primary">
+                         Download Territory
+            </CSVLink>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name:</th>
+                        <th>Address:</th>
+                        <th>Phone:</th>
+                        <th>Check When Done:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { contacts }
                 </tbody>
             </Table>
         </div>
