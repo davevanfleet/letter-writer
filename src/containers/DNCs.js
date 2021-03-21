@@ -37,9 +37,6 @@ const DNCs = (props) => {
     }
 
     const [displayNew, setDisplayNew] = useState(false)
-    const handleCloseNewForm = () => {
-        setDisplayNew(false)
-    }
     const handleShowNewForm = (e) => {
         e.preventDefault()
         setDisplayNew(true)
@@ -47,6 +44,11 @@ const DNCs = (props) => {
 
     const handleFinishCreate = () => {
         getDncs()
+    }
+
+    const handleCloseForms = () => {
+        setDisplayEdit(false)
+        setDisplayNew(false)
     }
 
     const sortedTerritories = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
@@ -65,14 +67,13 @@ const DNCs = (props) => {
                      handleEditClick={handleEditClick} />
             <br />
             {displayEdit && <DNCEditForm dnc={dnc}
+                                         handleClose={handleCloseForms}
                                          handleFinishEdit={handleFinishEdit} />}
-            {displayNew ? <DNCNewForm sortedTerritories={sortedTerritories}
-                                      handleTerritoryChange={handleTerritoryChange}
-                                      territoryId={territoryId}
-                                      handleClose={handleCloseNewForm}
-                                      handleFinishCreate={handleFinishCreate} />
+            {displayNew && !displayEdit ? <DNCNewForm territoryId={territoryId}
+                                                      handleClose={handleCloseForms}
+                                                      handleFinishCreate={handleFinishCreate} />
                         :
-                        territoryId !== "0" && <button className="btn btn-primary" onClick={handleShowNewForm}>Add New DNC</button>
+                        territoryId !== "0" && !displayEdit && <button className="btn btn-primary" onClick={handleShowNewForm}>Add New DNC</button>
             }      
         </>
     )

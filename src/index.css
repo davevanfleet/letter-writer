@@ -27,7 +27,7 @@ code {
   margin-right: auto;
 }
 
-#new-dnc-form {
+.dnc-form {
   position: relative;
   border-radius: 15px;
   display: flex;
@@ -40,7 +40,7 @@ code {
   padding: 20px;
 }
 
-#new-dnc-form div.input-row {
+.dnc-form div.input-row {
   display: flex;
   display: -webkit-flex;
   flex: 0 0 auto;
@@ -48,19 +48,19 @@ code {
   margin-bottom: 10px;
 }
 
-#new-dnc-form div.input-row input, #new-dnc-form div.input-row select {
+.dnc-form div.input-row input, .dnc-form div.input-row select {
   width: 50%;
 }
 
-#new-dnc-form svg {
+.dnc-form svg {
   position: absolute;
   top: 0px;
   right: 0px;
-  width: 40px;
+  width: 40px !important;
   height: 40px;
 }
 
-#new-dnc-form svg:hover {
+.dnc-form svg:hover {
   transform: scale(1.1);
   cursor: pointer;
 }

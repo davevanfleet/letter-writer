@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { config } from '../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 const DNCEditForm = (props) => {
     const [address, setAddress] = useState(props.dnc.address)
@@ -41,14 +43,19 @@ const DNCEditForm = (props) => {
     }
 
     return (
-        <>
+        <div className="dnc-form">
             <h3>Edit Do-Not-Call</h3>
             <form onSubmit={e => handleSubmit(e)}>
-                <input type="text" onChange={e => handleAddressChange(e)} value={address} />
-                <p>Date: <input type="date" name="date" value={date} onChange={e => handleDateChange(e)} /></p>
-                <input type="submit" value="Update DNC" />
+                <div className="input-row">
+                    <label htmlFor="address">Address:</label><input type="text" name="address" onChange={e => handleAddressChange(e)} value={address} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="date">Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
+                </div>
+                <input type="submit" value="Update DNC" className="btn btn-primary"/>
             </form>
-        </>
+            <FontAwesomeIcon icon={faTimesCircle} onClick={props.handleClose}/>
+        </div>
     )
 }
 

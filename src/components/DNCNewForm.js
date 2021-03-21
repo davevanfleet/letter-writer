@@ -52,17 +52,11 @@ const DNCNewForm = (props) => {
     } 
 
     return(
-        <div id="new-dnc-form">
+        <div className="dnc-form">
             <h3>Add New Do-Not-Call</h3>
             <form onSubmit={e => submitDnc(e)}>
                 <div className="input-row">
                     <label htmlFor="address">Address:</label><input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} />
-                </div>
-                <div className="input-row">
-                    <label htmlFor="territory">Territory:</label><select name="territory" onChange={e => props.handleTerritoryChange(e)} value={props.territoryId}>
-                            <option key={uuid()} value="0">Select a Territory</option>
-                            {props.sortedTerritories}
-                        </select>
                 </div>
                 <div className="input-row">
                     <label>Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
