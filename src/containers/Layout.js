@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const Layout = (props) => {
@@ -15,12 +16,17 @@ const Layout = (props) => {
                         <LinkContainer to="/territories">
                             <Navbar.Brand>Territories</Navbar.Brand>
                         </LinkContainer>
-                        <LinkContainer to="/DNCs">
-                            <Navbar.Brand>DNCs</Navbar.Brand>
-                        </LinkContainer>
-                        <LinkContainer to="/all_DNCs">
-                            <Navbar.Brand>DNC Master List</Navbar.Brand>
-                        </LinkContainer>
+                        <Dropdown>
+                            <Dropdown.Toggle id="dropdown-basic">DNCs</Dropdown.Toggle>
+                            <Dropdown.Menu align="left">
+                                <LinkContainer to="/DNCs">
+                                    <Dropdown.Item>DNC by Territory</Dropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/all_DNCs">
+                                    <Dropdown.Item>ALL DNCs</Dropdown.Item>
+                                </LinkContainer>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </>
                 )}
                 <Nav className="ml-auto">

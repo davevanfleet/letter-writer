@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import {GoogleApiWrapper} from 'google-maps-react';
+import {Map, Polygon, GoogleApiWrapper} from 'google-maps-react';
 import { config } from '../constants';
 import uuid from 'uuid';
 import Territory from '../components/Territory';
@@ -11,9 +11,9 @@ class Territories extends Component {
         territoryId: 0,
         territoryName: '',
         territories: [],
-        territory: '',
+        path: [],
         contacts: [],
-        contactsLoaded: false
+        contactsLoaded: false,
     }
 
     componentDidMount(){
@@ -28,6 +28,18 @@ class Territories extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
+    }
+
+    getCenter = (points) => {
+        const lngCenter = points.reduce((sum, point) => {
+            return sum + point.lng
+        }, 0) / points.length
+
+        const latCenter = points.reduce((sum, point) => {
+            return sum + point.lat
+        }, 0) / points.length
+
+        return {lng: lngCenter, lat: latCenter}
     }
 
     handleChange = (e) => {
@@ -60,6 +72,9 @@ class Territories extends Component {
                         territoryName: d.name
                     })
                     filterContacts(territory)
+                    this.setState({
+                        path: d.points
+                    })
                 })
     }
 
@@ -72,7 +87,32 @@ class Territories extends Component {
                     <option key={uuid()} value="0">Select a Territory</option>
                     {territories}
                 </select>
-                {this.state.contactsLoaded ? <Territory contacts={this.state.contacts} name={this.state.territoryName} territoryId={this.state.territoryId} /> : (this.state.territoryId > 0 ? <><br /><FontAwesomeIcon icon={faSpinner} size="6x" spin /></> : null)}
+                {this.state.contactsLoaded ? 
+                                            <>
+                                                <Map google={this.props.google}
+                                                     style={{width: '100%', height: "400px", position: 'relative'}}
+                                                     className={'map'}
+                                                     initialCenter={this.getCenter(this.state.path)}
+                                                     zoom={14}>
+                                                    <Polygon paths={this.state.path}
+                                                             strokeColor="#0000FF"
+                                                             strokeOpacity={0.8}
+                                                             strokeWeight={2}
+                                                             fillColor="#0000FF"
+                                                             fillOpacity={0.35}/>
+                                                </Map>
+                                                <Territory contacts={this.state.contacts}
+                                                           name={this.state.territoryName}
+                                                           territoryId={this.state.territoryId} />
+                                            </>
+                                            : 
+                                            (this.state.territoryId > 0 ? 
+                                                <>
+                                                    <br /><br />
+                                                    <FontAwesomeIcon icon={faSpinner} size="6x" spin />
+                                                </> 
+                                                :
+                                                null)}
             </div>
         )
     }
