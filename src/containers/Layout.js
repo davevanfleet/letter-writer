@@ -18,6 +18,9 @@ const Layout = (props) => {
                         <LinkContainer to="/DNCs">
                             <Navbar.Brand>DNCs</Navbar.Brand>
                         </LinkContainer>
+                        <LinkContainer to="/all_DNCs">
+                            <Navbar.Brand>DNC Master List</Navbar.Brand>
+                        </LinkContainer>
                     </>
                 )}
                 <Nav className="ml-auto">

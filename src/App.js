@@ -11,6 +11,7 @@ import Home from './components/Home';
 import Territories from './containers/Territories';
 import DNCs from './containers/DNCs';
 import LoginForm from './components/LoginForm';
+import DNCIndex from './components/DNCIndex';
 
 class App extends Component {
   state = {
@@ -94,6 +95,9 @@ class App extends Component {
                 </Route>
                 <Route exact path="/DNCs">
                   <DNCs />
+                </Route>
+                <Route exact path="/all_DNCs">
+                  <DNCIndex />
                 </Route>
               </Switch>
             </Layout>
