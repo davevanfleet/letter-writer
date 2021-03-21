@@ -36,17 +36,44 @@ const DNCs = (props) => {
         setDnc('')
     }
 
+    const [displayNew, setDisplayNew] = useState(false)
+    const handleCloseNewForm = () => {
+        setDisplayNew(false)
+    }
+    const handleShowNewForm = (e) => {
+        e.preventDefault()
+        setDisplayNew(true)
+    }
+
     const handleFinishCreate = () => {
         getDncs()
     }
 
     const sortedTerritories = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
 
+    const [territoryId, setTerritoryId] = useState('0')
+    const handleTerritoryChange = (e) => {
+        setTerritoryId(e.target.value)
+    }
+
     return(
         <>
-            <DNCList sortedTerritories={sortedTerritories} allDncs={allDncs} handleEditClick={handleEditClick} />
+            <DNCList sortedTerritories={sortedTerritories}
+                     handleTerritoryChange={handleTerritoryChange}
+                     territoryId={territoryId}
+                     allDncs={allDncs}
+                     handleEditClick={handleEditClick} />
             <br />
-            {displayEdit ? <DNCEditForm dnc={dnc} handleFinishEdit={handleFinishEdit} /> : <DNCNewForm sortedTerritories={sortedTerritories} handleFinishCreate={handleFinishCreate} />  }      
+            {displayEdit && <DNCEditForm dnc={dnc}
+                                         handleFinishEdit={handleFinishEdit} />}
+            {displayNew ? <DNCNewForm sortedTerritories={sortedTerritories}
+                                      handleTerritoryChange={handleTerritoryChange}
+                                      territoryId={territoryId}
+                                      handleClose={handleCloseNewForm}
+                                      handleFinishCreate={handleFinishCreate} />
+                        :
+                        territoryId !== "0" && <button className="btn btn-primary" onClick={handleShowNewForm}>Add New DNC</button>
+            }      
         </>
     )
 }

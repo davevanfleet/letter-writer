@@ -26,3 +26,41 @@ code {
   margin-left: auto;
   margin-right: auto;
 }
+
+#new-dnc-form {
+  position: relative;
+  border-radius: 15px;
+  display: flex;
+  display: -webkit-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#new-dnc-form div.input-row {
+  display: flex;
+  display: -webkit-flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#new-dnc-form div.input-row input, #new-dnc-form div.input-row select {
+  width: 50%;
+}
+
+#new-dnc-form svg {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+}
+
+#new-dnc-form svg:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}

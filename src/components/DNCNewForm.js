@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { config } from '../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import uuid from 'uuid';
 
 const DNCNewForm = (props) => {
@@ -20,10 +22,10 @@ const DNCNewForm = (props) => {
         setDate(e.target.value)
     }
 
-    const [territoryId, setTerritoryId] = useState('0')
-    const handleTerritoryChange = (e) => {
-        setTerritoryId(e.target.value)
-    }
+    // const [territoryId, setTerritoryId] = useState('0')
+    // const handleTerritoryChange = (e) => {
+    //     setTerritoryId(e.target.value)
+    // }
 
     const submitDnc = (e) => {
         e.preventDefault()
@@ -36,33 +38,40 @@ const DNCNewForm = (props) => {
             "body": JSON.stringify({
                 "dnc": {
                     "address": address,
-                    "territory_id": territoryId,
+                    "territory_id": props.territoryId,
                     "date": date
                 }
             })
         }
-        fetch(`${config.url.API_URL}/territories/${territoryId}/dncs`, configObj)
+        fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs`, configObj)
             .then(r=>r.json())
             .then(d => {
                 setAddress('')
-                setTerritoryId('0')
                 props.handleFinishCreate()
             })
     } 
 
     return(
-        <>
+        <div id="new-dnc-form">
             <h3>Add New Do-Not-Call</h3>
             <form onSubmit={e => submitDnc(e)}>
-                <p>Address: <input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} /></p>
-                <p>Territory: <select name="territory" onChange={e => handleTerritoryChange(e)} value={territoryId}>
-                        <option key={uuid()} value="0">Select a Territory</option>
-                        {props.sortedTerritories}
-                    </select></p>
-                <p>Date: <input type="date" name="date" value={date} onChange={e => handleDateChange(e)} /></p>
+                <div className="input-row">
+                    <label htmlFor="address">Address:</label><input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="territory">Territory:</label><select name="territory" onChange={e => props.handleTerritoryChange(e)} value={props.territoryId}>
+                            <option key={uuid()} value="0">Select a Territory</option>
+                            {props.sortedTerritories}
+                        </select>
+                </div>
+                <div className="input-row">
+                    <label>Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
+                </div>
                 <input type="submit" className="btn btn-primary" value="Add DNC" />
             </form>
-        </>
+            
+            <FontAwesomeIcon icon={faTimesCircle} onClick={props.handleClose}/>
+        </div>
     )
 }
 
