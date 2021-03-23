@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import {Map, Polygon, GoogleApiWrapper} from 'google-maps-react';
+import { useJsApiLoader, GoogleMap, Polygon } from '@react-google-maps/api';
 import { config } from '../constants';
 import uuid from 'uuid';
 import Territory from '../components/Territory';
 
 const Territories = (props) => {
-    // state = {
-    //     territoryId: 0,
-    //     territoryName: '',
-    //     territories: [],
-    //     path: [],
-    //     contacts: [],
-    //     contactsLoaded: false,
-    // }
 
     const [ territoryId, setTerritoryId ] = useState(0)
     const [ territoryName, setTerritoryName ] = useState('')
@@ -23,17 +15,57 @@ const Territories = (props) => {
     const [ contacts, setContacts ] = useState([])
     const [ contactsLoaded, setContactsLoaded ] = useState(false)
 
+    const handleUpdateMap = (e) => {
+        e.preventDefault()
+        debugger
+    }
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+    })
+
+    const polygonRef = useRef(null);
+    const listenersRef = useRef([]);
+
+    // Call setPath with new edited path
+    const onEdit = useCallback(() => {
+        if (polygonRef.current) {
+            const nextPath = polygonRef.current
+            .getPath()
+            .getArray()
+            .map(latLng => {
+                return { lat: latLng.lat(), lng: latLng.lng() };
+            });
+        setPath(nextPath);
+      }
+    }, [setPath]);
+
+    // Bind refs to current Polygon and listeners
+    const onLoad = useCallback(
+        polygon => {
+            polygonRef.current = polygon;
+            const path = polygon.getPath();
+            listenersRef.current.push(
+                path.addListener("set_at", onEdit),
+                path.addListener("insert_at", onEdit),
+                path.addListener("remove_at", onEdit)
+            );
+        }, [onEdit]);
+
+    // Clean up refs
+    const onUnmount = useCallback(() => {
+        listenersRef.current.forEach(lis => lis.remove());
+        polygonRef.current = null;
+    }, []);
+
     useEffect(() => {
-        fetch(`${config.url.API_URL}/territories`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories`)
             .then(r => r.json())
             .then(data => {
                 setTerritories(data)
             })
     }, [])
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-    }
 
     const getCenter = (points) => {
         const lngCenter = points.reduce((sum, point) => {
@@ -52,31 +84,35 @@ const Territories = (props) => {
         setContactsLoaded(false)
 
         const filterContacts = (polygon) => {
-            fetch(`${config.url.API_URL}/contacts`)
+            fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/contacts`)
                 .then(r => r.json())
                 .then(d => {
                     const filteredList = d.filter(contact => {
-                        const coords = new props.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
-                        return props.google.maps.geometry.poly.containsLocation(coords, polygon)
+                        const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
+                        return window.google.maps.geometry.poly.containsLocation(coords, polygon)
                     })
                     setContacts(filteredList)
                     setContactsLoaded(true)
                 })
         }
 
-        fetch(`${config.url.API_URL}/territories/${e.target.value}`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${e.target.value}`)
                 .then(r => r.json())
                 .then(d => {
-                    const territory = new props.google.maps.Polygon({paths: d.points})
-                    // setTerritory(territory)
+                    polygonRef.current = new window.google.maps.Polygon({paths: d.points})
                     setTerritoryName(d.name)
-                    filterContacts(territory)
+                    filterContacts(polygonRef.current)
                     setPath(d.points)
                 })
     }
         
     const territoryOptions = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
         
+    const containerStyle = {
+        width: '100%',
+        height: '400px'
+    };
+
     return (
         <div>
             <h3>Select a Territory</h3>
@@ -86,22 +122,28 @@ const Territories = (props) => {
             </select>
             {contactsLoaded ? 
             <>
-                <Map google={props.google}
-                     style={{width: '100%', height: "400px", position: 'relative'}}
-                     className={'map'}
-                     initialCenter={getCenter(path)}
-                     zoom={14}>
-                    <Polygon paths={path}
-                             strokeColor="#0000FF"
-                             strokeOpacity={0.8}
-                             strokeWeight={2}
-                             fillColor="#0000FF"
-                             fillOpacity={0.35}
-                             editable/>
-                </Map>
+                <button onClick={handleUpdateMap} className="btn btn-warning">Update Borders</button>
+                {isLoaded && 
+                    <GoogleMap zoom={14}
+                               mapContainerStyle={containerStyle}
+                               center={getCenter(path)}>
+                        <Polygon ref={polygonRef}
+                                 paths={path}
+                                 strokeColor="#0000FF"
+                                 strokeOpacity={0.8}
+                                 strokeWeight={2}
+                                 fillColor="#0000FF"
+                                 fillOpacity={0.35}
+                                 editable
+                                 onMouseUp={onEdit}
+                                 onLoad={onLoad}
+                                 onUnmount={onUnmount}/>
+                    </GoogleMap>
+                }
                 <Territory contacts={contacts}
                            name={territoryName}
-                           territoryId={territoryId} />
+                           territoryId={territoryId}
+                           currentUser={props.currentUser} />
             </>
             : 
             (territoryId > 0 ? 
@@ -115,7 +157,4 @@ const Territories = (props) => {
     )
 }
 
-export default GoogleApiWrapper({
-    apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ['geometry']
-})(Territories)
+export default Territories

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router,
          Switch,
          Route } from 'react-router-dom';
-import {GoogleApiWrapper} from 'google-maps-react';
 import Layout from './containers/Layout';
 import './App.css';
 import { config } from './constants';
@@ -88,16 +87,16 @@ class App extends Component {
             <Layout currentUser={this.state.currentUser} logout={this.logout}>
               <Switch>
                 <Route exact path="/">
-                  <Home />
+                  <Home currentUser={this.state.currentUser}/>
                 </Route>
                 <Route exact path="/territories">
-                  <Territories />
+                  <Territories currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/DNCs">
-                  <DNCs />
+                  <DNCs currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/all_DNCs">
-                  <DNCIndex />
+                  <DNCIndex currentUser={this.state.currentUser} />
                 </Route>
               </Switch>
             </Layout>
@@ -120,7 +119,4 @@ class App extends Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-  libraries: ['geometry']
-})(App)
+export default App;

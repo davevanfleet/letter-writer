@@ -23,7 +23,7 @@ const DNCList = (props) => {
                     "accepts": "aplication/json"
                 }
             }
-            fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs/${id}`, configObj)
+            fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${props.territoryId}/dncs/${id}`, configObj)
                 .then(r => r.json())
                 .then(d => {
                     setAddresses(addresses.filter(address => address.id !== id))})

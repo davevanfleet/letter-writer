@@ -8,7 +8,8 @@ const Home = (props) => {
         <>
             <h1>Letter Writer</h1>
             <div className="home">
-                <p>Welcome to Letter Writer, used to maintain letter writing territories and our do-not-call-list.</p>
+                {props.currentUser && <p>Hello, {props.currentUser.name}!</p>}
+                <p>Welcome to Letter Writer, used to maintain letter writing territories and do-not-calls.</p>
                 <ul>
                     <li><LinkContainer to="/territories"><Nav.Link>View Letter Writing Territories</Nav.Link></LinkContainer></li>
                     <li><LinkContainer to="/DNCs"><Nav.Link>View/Maintain DNC List</Nav.Link></LinkContainer></li>

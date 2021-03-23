@@ -10,7 +10,7 @@ import { config } from '../constants';
 const Territory = (props) => {
     const [dncs, setDncs] = useState([])
     useEffect(() => {
-        fetch(`${config.url.API_URL}/territories/${props.territoryId}/dncs`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${props.territoryId}/dncs`)
             .then(r => r.json())
             .then(d => setDncs(d))
     }, [props.territoryId])

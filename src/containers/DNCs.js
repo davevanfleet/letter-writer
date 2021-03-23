@@ -8,7 +8,7 @@ import DNCEditForm from '../components/DNCEditForm';
 const DNCs = (props) => {
     const [territories, setTerritories] = useState([])
     useEffect(() => {
-        fetch(`${config.url.API_URL}/territories`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories`)
             .then(r => r.json())
             .then(d => setTerritories(d))
     }, [])
