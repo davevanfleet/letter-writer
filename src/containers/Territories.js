@@ -123,7 +123,7 @@ const Territories = (props) => {
             </select>
             {contactsLoaded ? 
             <>
-                <button onClick={handleUpdateMap} className="btn btn-warning">Update Borders</button>
+                {/* <button onClick={handleUpdateMap} className="btn btn-warning">Update Borders</button> */}
                 {isLoaded && 
                     <GoogleMap zoom={14}
                                mapContainerStyle={containerStyle}
@@ -135,10 +135,10 @@ const Territories = (props) => {
                                  strokeWeight={2}
                                  fillColor="#0000FF"
                                  fillOpacity={0.35}
-                                 editable
                                  onMouseUp={onEdit}
                                  onLoad={onLoad}
-                                 onUnmount={onUnmount}/>
+                                 onUnmount={onUnmount}
+                                 options={{fillColor: "purple"}}/>
                     </GoogleMap>
                 }
                 <Territory contacts={contacts}

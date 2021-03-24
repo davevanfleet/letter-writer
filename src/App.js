@@ -12,6 +12,7 @@ import DNCs from './containers/DNCs';
 import LoginForm from './components/LoginForm';
 import DNCIndex from './components/DNCIndex';
 import DNCUpload from './components/DNCUpload';
+import UploadContacts from './components/UploadContacts';
 
 class App extends Component {
   state = {
@@ -92,6 +93,9 @@ class App extends Component {
                 </Route>
                 <Route exact path="/territories">
                   <Territories currentUser={this.state.currentUser} />
+                </Route>
+                <Route exact path="/upload_contacts">
+                  <UploadContacts currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/DNCs">
                   <DNCs currentUser={this.state.currentUser} />

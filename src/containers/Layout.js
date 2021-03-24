@@ -13,9 +13,15 @@ const Layout = (props) => {
                 </LinkContainer>
                 {props.currentUser && (
                     <>
-                        <LinkContainer to="/territories">
-                            <Nav.Link>Territories</Nav.Link>
-                        </LinkContainer>
+                        
+                        <NavDropdown title="Territories" id="basic-nav-dropdown">
+                            <LinkContainer to="/territories">
+                                <NavDropdown.Item>Territories</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/upload_contacts">
+                                <NavDropdown.Item>Upload Contact List</NavDropdown.Item>
+                            </LinkContainer>
+                        </NavDropdown>
                         <NavDropdown title="DNCs" id="basic-nav-dropdown">
                             <LinkContainer to="/DNCs">
                                 <NavDropdown.Item>DNC by Territory</NavDropdown.Item>
