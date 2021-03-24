@@ -14,7 +14,7 @@ const DNCs = (props) => {
     }, [])
 
     const getDncs = () => {
-        fetch(`${config.url.API_URL}/dncs`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`)
                 .then(r => r.json())
                 .then(d => setAllDncs(d))
     }

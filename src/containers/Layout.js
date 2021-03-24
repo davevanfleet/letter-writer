@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Dropdown from 'react-bootstrap/Dropdown';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const Layout = (props) => {
@@ -14,19 +14,19 @@ const Layout = (props) => {
                 {props.currentUser && (
                     <>
                         <LinkContainer to="/territories">
-                            <Navbar.Brand>Territories</Navbar.Brand>
+                            <Nav.Link>Territories</Nav.Link>
                         </LinkContainer>
-                        <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">DNCs</Dropdown.Toggle>
-                            <Dropdown.Menu align="left">
-                                <LinkContainer to="/DNCs">
-                                    <Dropdown.Item>DNC by Territory</Dropdown.Item>
-                                </LinkContainer>
-                                <LinkContainer to="/all_DNCs">
-                                    <Dropdown.Item>ALL DNCs</Dropdown.Item>
-                                </LinkContainer>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <NavDropdown title="DNCs" id="basic-nav-dropdown">
+                            <LinkContainer to="/DNCs">
+                                <NavDropdown.Item>DNC by Territory</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/all_DNCs">
+                                <NavDropdown.Item>All DNCs</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/upload_DNCs">
+                                <NavDropdown.Item>Upload DNCs</NavDropdown.Item>
+                            </LinkContainer>
+                        </NavDropdown>
                     </>
                 )}
                 <Nav className="ml-auto">

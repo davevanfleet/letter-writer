@@ -84,7 +84,8 @@ const Territories = (props) => {
         setContactsLoaded(false)
 
         const filterContacts = (polygon) => {
-            fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/contacts`)
+            const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
+            fetch(url)
                 .then(r => r.json())
                 .then(d => {
                     const filteredList = d.filter(contact => {
