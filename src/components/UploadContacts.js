@@ -62,16 +62,17 @@ const UploadContacts = (props) => {
                 'Content-Type': "application/json",
                 'Accepts': "application/json"
             },
-            body: JSON.stringify({contacts: csvRows})
+            body: JSON.stringify({external_contact: {contacts: csvRows}})
         }
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`, configObj)
             .then(r => r.json())
             .then(d => {
+                props.addFlash("List submitted for update. Please be patient for contacts to completely load, it may take a few minutes.")
                 setUploading(false)
                 history.push('/territories')
             })
             .catch(d => {
-                setUploading(false)
+                props.addFlash("Uh Oh! Something went wrong. Please try again.")
                 history.push('/territories')
             })
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -13,7 +13,6 @@ const Layout = (props) => {
                 </LinkContainer>
                 {props.currentUser && (
                     <>
-                        
                         <NavDropdown title="Territories" id="basic-nav-dropdown">
                             <LinkContainer to="/territories">
                                 <NavDropdown.Item>Territories</NavDropdown.Item>
@@ -39,6 +38,7 @@ const Layout = (props) => {
                     {props.currentUser ? <LinkContainer to="/"><Nav.Link onClick={event => props.logout(event)}>Logout</Nav.Link></LinkContainer> : null}
                 </Nav>
             </Navbar>
+            {props.flash.length > 0 && <div className="alert alert-primary">{props.flash}</div>}
             {props.children}
         </div>
     )

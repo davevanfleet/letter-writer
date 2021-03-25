@@ -17,7 +17,8 @@ import UploadContacts from './components/UploadContacts';
 class App extends Component {
   state = {
     currentUser: null,
-    errors: null
+    errors: null,
+    flash: ''
   }
   
   componentDidMount(){
@@ -80,13 +81,22 @@ class App extends Component {
     })
   }
 
+  addFlash = (message) => {
+      this.setState({flash: message})
+      setTimeout(() => {
+        this.setState({flash: ''})
+      }, 5000)
+  }
+
 
   render(){
     if (this.state.currentUser){
       return (
         <div className="App">
           <Router>
-            <Layout currentUser={this.state.currentUser} logout={this.logout}>
+            <Layout currentUser={this.state.currentUser}
+                    logout={this.logout}
+                    flash={this.state.flash}>
               <Switch>
                 <Route exact path="/">
                   <Home currentUser={this.state.currentUser}/>
@@ -95,7 +105,7 @@ class App extends Component {
                   <Territories currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/upload_contacts">
-                  <UploadContacts currentUser={this.state.currentUser} />
+                  <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash}/>
                 </Route>
                 <Route exact path="/DNCs">
                   <DNCs currentUser={this.state.currentUser} />
@@ -116,7 +126,9 @@ class App extends Component {
       return (
         <div className="App">
           <Router>
-            <Layout currentUser={this.state.currentUser} logout={this.logout}>
+            <Layout currentUser={this.state.currentUser}
+                    logout={this.logout}
+                    flash={this.state.flash}>
               {this.state.errors ? <Errors error={this.state.errors} /> : null}
               <LoginForm login={this.login} />
             </Layout>
