@@ -47,23 +47,17 @@ const DNCUpload = (props) => {
     }
 
     const sendCreateRequests = (csvRows) => {
-        csvRows.forEach(row => {
-            const configObj = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/json",
-                    'Accepts': "application/json"
-                },
-                body: JSON.stringify({
-                    address: row.address,
-                    territoryName: row.territory,
-                    date: row.date
-                })
-            }
-            fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`, configObj)
-                .then(r => r.json())
-                .then(d => console.log(d))
-        })
+        const configObj = {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json",
+                'Accepts': "application/json"
+            },
+            body: JSON.stringify({dnc: {dncs: csvRows}})
+        }
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`, configObj)
+            .then(r => r.json())
+            .then(d => console.log(d))
     }
 
     const handleSubmit = (e) => {
