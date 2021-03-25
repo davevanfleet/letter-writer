@@ -70,6 +70,10 @@ const UploadContacts = (props) => {
                 setUploading(false)
                 history.push('/territories')
             })
+            .catch(d => {
+                setUploading(false)
+                history.push('/territories')
+            })
     }
 
     const handleSubmit = (e) => {
