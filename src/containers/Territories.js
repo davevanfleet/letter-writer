@@ -7,7 +7,6 @@ import uuid from 'uuid';
 import Territory from '../components/Territory';
 
 const Territories = (props) => {
-
     const [ territoryId, setTerritoryId ] = useState(0)
     const [ territoryName, setTerritoryName ] = useState('')
     const [ territories, setTerritories ] = useState([])
@@ -15,8 +14,27 @@ const Territories = (props) => {
     const [ contacts, setContacts ] = useState([])
     const [ contactsLoaded, setContactsLoaded ] = useState(false)
 
+    const [ edit, setEdit ] = useState(false)
+
     const handleUpdateMap = (e) => {
         e.preventDefault()
+        console.log(path)
+        const configObj = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': "application/json",
+                'Accepts': "application/json"
+            },
+            body: JSON.stringify({"territory": {points: path}})
+        }
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}`, configObj)
+            .then(r => r.json())
+            .then(d => {
+                setContactsLoaded(false)
+                setEdit(false)
+                polygonRef.current = new window.google.maps.Polygon({paths: path})
+                filterContacts(polygonRef.current)
+            })
     }
 
     const { isLoaded } = useJsApiLoader({
@@ -78,23 +96,23 @@ const Territories = (props) => {
         return {lng: lngCenter, lat: latCenter}
     }
 
+    const filterContacts = (polygon) => {
+        const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
+        fetch(url)
+            .then(r => r.json())
+            .then(d => {
+                const filteredList = d.filter(contact => {
+                    const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
+                    return window.google.maps.geometry.poly.containsLocation(coords, polygon)
+                })
+                setContacts(filteredList)
+                setContactsLoaded(true)
+            })
+    }
+
     const handleChange = (e) => {
         setTerritoryId(e.target.value)
         setContactsLoaded(false)
-
-        const filterContacts = (polygon) => {
-            const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
-            fetch(url)
-                .then(r => r.json())
-                .then(d => {
-                    const filteredList = d.filter(contact => {
-                        const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
-                        return window.google.maps.geometry.poly.containsLocation(coords, polygon)
-                    })
-                    setContacts(filteredList)
-                    setContactsLoaded(true)
-                })
-        }
 
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${e.target.value}`)
                 .then(r => r.json())
@@ -110,7 +128,7 @@ const Territories = (props) => {
         
     const containerStyle = {
         width: '100%',
-        height: '400px'
+        height: edit ? '1000px' : '400px'
     };
 
     return (
@@ -121,12 +139,19 @@ const Territories = (props) => {
                 {territoryOptions}
             </select>
             {contactsLoaded ? 
-            <>
-                {/* <button onClick={handleUpdateMap} className="btn btn-warning">Update Borders</button> */}
+            <>  
+                <br />
+                <br />
+                {edit ? 
+                    <button onClick={handleUpdateMap} className="btn btn-primary">Save Changes</button>
+                    :
+                    <button onClick={() => setEdit(true)} className="btn btn-dark">Edit Borders</button>
+                }
+                
                 {isLoaded && 
                     <GoogleMap zoom={14}
                                mapContainerStyle={containerStyle}
-                               center={getCenter(path)}>
+                               center={edit ? null : getCenter(path)}>
                         <Polygon ref={polygonRef}
                                  paths={path}
                                  strokeColor="#0000FF"
@@ -137,6 +162,7 @@ const Territories = (props) => {
                                  onMouseUp={onEdit}
                                  onLoad={onLoad}
                                  onUnmount={onUnmount}
+                                 editable={edit}
                                  options={{fillColor: "purple"}}/>
                     </GoogleMap>
                 }
