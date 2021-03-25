@@ -114,7 +114,7 @@ class App extends Component {
                   <DNCIndex currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/upload_DNCs">
-                  <DNCUpload currentUser={this.state.currentUser} />
+                  <DNCUpload currentUser={this.state.currentUser} addFlash={this.addFlash}/>
                 </Route>
               </Switch>
             </Layout>

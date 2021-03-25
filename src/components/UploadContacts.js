@@ -8,7 +8,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const UploadContacts = (props) => {
     const [uploading, setUploading] = useState(false)
-    const [ message, setMessage ] = useState("")
 
     const form = useRef(null)
     const fileInput = useRef(null)
@@ -97,7 +96,6 @@ const UploadContacts = (props) => {
     if (!uploading){
         return (
             <>
-                <p className="message">{message}</p>
                 <h1>Upload Addresses</h1>
                 <p>Use this page if you have an existing contact list for your <em>entire</em> territory for an outside source.</p>
                 <p><strong><em>If you have address-lookup access on this site, you shouldn't need to use this page.</em></strong></p>

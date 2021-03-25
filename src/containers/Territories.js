@@ -17,7 +17,6 @@ const Territories = (props) => {
 
     const handleUpdateMap = (e) => {
         e.preventDefault()
-        debugger
     }
 
     const { isLoaded } = useJsApiLoader({

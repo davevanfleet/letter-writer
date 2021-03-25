@@ -1,9 +1,16 @@
 import React, { useState, useRef } from 'react';
+import { useHistory } from 'react-router';
 import { config } from '../constants';
 import * as XLSX from 'xlsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 
 const DNCUpload = (props) => {
+    const [uploading, setUploading] = useState(false)
+
+    const history = useHistory()
+
     const form = useRef(null)
     const fileInput = useRef(null)
 
@@ -57,7 +64,15 @@ const DNCUpload = (props) => {
         }
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`, configObj)
             .then(r => r.json())
-            .then(d => console.log(d))
+            .then(d => {
+                props.addFlash("List submitted for update. Please be patient for do-not-calls to completely load, it may take a few minutes.")
+                setUploading(false)
+                history.push('/DNCs')
+            })
+            .catch(e => {
+                props.addFlash("Uh oh! Something went wrong, please try again.")
+                setUploading(false)
+            })
     }
 
     const handleSubmit = (e) => {
@@ -73,39 +88,51 @@ const DNCUpload = (props) => {
             const ws = wb.Sheets[wsname];
             /* Convert array of arrays */
             const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-            processData(data);
+            processData(bstr);
         };
         reader.readAsBinaryString(file);
     }
 
-    return (
-        <>
-            <h1>Upload Do-Not-Calls</h1>
-            <p>Use this page if you have an existing DNC list that you would like to load into your account. Please note the following requirements for the uploaded file:</p>
-            <div className="container">
-                <ul className="csv-requirements">
-                    <li>File must be formatted as a CSV (comma separated values)</li>
-                    <li>CSV must have three columns, in the following order:
-                        <ol>
-                            <li>Address of the DNC</li>
-                            <li>Name of the Territory the DNC is in (must match a territory name saved in your account)</li>
-                            <li>Date DNC added</li>
-                        </ol>
-                    </li>
-                    <li>There must be no header row</li>
-                    <li>Each row must contain one DNC</li>
-                </ul>
-            </div>
-            <form ref={form} onSubmit={handleSubmit}>
-                <input id="image-upload"
-                        name="file"
-                        type='file'
-                        accept=".csv"
-                        ref={fileInput}/>
-                <button type="submit" className="btn btn-primary">Upload</button>
-            </form>
-        </>
-    )
+    if (!uploading){
+        return (
+            <>
+                <h1>Upload Do-Not-Calls</h1>
+                <p>Use this page if you have an existing DNC list that you would like to load into your account. Please note the following requirements for the uploaded file:</p>
+                <div className="container">
+                    <ul className="csv-requirements">
+                        <li>File must be formatted as a CSV (comma separated values)</li>
+                        <li>CSV must have three columns, in the following order:
+                            <ol>
+                                <li>Address of the DNC</li>
+                                <li>Name of the Territory the DNC is in (must match a territory name saved in your account)</li>
+                                <li>Date DNC added</li>
+                            </ol>
+                        </li>
+                        <li>There must be no header row</li>
+                        <li>Each row must contain one DNC</li>
+                    </ul>
+                </div>
+                <form ref={form} onSubmit={handleSubmit}>
+                    <input id="image-upload"
+                            name="file"
+                            type='file'
+                            accept=".csv"
+                            ref={fileInput}/>
+                    <button type="submit" className="btn btn-primary">Upload</button>
+                </form>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <br />
+                <p>Uploading...</p>
+                <br />
+                <FontAwesomeIcon icon={faSpinner} size="6x" spin />
+            </>
+        )
+    }
 }
 
 export default DNCUpload;
