@@ -29,6 +29,7 @@ const DNCNewForm = (props) => {
 
     const submitDnc = (e) => {
         e.preventDefault()
+        debugger
         const configObj = {
             "method": "POST",
             "headers": {
@@ -43,7 +44,7 @@ const DNCNewForm = (props) => {
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${props.territoryId}/dncs`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.territoryId}/dncs`, configObj)
             .then(r=>r.json())
             .then(d => {
                 setAddress('')

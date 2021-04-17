@@ -8,7 +8,7 @@ import uuid from 'uuid';
 const DNCIndex = (props) => {
     const [dncs, setDncs] = useState([])
     useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/dncs`)
             .then(r => {
                 if(!r.ok){throw r}
                 return r.json()

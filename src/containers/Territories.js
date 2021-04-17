@@ -78,7 +78,7 @@ const Territories = (props) => {
     }, []);
 
     useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories`)
             .then(r => r.json())
             .then(data => {
                 setTerritories(data)
@@ -115,7 +115,7 @@ const Territories = (props) => {
         setTerritoryId(e.target.value)
         setContactsLoaded(false)
 
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/territories/${e.target.value}`)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${e.target.value}`)
                 .then(r => r.json())
                 .then(d => {
                     polygonRef.current = new window.google.maps.Polygon({paths: d.points})

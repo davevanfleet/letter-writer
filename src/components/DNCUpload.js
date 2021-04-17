@@ -62,7 +62,7 @@ const DNCUpload = (props) => {
             },
             body: JSON.stringify({dnc: {dncs: csvRows}})
         }
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation_id}/dncs`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/dncs`, configObj)
             .then(r => r.json())
             .then(d => {
                 props.addFlash("List submitted for update. Please be patient for do-not-calls to completely load, it may take a few minutes.")
