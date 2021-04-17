@@ -13,6 +13,8 @@ import LoginForm from './components/LoginForm';
 import DNCIndex from './components/DNCIndex';
 import DNCUpload from './components/DNCUpload';
 import UploadContacts from './components/UploadContacts';
+import NewTerritory from './components/NewTerritory';
+import {GoogleApiWrapper} from 'google-maps-react';
 
 class App extends Component {
   state = {
@@ -104,6 +106,9 @@ class App extends Component {
                 <Route exact path="/territories">
                   <Territories currentUser={this.state.currentUser} />
                 </Route>
+                <Route exact path="/new_territory">
+                  <NewTerritory currentUser={this.state.currentUser} />
+                </Route>
                 <Route exact path="/upload_contacts">
                   <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash}/>
                 </Route>
@@ -139,4 +144,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  libraries: ['geometry']
+})(App)

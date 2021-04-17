@@ -68,10 +68,12 @@ const DNCs = (props) => {
             <br />
             {displayEdit && <DNCEditForm dnc={dnc}
                                          handleClose={handleCloseForms}
-                                         handleFinishEdit={handleFinishEdit} />}
+                                         handleFinishEdit={handleFinishEdit}
+                                         currentUser={props.currentUser} />}
             {displayNew && !displayEdit ? <DNCNewForm territoryId={territoryId}
                                                       handleClose={handleCloseForms}
-                                                      handleFinishCreate={handleFinishCreate} />
+                                                      handleFinishCreate={handleFinishCreate}
+                                                      currentUser={props.currentUser} />
                         :
                         territoryId !== "0" && !displayEdit && <button className="btn btn-primary" onClick={handleShowNewForm}>Add New DNC</button>
             }      

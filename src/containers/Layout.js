@@ -17,6 +17,9 @@ const Layout = (props) => {
                             <LinkContainer to="/territories">
                                 <NavDropdown.Item>Territories</NavDropdown.Item>
                             </LinkContainer>
+                            <LinkContainer to="/new_territory">
+                                <NavDropdown.Item>Add Territory</NavDropdown.Item>
+                            </LinkContainer>
                             <LinkContainer to="/upload_contacts">
                                 <NavDropdown.Item>Upload Contact List</NavDropdown.Item>
                             </LinkContainer>
