@@ -32,9 +32,12 @@ const DNCList = (props) => {
 
     const rows = addresses.map((dnc) => {
         return (
-            <tr>
+            <tr key={uuid()}>
                 <td>{dnc.address}</td>
+                <td>{dnc.name}</td>
+                <td>{dnc.publisher}</td>
                 <td>{dnc.date}</td>
+                <td>{dnc.description}</td>
                 <td><button className="btn btn-warning" onClick={(e) => props.handleEditClick(e, dnc)}>Edit</button></td>
                 <td><button className="btn btn-danger" onClick={(e) => handleDeleteClick(e, dnc.id)}>Delete</button></td>
             </tr>
@@ -53,7 +56,10 @@ const DNCList = (props) => {
                 <thead>
                     <tr>
                         <th scope="col">Address</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Publisher</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Notes</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>

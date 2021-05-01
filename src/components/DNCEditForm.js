@@ -9,6 +9,21 @@ const DNCEditForm = (props) => {
         setAddress(e.target.value)
     }
 
+    const [name, setName] = useState(props.dnc.name || '')
+    const handleNameChange = (e) => {
+        setName(e.target.value)
+    }
+
+    const [publisher, setPublisher] = useState(props.dnc.publisher || '')
+    const handlePublisherChange = (e) => {
+        setPublisher(e.target.value)
+    }
+
+    const [description, setDescription] = useState(props.dnc.notes || '')
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value)
+    }
+
     const [date, setDate] = useState(props.dnc.date)
     const handleDateChange = (e) => {
         setDate(e.target.value)
@@ -29,9 +44,12 @@ const DNCEditForm = (props) => {
             },
             "body": JSON.stringify({
                 "dnc": {
-                    "address": address,
+                    address,
                     "territory_id": props.dnc.territory_id,
-                    "date": date
+                    name,
+                    publisher,
+                    "notes": description,
+                    date
                 }
             })
         }
@@ -47,12 +65,21 @@ const DNCEditForm = (props) => {
             <h3>Edit Do-Not-Call</h3>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="input-row">
-                    <label htmlFor="address">Address:</label><input type="text" name="address" onChange={e => handleAddressChange(e)} value={address} />
+                    <label htmlFor="address">Address:</label><input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} />
                 </div>
                 <div className="input-row">
-                    <label htmlFor="date">Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
+                    <label htmlFor="name">DNC Name:</label><input type="text" name="name" value={name} onChange={e => handleNameChange(e)} />
                 </div>
-                <input type="submit" value="Update DNC" className="btn btn-primary"/>
+                <div className="input-row">
+                    <label htmlFor="publisher">Publisher:</label><input type="text" name="publisher" value={publisher} onChange={e => handlePublisherChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="notes">Notes:</label><input type="text" name="notes" value={description} onChange={e => handleDescriptionChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label>Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
+                </div>
+                <input type="submit" className="btn btn-primary" value="Update DNC" />
             </form>
             <FontAwesomeIcon icon={faTimesCircle} onClick={props.handleClose}/>
         </div>

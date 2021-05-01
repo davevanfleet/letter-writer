@@ -2,12 +2,27 @@ import React, { useState } from 'react';
 import { config } from '../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import uuid from 'uuid';
+
 
 const DNCNewForm = (props) => {
     const [address, setAddress] = useState('')
     const handleAddressChange = (e) => {
         setAddress(e.target.value)
+    }
+
+    const [name, setName] = useState('')
+    const handleNameChange = (e) => {
+        setName(e.target.value)
+    }
+
+    const [publisher, setPublisher] = useState('')
+    const handlePublisherChange = (e) => {
+        setPublisher(e.target.value)
+    }
+
+    const [description, setDescription] = useState('')
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value)
     }
 
     const today = new Date()
@@ -38,9 +53,12 @@ const DNCNewForm = (props) => {
             },
             "body": JSON.stringify({
                 "dnc": {
-                    "address": address,
-                    "territory_id": props.territoryId,
-                    "date": date
+                    address,
+                    "territory_id": props.dnc.territory_id,
+                    name,
+                    publisher,
+                    "notes": description,
+                    date
                 }
             })
         }
@@ -58,6 +76,15 @@ const DNCNewForm = (props) => {
             <form onSubmit={e => submitDnc(e)}>
                 <div className="input-row">
                     <label htmlFor="address">Address:</label><input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="name">DNC Name:</label><input type="text" name="name" value={name} onChange={e => handleNameChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="publisher">Publisher:</label><input type="text" name="publisher" value={publisher} onChange={e => handlePublisherChange(e)} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="notes">Notes:</label><input type="text" name="notes" value={description} onChange={e => handleDescriptionChange(e)} />
                 </div>
                 <div className="input-row">
                     <label>Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
