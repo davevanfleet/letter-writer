@@ -64,7 +64,8 @@ const DNCs = (props) => {
                      handleTerritoryChange={handleTerritoryChange}
                      territoryId={territoryId}
                      allDncs={allDncs}
-                     handleEditClick={handleEditClick} />
+                     handleEditClick={handleEditClick}
+                     currentUser={props.currentUser} />
             <br />
             {displayEdit && <DNCEditForm dnc={dnc}
                                          handleClose={handleCloseForms}
