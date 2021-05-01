@@ -44,7 +44,6 @@ const DNCNewForm = (props) => {
 
     const submitDnc = (e) => {
         e.preventDefault()
-        debugger
         const configObj = {
             "method": "POST",
             "headers": {
@@ -54,7 +53,7 @@ const DNCNewForm = (props) => {
             "body": JSON.stringify({
                 "dnc": {
                     address,
-                    "territory_id": props.dnc.territory_id,
+                    "territory_id": props.territoryId,
                     name,
                     publisher,
                     "notes": description,
