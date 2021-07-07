@@ -111,6 +111,9 @@ const Territories = (props) => {
             })
     }
 
+    const [ dncs, setDncs ] = useState([])
+    const [ assignments, setAssignments ] = useState([])
+
     const handleChange = (e) => {
         setTerritoryId(e.target.value)
         setContactsLoaded(false)
@@ -120,6 +123,8 @@ const Territories = (props) => {
                 .then(d => {
                     polygonRef.current = new window.google.maps.Polygon({paths: d.points})
                     setTerritoryName(d.name)
+                    setDncs(d.dncs)
+                    setAssignments(d.assignments)
                     filterContacts(polygonRef.current)
                     setPath(d.points)
                 })
@@ -169,6 +174,8 @@ const Territories = (props) => {
                 }
                 <Territory contacts={contacts}
                            name={territoryName}
+                           dncs={dncs}
+                           assignments={assignments}
                            territoryId={territoryId}
                            currentUser={props.currentUser} />
             </>
