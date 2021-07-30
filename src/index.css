@@ -94,6 +94,7 @@ ul.csv-requirements {
 }
 
 #assignment-modal-body {
+  position: relative;
   background: white;
   border: 1px solid black;
   border-radius: 15px;
@@ -106,6 +107,17 @@ ul.csv-requirements {
   flex: 0 0 auto;
   flex-direction: column;
   max-width: 600px;
+}
+
+#assignment-modal-body .close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+#assignment-modal-body .close-btn:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
 .input-row {

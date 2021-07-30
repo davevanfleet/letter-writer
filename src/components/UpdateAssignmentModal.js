@@ -3,8 +3,19 @@ import { config } from '../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
-const CheckInModal = (props) => {
-    const [ checkIn, setCheckIn ] = useState('')
+
+const UpdateAssignmentModal = (props) => {
+    const [ publisher, setPublisher ] = useState(props.assignment.publisher)
+    const handlePublisherChange = (e) => {
+        setPublisher(e.currentTarget.value)
+    }
+
+    const [ checkOut, setCheckOut ] = useState(props.assignment.checked_out)
+    const handleCheckOutChange = (e) => {
+        setCheckOut(e.currentTarget.value)
+    }
+
+    const [ checkIn, setCheckIn ] = useState(props.assignment.checked_in)
     const handleCheckInChange = (e) => {
         setCheckIn(e.currentTarget.value)
     }
@@ -19,7 +30,8 @@ const CheckInModal = (props) => {
             },
             body: JSON.stringify({
                 assignment: {
-                    ...props.assignment,
+                    publisher,
+                    checked_out: checkOut,
                     checked_in: checkIn
                 }
             })
@@ -44,20 +56,32 @@ const CheckInModal = (props) => {
                                  icon={faTimesCircle}
                                  size="3x"
                                  onClick={props.handleClose} />
-                <h1>Check In Territory</h1>
-                <p>Publisher: <em>{props.assignment.publisher}</em></p>
-                <p>Checked Out: <em>{props.assignment.checked_out}</em></p>
+                <h1>Update Assignment</h1>
                 <div className="input-row">
-                    <label htmlFor="date">Check In Date:</label>
+                    <label htmlFor="pubName">Publisher:</label>
+                    <input type="ext"
+                           name="pubName"
+                           value={publisher}
+                           onChange={handlePublisherChange} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="checkOut">Check Out Date:</label>
                     <input type="date"
-                           name="date"
+                           name="checkOut"
+                           value={checkOut}
+                           onChange={handleCheckOutChange} />
+                </div>
+                <div className="input-row">
+                    <label htmlFor="checkIn">Check In Date:</label>
+                    <input type="date"
+                           name="checkIn"
                            value={checkIn}
                            onChange={handleCheckInChange} />
                 </div>
                 <div>
                     <button className="btn btn-primary"
                             onClick={handleSubmit}>
-                        Check In
+                        Update
                     </button>
                 </div>
             </div>
@@ -65,4 +89,4 @@ const CheckInModal = (props) => {
     )
 }
 
-export default CheckInModal;
+export default UpdateAssignmentModal;

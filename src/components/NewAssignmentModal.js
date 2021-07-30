@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { config } from '../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 const NewAssignmentModal = (props) => {
     const [ publisher, setPublisher ] = useState('')
@@ -43,6 +45,10 @@ const NewAssignmentModal = (props) => {
     return (
         <div id="assignment-modal">
             <div id="assignment-modal-body">
+                <FontAwesomeIcon className="close-btn"
+                                 icon={faTimesCircle}
+                                 size="3x"
+                                 onClick={props.handleClose} />
                 <h1>Checkout Territory</h1>
                 <div className="input-row">
                     <label htmlFor="pubName">Publisher Name:</label>

@@ -98,27 +98,26 @@ const Territories = (props) => {
     }
 
     const filterContacts = (polygon) => {
-        const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
-        fetch(url)
-            .then(r => r.json())
-            .then(d => {
-                const filteredList = d.filter(contact => {
-                    const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
-                    return window.google.maps.geometry.poly.containsLocation(coords, polygon)
+        if (!contactsLoaded){
+            const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
+            fetch(url)
+                .then(r => r.json())
+                .then(d => {
+                    const filteredList = d.filter(contact => {
+                        const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
+                        return window.google.maps.geometry.poly.containsLocation(coords, polygon)
+                    })
+                    setContacts(filteredList)
+                    setContactsLoaded(true)
                 })
-                setContacts(filteredList)
-                setContactsLoaded(true)
-            })
+        }
     }
 
     const [ dncs, setDncs ] = useState([])
     const [ assignments, setAssignments ] = useState([])
 
-    const handleChange = (e) => {
-        setTerritoryId(e.target.value)
-        setContactsLoaded(false)
-
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${e.target.value}`)
+    const getTerritory = (id = territoryId) => {
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${id}`)
                 .then(r => r.json())
                 .then(d => {
                     polygonRef.current = new window.google.maps.Polygon({paths: d.points})
@@ -128,6 +127,13 @@ const Territories = (props) => {
                     filterContacts(polygonRef.current)
                     setPath(d.points)
                 })
+    }
+
+    const handleChange = (e) => {
+        setTerritoryId(e.target.value)
+        setContactsLoaded(false)
+
+        getTerritory(e.target.value)
     }
         
     const territoryOptions = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
@@ -177,7 +183,8 @@ const Territories = (props) => {
                            dncs={dncs}
                            assignments={assignments}
                            territoryId={territoryId}
-                           currentUser={props.currentUser} />
+                           currentUser={props.currentUser}
+                           refreshTerritory={getTerritory} />
             </>
             : 
             (territoryId > 0 ? 

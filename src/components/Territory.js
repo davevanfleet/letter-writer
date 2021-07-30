@@ -6,16 +6,20 @@ import CheckBox from './CheckBox';
 import { config } from '../constants';
 import NewAssignmentModal from './NewAssignmentModal';
 import CheckInModal from './CheckInModal';
+import UpdateAssignmentModal from './UpdateAssignmentModal';
 
 
 const Territory = (props) => {
     const [ displayAssignmentModal, setDisplayAssignmentModal ] = useState(false)
     const [ displayCheckInModal, setDisplayCheckInModal ] = useState(false)
+    const [ displayUpdateModal, setDisplayUpdateModal ] = useState(false)
     const [ assignmentFocus, setAssignmentFocus ] = useState()
 
     const handleCloseModals = () => {
         setDisplayAssignmentModal(false)
         setDisplayCheckInModal(false)
+        setDisplayUpdateModal(false)
+        props.refreshTerritory()
     }
 
     const [dncs, setDncs] = useState([])
@@ -24,6 +28,29 @@ const Territory = (props) => {
             .then(r => r.json())
             .then(d => setDncs(d))
     }, [props.currentUser.congregation.id, props.territoryId])
+
+    const deleteAssignment = (id) => {
+        const configObj = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            }
+        }
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.territoryId}/assignments/${id}`, configObj)
+            .then(r => {
+
+                if (!r.ok){ throw r }
+                return r.json()
+            })
+            .then(d => {
+                console.log("in delete")
+                props.refreshTerritory()
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    }
 
     const headers = [
         { label: "Name", key: "name" },
@@ -49,6 +76,24 @@ const Territory = (props) => {
                                                       }}>
                                                   Check In
                                               </button>}</td>
+                <td>
+                    {assignment.checked_out && assignment.checked_in && <button className="btn btn-warning"
+                                                                            onClick={() => {
+                                                                                setAssignmentFocus(assignment)
+                                                                                setDisplayUpdateModal(true)
+                                                                            }}>
+                                                                            Edit
+                                                                        </button>
+                    }
+                </td>
+                <td>
+                    <button className="btn btn-danger"
+                            onClick={() => {
+                                deleteAssignment(assignment.id)
+                            }}>
+                        Delete
+                    </button>
+                </td>
             </tr>
         )})
 
@@ -63,6 +108,8 @@ const Territory = (props) => {
                         <th>Publisher:</th>
                         <th>Checked Out:</th>
                         <th>Checked In:</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,6 +164,7 @@ const Territory = (props) => {
             <br />
             {displayAssignmentModal && <NewAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} handleClose={handleCloseModals} />}
             {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
+            {displayUpdateModal && assignmentFocus && <UpdateAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
         </div>
     )
 }
