@@ -83,7 +83,7 @@ const Territories = (props) => {
             .then(data => {
                 setTerritories(data)
             })
-    }, [])
+    }, [props.currentUser.congregation.id])
 
     const getCenter = (points) => {
         const lngCenter = points.reduce((sum, point) => {
