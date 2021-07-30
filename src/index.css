@@ -81,3 +81,38 @@ ul.csv-requirements {
 .input-row label {
   margin-right: 1em;
 }
+
+#assignment-modal {
+  position: fixed;
+  z-index: 100000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+#assignment-modal-body {
+  background: white;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 20px;
+  width: 50vw;
+  max-height: 70vh;
+  margin: 20vh auto;
+  display: flex;
+  display: -webkit-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.input-row {
+  display: flex;
+  display: -webkit-flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}

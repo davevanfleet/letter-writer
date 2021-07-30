@@ -4,10 +4,14 @@ import uuid from 'uuid';
 import { CSVLink } from "react-csv";
 import CheckBox from './CheckBox';
 import { config } from '../constants';
+import NewAssignmentModal from './NewAssignmentModal';
+import CheckInModal from './CheckInModal';
 
 
 const Territory = (props) => {
-    const [ displayAssingmentModal, setDisplayAssignmentModal ] = useState(false)
+    const [ displayAssignmentModal, setDisplayAssignmentModal ] = useState(false)
+    const [ displayCheckInModal, setDisplayCheckInModal ] = useState(false)
+    const [ assignmentFocus, setAssignmentFocus ] = useState()
 
     const [dncs, setDncs] = useState([])
     useEffect(() => {
@@ -27,8 +31,22 @@ const Territory = (props) => {
       { label: "Address", key: "address" },
       { label: "Date", key: "date" }
     ]
-    
-    const assignmentRows = props.assignments.map(assignment => <tr key={uuid()}><td>{assignment.publisher}</td><td>{assignment.check_out}</td><td>{assignment.check_in}</td></tr>)
+
+    const assignmentRows = props.assignments.map(assignment => {
+        return (
+            <tr key={uuid()}>
+                <td>{assignment.publisher}</td>
+                <td>{assignment.checked_out}</td>
+                <td>{assignment.checked_in || <button className="btn btn-secondary"
+                                                      onClick={() => {
+                                                          setAssignmentFocus(assignment)
+                                                          setDisplayCheckInModal(true)
+                                                      }}>
+                                                  Check In
+                                              </button>}</td>
+            </tr>
+        )})
+
     const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
     const dncRows = dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
@@ -46,9 +64,12 @@ const Territory = (props) => {
                     { assignmentRows }
                 </tbody>
             </Table>
-            <button className="btn btn-primary">
-                Assign Territory
-            </button>
+            {(!props.assignments[props.assignments.length -1] || props.assignments[props.assignments.length -1].checked_in) && 
+                <button className="btn btn-primary"
+                        onClick={() => setDisplayAssignmentModal(true)}>
+                    Check Out
+                </button>
+            }
 
             <h2>DNCs</h2>
             <CSVLink data={dncs} 
@@ -89,6 +110,8 @@ const Territory = (props) => {
                 </tbody>
             </Table>
             <br />
+            {displayAssignmentModal && <NewAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} />}
+            {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} />}
         </div>
     )
 }
