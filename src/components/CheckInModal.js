@@ -28,7 +28,7 @@ const CheckInModal = (props) => {
                 return r.json()
             })
             .then(d => {
-                console.log(d)
+                props.handleClose()
             })
             .catch(e => {
                 console.log(e)

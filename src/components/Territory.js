@@ -13,6 +13,11 @@ const Territory = (props) => {
     const [ displayCheckInModal, setDisplayCheckInModal ] = useState(false)
     const [ assignmentFocus, setAssignmentFocus ] = useState()
 
+    const handleCloseModals = () => {
+        setDisplayAssignmentModal(false)
+        setDisplayCheckInModal(false)
+    }
+
     const [dncs, setDncs] = useState([])
     useEffect(() => {
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.territoryId}/dncs`)
@@ -110,8 +115,8 @@ const Territory = (props) => {
                 </tbody>
             </Table>
             <br />
-            {displayAssignmentModal && <NewAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} />}
-            {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} />}
+            {displayAssignmentModal && <NewAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} handleClose={handleCloseModals} />}
+            {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
         </div>
     )
 }
