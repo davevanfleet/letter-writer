@@ -19,18 +19,18 @@ const UploadContacts = (props) => {
 
     const processData = dataString => {
         const dataStringLines = dataString.split(/\r\n|\n/);
-        const headers = ["firstName", "lastName", "phone", "address", "city", "state", "zipCode", "lat", "lng"];
+        const headers = ["firstName", "lastName", "phone", "address", "city", "state", "zipCode", "lat", "lng", "lang"];
         const list = [];
         for (let i = 1; i < dataStringLines.length; i++) {
           const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-          if (headers && row.length == headers.length) {
+          if (headers && row.length === headers.length) {
             const obj = {};
             for (let j = 0; j < headers.length; j++) {
               let d = row[j];
               if (d.length > 0) {
-                if (d[0] == '"')
+                if (d[0] === '"')
                   d = d.substring(1, d.length - 1);
-                if (d[d.length - 1] == '"')
+                if (d[d.length - 1] === '"')
                   d = d.substring(d.length - 2, 1);
               }
               if (headers[j]) {
@@ -97,13 +97,13 @@ const UploadContacts = (props) => {
         return (
             <>
                 <h1>Upload Addresses</h1>
-                <p>Use this page if you have an existing contact list for your <em>entire</em> territory for an outside source.</p>
+                <p>Use this page if you have an existing contact list for your <em>entire</em> territory from an outside source.</p>
                 <p><strong><em>If you have address-lookup access on this site, you shouldn't need to use this page.</em></strong></p>
                 <p>Please note the following requirements for the uploaded file:</p>
                 <div className="container">
                     <ul className="csv-requirements">
                         <li>File must be formatted as a CSV (comma separated values)</li>
-                        <li>CSV must have three columns, in the following order:
+                        <li>CSV must have the following columns, in this exact order:
                             <ol>
                                 <li>First Name of Householder</li>
                                 <li>Last Name of Householder</li>
@@ -114,6 +114,7 @@ const UploadContacts = (props) => {
                                 <li>Zip Code</li>
                                 <li>Latitude</li>
                                 <li>Longitude</li>
+                                <li>Primary Language (optional)</li>
                             </ol>
                         </li>
                         <li>There must be no header row</li>
