@@ -33,7 +33,7 @@ const Territories = (props) => {
                 setContactsLoaded(false)
                 setEdit(false)
                 polygonRef.current = new window.google.maps.Polygon({paths: path})
-                filterContacts(polygonRef.current)
+                updateContacts(territoryId)
             })
     }
 
@@ -97,20 +97,14 @@ const Territories = (props) => {
         return {lng: lngCenter, lat: latCenter}
     }
 
-    const filterContacts = (polygon) => {
-        if (!contactsLoaded){
-            const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`
+    const updateContacts = (territoryId) => {
+            const url = props.currentUser.congregation.api_access ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}/contacts` : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}/external_contacts`
             fetch(url)
                 .then(r => r.json())
                 .then(d => {
-                    const filteredList = d.filter(contact => {
-                        const coords = new window.google.maps.LatLng({lat: contact.lat, lng: contact.lng})
-                        return window.google.maps.geometry.poly.containsLocation(coords, polygon)
-                    })
-                    setContacts(filteredList)
+                    setContacts(d)
                     setContactsLoaded(true)
                 })
-        }
     }
 
     const [ dncs, setDncs ] = useState([])
@@ -120,11 +114,12 @@ const Territories = (props) => {
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${id}`)
                 .then(r => r.json())
                 .then(d => {
+                    setContactsLoaded(false)
                     polygonRef.current = new window.google.maps.Polygon({paths: d.points})
                     setTerritoryName(d.name)
                     setDncs(d.dncs)
                     setAssignments(d.assignments)
-                    filterContacts(polygonRef.current)
+                    updateContacts(id)
                     setPath(d.points)
                 })
     }
@@ -132,7 +127,6 @@ const Territories = (props) => {
     const handleChange = (e) => {
         setTerritoryId(e.target.value)
         setContactsLoaded(false)
-
         getTerritory(e.target.value)
     }
         
