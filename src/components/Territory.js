@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import uuid from 'uuid';
 import { CSVLink } from "react-csv";
@@ -21,13 +21,6 @@ const Territory = (props) => {
         setDisplayUpdateModal(false)
         props.refreshTerritory()
     }
-
-    const [dncs, setDncs] = useState([])
-    useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.territoryId}/dncs`)
-            .then(r => r.json())
-            .then(d => setDncs(d))
-    }, [props.currentUser.congregation.id, props.territoryId])
 
     const deleteAssignment = (id) => {
         const configObj = {
@@ -98,7 +91,7 @@ const Territory = (props) => {
         )})
 
     const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
-    const dncRows = dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
+    const dncRows = props.dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
         <div>
             <h2>Assignments</h2>
@@ -124,7 +117,7 @@ const Territory = (props) => {
             }
 
             <h2>DNCs</h2>
-            <CSVLink data={dncs} 
+            <CSVLink data={props.dncs} 
                      headers={dncHeaders}
                      filename={`${props.name}-DNCs.csv`}
                      className="btn btn-primary">
