@@ -73,6 +73,20 @@ const NewTerritory = (props) => {
     }
 
     const onPolygonComplete = polygon => {
+        polygonRef.current = polygon;
+            const path = polygon.getPath();
+            listenersRef.current.push(
+                path.addListener("set_at", onEdit),
+                path.addListener("insert_at", onEdit),
+                path.addListener("remove_at", onEdit)
+            );
+        const nextPath = polygonRef.current
+            .getPath()
+            .getArray()
+            .map(latLng => {
+                return { lat: latLng.lat(), lng: latLng.lng() };
+            });
+        setPath(nextPath);
         setFinished(true)
     }
 
