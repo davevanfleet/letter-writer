@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useLoadScript, GoogleMap, DrawingManager } from '@react-google-maps/api';
 
 
@@ -6,6 +6,34 @@ const NewTerritory = (props) => {
     const [ finished, setFinished ] = useState(false)
     const [ edit, setEdit ] = useState(false)
     const [ path, setPath ] = useState([])
+
+    const [ center, setCenter ] = useState({
+        lng: -71.098,
+        lat: 42.34
+    });
+
+    useEffect(() => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+          
+        function success(pos) {
+            var crd = pos.coords;
+
+            setCenter({
+                lng: crd.longitude,
+                lat: crd.latitude
+            })
+        }
+          
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+          
+        navigator.geolocation.getCurrentPosition(success, error, options);
+    }, [])
 
     const [ name, setName ] = useState('')
     const handleNameChange = e => {
@@ -52,11 +80,6 @@ const NewTerritory = (props) => {
         width: '100%',
         height: '800px'
     };
-
-    const center = {
-        lng: -72.23,
-        lat: 41.72
-      };
 
     return (
         <div id="new-territory">
