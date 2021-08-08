@@ -96,9 +96,16 @@ const NewTerritory = (props) => {
         height: '800px'
     };
 
-    const onLoadSearchBox = ref => searchBoxRef.current = ref;
+    const onLoadSearchBox = ref => {
+        searchBoxRef.current = ref;
+    }
 
     const onPlacesChanged = () => {
+        if (polygonRef.current) {
+            polygonRef.current.setMap(null);
+            polygonRef.current = null;
+            setPath([])
+        }
         setCenter({
             lat: searchBoxRef.current.getPlaces()[0].geometry.location.lat(),
             lng: searchBoxRef.current.getPlaces()[0].geometry.location.lng()
