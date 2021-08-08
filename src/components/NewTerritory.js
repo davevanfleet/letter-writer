@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { useLoadScript, GoogleMap, DrawingManager } from '@react-google-maps/api';
+import { useLoadScript, GoogleMap, DrawingManager, StandaloneSearchBox } from '@react-google-maps/api';
 
 
 const NewTerritory = (props) => {
@@ -43,7 +43,7 @@ const NewTerritory = (props) => {
     const { isLoaded } = useLoadScript({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-        libraries: ['drawing']
+        libraries: ['drawing', 'places']
     })
 
     const [map, setMap] = useState(null)
@@ -53,6 +53,7 @@ const NewTerritory = (props) => {
     }, [])
 
     const polygonRef = useRef(null);
+    const searchBoxRef = useRef(null)
     const listenersRef = useRef([]);
 
     // Call setPath with new edited path
@@ -95,6 +96,15 @@ const NewTerritory = (props) => {
         height: '800px'
     };
 
+    const onLoadSearchBox = ref => searchBoxRef.current = ref;
+
+    const onPlacesChanged = () => {
+        setCenter({
+            lat: searchBoxRef.current.getPlaces()[0].geometry.location.lat(),
+            lng: searchBoxRef.current.getPlaces()[0].geometry.location.lng()
+        })
+    };
+
     return (
         <div id="new-territory">
             <h1>Add Territory</h1>
@@ -108,8 +118,27 @@ const NewTerritory = (props) => {
             {isLoaded &&
                 <GoogleMap mapContainerStyle={containerStyle}
                            center={center}
-                           zoom={10}
+                           zoom={13}
                            onUnmount={onUnmount}>
+                    <StandaloneSearchBox onLoad={onLoadSearchBox}
+                                         onPlacesChanged={onPlacesChanged}>
+                        <input type="text"
+                               placeholder="Customized your placeholder"
+                               style={{
+                                    boxSizing: `border-box`,
+                                    border: `1px solid transparent`,
+                                    width: `240px`,
+                                    height: `32px`,
+                                    padding: `0 12px`,
+                                    borderRadius: `3px`,
+                                    boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                                    fontSize: `14px`,
+                                    outline: `none`,
+                                    textOverflow: `ellipses`,
+                                    position: "absolute",
+                                    left: "50%",
+                                    marginLeft: "-120px"}} />
+                    </StandaloneSearchBox>
                     <DrawingManager onLoad={onLoad}
                                     drawingMode={finished ? null : "polygon"}
                                     onPolygonComplete={onPolygonComplete}
