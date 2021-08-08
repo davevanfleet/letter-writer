@@ -15,6 +15,7 @@ import DNCUpload from './components/DNCUpload';
 import UploadContacts from './components/UploadContacts';
 import NewTerritory from './components/NewTerritory';
 import {GoogleApiWrapper} from 'google-maps-react';
+import Register from './components/Register';
 
 class App extends Component {
   state = {
@@ -135,7 +136,20 @@ class App extends Component {
                     logout={this.logout}
                     flash={this.state.flash}>
               {this.state.errors ? <Errors error={this.state.errors} /> : null}
-              <LoginForm login={this.login} />
+              <Switch>
+                <Route exact path="/">
+                  <Home currentUser={this.state.currentUser}/>
+                </Route>
+                <Route exact path="/login">
+                  <LoginForm login={this.login} />
+                </Route>
+                <Route exact path="/register">
+                  <Register />
+                </Route>
+                <Route>
+                  <LoginForm login={this.login} />
+                </Route>
+              </Switch>
             </Layout>
           </Router>
         </div>

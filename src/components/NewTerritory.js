@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { useJsApiLoader, GoogleMap, DrawingManager, Polygon } from '@react-google-maps/api';
+import { useLoadScript, GoogleMap, DrawingManager } from '@react-google-maps/api';
+
 
 const NewTerritory = (props) => {
     const [ finished, setFinished ] = useState(false)
@@ -11,7 +12,7 @@ const NewTerritory = (props) => {
         setName(e.target.value)
     }
 
-    const { isLoaded } = useJsApiLoader({
+    const { isLoaded } = useLoadScript({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: ['drawing']
@@ -39,32 +40,13 @@ const NewTerritory = (props) => {
       }
     }, [setPath]);
 
+    const onLoad = drawingManager => {
+        console.log(drawingManager)
+    }
 
-    // Bind refs to current Polygon and listeners
-    const onLoad = useCallback(
-        polygon => {
-            polygonRef.current = polygon;
-            const path = polygon.getPath();
-            listenersRef.current.push(
-                path.addListener("set_at", onEdit),
-                path.addListener("insert_at", onEdit),
-                path.addListener("remove_at", onEdit)
-            );
-        }, [onEdit]);
-    
-    const handlePolygonComplete = useCallback((polygon) => {
-        polygonRef.current = polygon
-        if (polygonRef.current) {
-            const nextPath = polygonRef.current
-            .getPath()
-            .getArray()
-            .map(latLng => {
-                return { lat: latLng.lat(), lng: latLng.lng() };
-            });
-        setPath(nextPath);
-        setFinished(true);
-      }
-    }, [setPath]);
+    const onPolygonComplete = polygon => {
+        setFinished(true)
+    }
 
     const containerStyle = {
         width: '100%',
@@ -91,23 +73,20 @@ const NewTerritory = (props) => {
                            center={center}
                            zoom={10}
                            onUnmount={onUnmount}>
-                    {finished ? 
-                        <Polygon ref={polygonRef}
-                                 paths={path}
-                                 strokeColor="#0000FF"
-                                 strokeOpacity={0.8}
-                                 strokeWeight={2}
-                                 fillColor="#0000FF"
-                                 fillOpacity={0.35}
-                                 onMouseUp={onEdit}
-                                 onLoad={onLoad}
-                                 onUnmount={onUnmount}
-                                 editable={edit}
-                                 options={{fillColor: "purple"}}/>
-                        :
-                        <DrawingManager drawingMode="polygon"
-                                        onPolygonComplete={handlePolygonComplete} />
-                    }
+                    <DrawingManager onLoad={onLoad}
+                                    drawingMode={finished ? null : "polygon"}
+                                    onPolygonComplete={onPolygonComplete}
+                                    options={{
+                                        drawingControl: false,
+                                        polygonOptions: {
+                                            fillColor: "#ffff00",
+                                            fillOpacity: 0.25,
+                                            strokeWeight: 1,
+                                            clickable: false,
+                                            editable: true,
+                                            zIndex: 1,
+                                          },
+                                    }} />
                 </GoogleMap>}
         </div>
     )

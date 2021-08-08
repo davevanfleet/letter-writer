@@ -20,6 +20,10 @@ code {
   margin-bottom: 1em;
 }
 
+.navbar-brand img {
+  height: 50px;
+}
+
 .home * {
   max-width: 500px;
   text-align: left;
@@ -120,6 +124,11 @@ ul.csv-requirements {
   transform: scale(1.1);
 }
 
+#new-congregation-form-body {
+  margin: 1em auto;
+  max-width: 500px;
+}
+
 .input-row {
   display: flex;
   display: -webkit-flex;
@@ -127,4 +136,12 @@ ul.csv-requirements {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 1em;
+}
+
+.input-row input, .input-row select {
+  width: 50%;
+}
+
+.input-row input[type="radio"] {
+  width: 20px;
 }
