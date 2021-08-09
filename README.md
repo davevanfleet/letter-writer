@@ -1,4 +1,4 @@
-# Letter Writer
+# Territory Counter
 
 This project is the frontend for a contact/address management web application (backend [here](https://github.com/davevanfleet/letter-writer-api)).
 
