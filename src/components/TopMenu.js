@@ -16,7 +16,7 @@ const TopMenu = props => {
                 <>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        {props.currentUser.role === "admin" &&
+                        {props.currentUser.role === "Admin" &&
                         <>
                             <NavDropdown title="Territories" id="basic-nav-dropdown">
                                 <LinkContainer to="/territories">
