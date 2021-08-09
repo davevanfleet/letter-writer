@@ -1,0 +1,7 @@
+version: "3"
+services:
+  frontend:
+    container_name: territory_counter
+    build: 
+      context: .
+      dockerfile: Dockerfile
