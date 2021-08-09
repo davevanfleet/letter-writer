@@ -34,7 +34,7 @@ const Publishers = props => {
         <div id="manage-publishers">
             <h1>Manage Publishers</h1>
             <p>This page can be used to create new accounts or manage existing accounts for publishers in your congregation. Publishers with accounts can use them to access their territories online.</p>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>Name</th>

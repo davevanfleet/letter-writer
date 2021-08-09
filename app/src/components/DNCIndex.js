@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { config } from '../constants';
 import { CSVLink } from "react-csv";
+import { Table } from 'react-bootstrap';
 import uuid from 'uuid';
 
 
@@ -43,7 +44,7 @@ const DNCIndex = (props) => {
                      className="btn btn-primary">
                          Download DNCs
             </CSVLink>
-            <table className="table">
+            <Table responsive>
                 <thead>
                     <tr>
                         <th scope="col">Address</th>
@@ -54,7 +55,7 @@ const DNCIndex = (props) => {
                 <tbody>
                     {rows}
                 </tbody>
-            </table>
+            </Table>
         </div>
     )
 }

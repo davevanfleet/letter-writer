@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { config } from '../constants';
+import { Table } from 'react-bootstrap';
 import uuid from 'uuid';
 
 const DNCList = (props) => { 
@@ -52,7 +53,7 @@ const DNCList = (props) => {
                 {props.sortedTerritories}
             </select></p>
 
-            <table className="table">
+            <Table responsive>
                 <thead>
                     <tr>
                         <th scope="col">Address</th>
@@ -67,7 +68,7 @@ const DNCList = (props) => {
                 <tbody>
                     {rows}
                 </tbody>
-            </table>
+            </Table>
         </>
     )
 }

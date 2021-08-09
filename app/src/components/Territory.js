@@ -96,7 +96,7 @@ const Territory = (props) => {
     return(
         <div>
             <h2>Assignments</h2>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>Publisher:</th>
@@ -124,7 +124,7 @@ const Territory = (props) => {
                      className="btn btn-primary">
                          Download DNCs
             </CSVLink>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>Address</th>
@@ -143,7 +143,7 @@ const Territory = (props) => {
                      className="btn btn-primary">
                          Download Territory
             </CSVLink>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>Name</th>
