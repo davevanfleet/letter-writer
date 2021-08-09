@@ -1,10 +1,43 @@
 version: "3"
 services:
-  frontend:
-    container_name: territory_counter
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    command:
+      - "--log.level=ERROR"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
+    labels:
+      - "traefik.http.routers.dashboard.rule=Host(`monitor.territorycounter.com`)"
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./traefik/traefik_dynamic.toml:/traefik_dynamic.toml
+      - ./traefik/acme.json:/acme.json
+
+  frontend:
+    container_name: territory_counter
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    networks:
+      - web
+    labels:
+      - traefik.http.routers.app.rule=Host(`territorycounter.com`)
+      - traefik.http.routers.app.tls=true
+      - traefik.http.routers.app.tls.certresolver=lets-encrypt
+      - traefik.port=80
+      - traefik.docker.network=web
+
+
+networks:
+  web:
+    external : true
