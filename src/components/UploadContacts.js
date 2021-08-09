@@ -21,7 +21,7 @@ const UploadContacts = (props) => {
         const dataStringLines = dataString.split(/\r\n|\n/);
         const headers = ["firstName", "lastName", "phone", "address", "city", "state", "zipCode", "lat", "lng", "lang"];
         const list = [];
-        for (let i = 1; i < dataStringLines.length; i++) {
+        for (let i = 0; i < dataStringLines.length; i++) {
           const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
           if (headers && row.length === headers.length) {
             const obj = {};

@@ -62,7 +62,7 @@ const Register = (props) => {
                     <h2>Would you like access to our address database?</h2>
                     <p>This paid feature will give you access to names, contacts, and phone numbers (when available) of those in your congregation territory. If you are an English congregation, this will include all available records.  If you are a Spanish or foreign language congregation, the contacts will be filtered to include only those whose primary language is that of your congregation.</p>
                     <div id="new-congregation-form-body">
-                        <div className="input-row">
+                        <div className="radio-row">
                             <input type="radio"
                                    name="apiAccess"
                                    value="1"
@@ -70,7 +70,7 @@ const Register = (props) => {
                                    onChange={handleApiAccessChange} />
                             <label htmlFor="apiAccess">Yes, we would like access. ({(lang === "English" || lang === "Spanish") ? "$500" : "$300"} yearly subscription for your congregation)</label>
                         </div>
-                        <div className="input-row">
+                        <div className="radio-row">
                             <input type="radio"
                                    name="noApiAccess"
                                    value="0"

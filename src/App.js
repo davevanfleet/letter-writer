@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router,
          Switch,
-         Route } from 'react-router-dom';
+         Route, 
+         Redirect} from 'react-router-dom';
 import Layout from './containers/Layout';
 import './App.css';
 import { config } from './constants';
@@ -16,6 +17,8 @@ import UploadContacts from './components/UploadContacts';
 import NewTerritory from './components/NewTerritory';
 import {GoogleApiWrapper} from 'google-maps-react';
 import Register from './components/Register';
+import Publishers from './components/Publishers';
+import NewPublisher from './components/NewPublisher';
 
 class App extends Component {
   state = {
@@ -104,6 +107,9 @@ class App extends Component {
                 <Route exact path="/">
                   <Home currentUser={this.state.currentUser}/>
                 </Route>
+                <Route exact path="/login">
+                  <Redirect to="/" />
+                </Route>
                 <Route exact path="/territories">
                   <Territories currentUser={this.state.currentUser} />
                 </Route>
@@ -121,6 +127,15 @@ class App extends Component {
                 </Route>
                 <Route exact path="/upload_DNCs">
                   <DNCUpload currentUser={this.state.currentUser} addFlash={this.addFlash}/>
+                </Route>
+                <Route exact path="/users">
+                  <Publishers currentUser={this.state.currentUser} />
+                </Route>
+                <Route exact path="/create_user">
+                  <NewPublisher currentUser={this.state.currentUser} />
+                </Route>
+                <Route>
+                  <Home currentUser={this.state.currentUser}/>
                 </Route>
               </Switch>
             </Layout>

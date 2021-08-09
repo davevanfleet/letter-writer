@@ -49,6 +49,7 @@ const Territory = (props) => {
         { label: "Name", key: "name" },
         { label: "Address", key: "address" },
         { label: "Phone", key: "phone" },
+        { label: "Primary Language", key: "lang" },
         { label: "Check When Finished", key: "blank"}
       ]
     
@@ -90,7 +91,7 @@ const Territory = (props) => {
             </tr>
         )})
 
-    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><CheckBox id={contact.id} /></tr>)
+    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td>{contact.lang}</td><CheckBox id={contact.id} /></tr>)
     const dncRows = props.dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
         <div>
@@ -126,8 +127,8 @@ const Territory = (props) => {
             <Table>
                 <thead>
                     <tr>
-                        <th>Address:</th>
-                        <th>Date:</th>
+                        <th>Address</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,6 +136,7 @@ const Territory = (props) => {
                 </tbody>
             </Table>
             <h2>Contacts</h2>
+            <p>{props.contacts.length} contacts loaded</p>
             <CSVLink data={props.contacts} 
                      headers={headers}
                      filename={`${props.name}.csv`}
@@ -144,10 +146,11 @@ const Territory = (props) => {
             <Table>
                 <thead>
                     <tr>
-                        <th>Name:</th>
-                        <th>Address:</th>
-                        <th>Phone:</th>
-                        <th>Check When Done:</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Primary Language</th>
+                        <th>Check When Done</th>
                     </tr>
                 </thead>
                 <tbody>
