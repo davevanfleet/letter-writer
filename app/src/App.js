@@ -16,7 +16,7 @@ import DNCUpload from './components/uploadsComponents/DNCUpload';
 import UploadContacts from './components/uploadsComponents/UploadContacts';
 import NewTerritory from './components/territoryComponents/NewTerritory';
 import {GoogleApiWrapper} from 'google-maps-react';
-import Register from './components/Register';
+import Register from './components/registerComponents/Register';
 import Publishers from './components/usersComponents/Publishers';
 import NewPublisher from './components/usersComponents/NewPublisher';
 

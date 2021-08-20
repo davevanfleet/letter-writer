@@ -1,6 +1,11 @@
 import React, { useState } from "react"
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from "./CheckoutForm";
 
 const Register = (props) => {
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+
     const [ page, setPage ] = useState(0)
     const nextPage = () => {
         setPage(prevPage => prevPage + 1)
@@ -53,15 +58,16 @@ const Register = (props) => {
                             </select>
                         </div>
                     </div>
+                    <hr />
                     <button onClick={nextPage} className="btn btn-primary">Next</button>
                 </>
             )
         case 1:
             return (
                 <>
-                    <h2>Would you like access to our address database?</h2>
-                    <p>This paid feature will give you access to names, contacts, and phone numbers (when available) of those in your congregation territory. If you are an English congregation, this will include all available records.  If you are a Spanish or foreign language congregation, the contacts will be filtered to include only those whose primary language is that of your congregation.</p>
                     <div id="new-congregation-form-body">
+                        <h2>Would you like access to our address database?</h2>
+                        <p className="form-info">This paid feature will give you access to names, contacts, and phone numbers (when available) of those in your congregation territory. If you are an English congregation, this will include all available records.  If you are a Spanish or foreign language congregation, the contacts will be filtered to include only those whose primary language is that of your congregation.</p>
                         <div className="radio-row">
                             <input type="radio"
                                    name="apiAccess"
@@ -79,8 +85,19 @@ const Register = (props) => {
                             <label htmlFor="noApiAccess">No, we have our own list we will upload and maintain.</label>
                         </div>
                     </div>
+                    <hr />
                     <button onClick={prevPage} className="btn btn-primary">Back</button>
                     <button onClick={nextPage} className="btn btn-primary">Next</button>
+                </>
+            )
+        case 2:
+            return (
+                <>
+                    <Elements stripe={stripePromise}>
+                        <div id="new-congregation-form-body">
+                            <CheckoutForm />
+                        </div>
+                    </Elements>
                 </>
             )
         default:
