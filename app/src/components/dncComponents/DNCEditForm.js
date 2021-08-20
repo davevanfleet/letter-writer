@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 

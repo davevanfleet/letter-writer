@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useJsApiLoader, GoogleMap, Polygon } from '@react-google-maps/api';
-import { config } from '../constants';
+import { config } from '../../constants';
 import uuid from 'uuid';
-import Territory from '../components/Territory';
+import Territory from './Territory';
 
 const Territories = (props) => {
     const [ territoryId, setTerritoryId ] = useState(0)

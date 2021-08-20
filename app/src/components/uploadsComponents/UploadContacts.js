@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router';
-import { config } from '../constants';
+import { config } from '../../constants';
 import * as XLSX from 'xlsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'

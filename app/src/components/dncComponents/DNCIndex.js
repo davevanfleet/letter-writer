@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 import { CSVLink } from "react-csv";
 import { Table } from 'react-bootstrap';
-import uuid from 'uuid';
-
 
 
 const DNCIndex = (props) => {

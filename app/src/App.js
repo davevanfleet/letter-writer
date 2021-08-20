@@ -3,18 +3,18 @@ import { BrowserRouter as Router,
          Switch,
          Route, 
          Redirect} from 'react-router-dom';
-import Layout from './containers/Layout';
+import Layout from './components/Layout';
 import './App.css';
 import { config } from './constants';
 import Errors from './components/Errors';
 import Home from './components/Home';
-import Territories from './containers/Territories';
-import DNCs from './containers/DNCs';
+import Territories from './components/territoryComponents/Territories';
+import DNCs from './components/dncComponents/DNCs';
 import LoginForm from './components/LoginForm';
-import DNCIndex from './components/DNCIndex';
-import DNCUpload from './components/DNCUpload';
-import UploadContacts from './components/UploadContacts';
-import NewTerritory from './components/NewTerritory';
+import DNCIndex from './components/dncComponents/DNCIndex';
+import DNCUpload from './components/uploadsComponents/DNCUpload';
+import UploadContacts from './components/uploadsComponents/UploadContacts';
+import NewTerritory from './components/territoryComponents/NewTerritory';
 import {GoogleApiWrapper} from 'google-maps-react';
 import Register from './components/Register';
 import Publishers from './components/Publishers';

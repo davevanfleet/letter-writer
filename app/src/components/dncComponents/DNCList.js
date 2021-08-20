@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 import { Table } from 'react-bootstrap';
 import uuid from 'uuid';
 

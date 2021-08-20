@@ -1,5 +1,5 @@
 import React from 'react';
-import TopMenu from '../components/TopMenu';
+import TopMenu from './TopMenu';
 
 const Layout = (props) => {
     return(

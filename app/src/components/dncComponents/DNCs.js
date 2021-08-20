@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 import uuid from 'uuid';
-import DNCList from '../components/DNCList'
-import DNCNewForm from '../components/DNCNewForm';
-import DNCEditForm from '../components/DNCEditForm';
+import DNCList from './DNCList'
+import DNCNewForm from './DNCNewForm';
+import DNCEditForm from './DNCEditForm';
 
 const DNCs = (props) => {
     const [territories, setTerritories] = useState([])

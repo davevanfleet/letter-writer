@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
-
-const UpdateAssignmentModal = (props) => {
-    const [ publisher, setPublisher ] = useState(props.assignment.publisher)
+const NewAssignmentModal = (props) => {
+    const [ publisher, setPublisher ] = useState('')
     const handlePublisherChange = (e) => {
         setPublisher(e.currentTarget.value)
     }
 
-    const [ checkOut, setCheckOut ] = useState(props.assignment.checked_out)
+    const [ checkOut, setCheckOut ] = useState('')
     const handleCheckOutChange = (e) => {
         setCheckOut(e.currentTarget.value)
-    }
-
-    const [ checkIn, setCheckIn ] = useState(props.assignment.checked_in)
-    const handleCheckInChange = (e) => {
-        setCheckIn(e.currentTarget.value)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const configObj = {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accepts': 'application/json'
@@ -31,12 +25,11 @@ const UpdateAssignmentModal = (props) => {
             body: JSON.stringify({
                 assignment: {
                     publisher,
-                    checked_out: checkOut,
-                    checked_in: checkIn
+                    checked_out: checkOut
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.congregationId}/territories/${props.territoryId}/assignments/${props.assignment.id}`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${props.congregationId}/territories/${props.territoryId}/assignments`, configObj)
             .then( r => {
                 if (!r.ok){ throw r }
                 return r.json()
@@ -56,32 +49,25 @@ const UpdateAssignmentModal = (props) => {
                                  icon={faTimesCircle}
                                  size="3x"
                                  onClick={props.handleClose} />
-                <h1>Update Assignment</h1>
+                <h1>Checkout Territory</h1>
                 <div className="input-row">
-                    <label htmlFor="pubName">Publisher:</label>
-                    <input type="ext"
+                    <label htmlFor="pubName">Publisher Name:</label>
+                    <input type="text"
                            name="pubName"
                            value={publisher}
                            onChange={handlePublisherChange} />
                 </div>
                 <div className="input-row">
-                    <label htmlFor="checkOut">Check Out Date:</label>
+                    <label htmlFor="date">Check Out Date:</label>
                     <input type="date"
-                           name="checkOut"
+                           name="date"
                            value={checkOut}
                            onChange={handleCheckOutChange} />
-                </div>
-                <div className="input-row">
-                    <label htmlFor="checkIn">Check In Date:</label>
-                    <input type="date"
-                           name="checkIn"
-                           value={checkIn}
-                           onChange={handleCheckInChange} />
                 </div>
                 <div>
                     <button className="btn btn-primary"
                             onClick={handleSubmit}>
-                        Update
+                        Check Out
                     </button>
                 </div>
             </div>
@@ -89,4 +75,4 @@ const UpdateAssignmentModal = (props) => {
     )
 }
 
-export default UpdateAssignmentModal;
+export default NewAssignmentModal;
