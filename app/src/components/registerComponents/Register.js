@@ -95,7 +95,10 @@ const Register = (props) => {
                 <>
                     <Elements stripe={stripePromise}>
                         <div id="new-congregation-form-body">
-                            <CheckoutForm />
+                            <CheckoutForm congName={congName}
+                                          lang={lang}
+                                          apiAccess={apiAccess}
+                                          prevPage={prevPage} />
                         </div>
                     </Elements>
                 </>

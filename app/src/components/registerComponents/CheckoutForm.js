@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 
-const CheckoutForm = (props) => {
+const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
     const stripe = useStripe()
     const elements = useElements()
 
@@ -104,25 +104,32 @@ const CheckoutForm = (props) => {
                        onChange={handleConfirmEmailChange} />
             </div>
 
-            <p className="form-info"><em>Once your payment is processed and we have set up your congregation we will send you a confirmation email.</em></p>
+            <p className="form-info"><em>Once {apiAccess && "your payment is processed and"} we have set up your congregation we will send you a confirmation email.</em></p>
             <p className="form-info"><em>To finish setting up your account, please click the link in the confirmation email and complete the form.</em></p>
 
             <hr />
-            <div id="payment-section">
-                <h3>Payment Method</h3>
-                <div className="input-row">
-                    <label htmlFor="cardholderName">Cardholder's Name</label>
-                    <input type="text"
-                           name="cardholderName"
-                           value={cardholderName}
-                           onChange={handleCardholderNameChange}
-                           id="cardholder-name" />
-                </div>
-                <div id="stripe-elements-wrapper">
-                    <CardElement options={{style: {base: {}}}}/>
-                </div>
-            </div>
-            <hr />
+            {apiAccess &&
+                <>
+                    <div id="payment-section">
+                        <h3>Payment Method</h3>
+                        <div className="input-row">
+                            <label htmlFor="cardholderName">Cardholder's Name</label>
+                            <input type="text"
+                                   name="cardholderName"
+                                   value={cardholderName}
+                                   onChange={handleCardholderNameChange}
+                                   id="cardholder-name" />
+                        </div>
+                        
+                            <div id="stripe-elements-wrapper">
+                                <CardElement options={{style: {base: {}}}}/>
+                            </div>
+                    </div>
+                    <hr />
+                </>
+            }
+            <button onClick={prevPage} className="btn btn-primary">Back</button>
+            <button onClick={handleSubmit} className="btn btn-primary">Next</button>
         </>
     )
 }
