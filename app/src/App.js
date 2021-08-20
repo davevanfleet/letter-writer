@@ -17,8 +17,8 @@ import UploadContacts from './components/uploadsComponents/UploadContacts';
 import NewTerritory from './components/territoryComponents/NewTerritory';
 import {GoogleApiWrapper} from 'google-maps-react';
 import Register from './components/Register';
-import Publishers from './components/Publishers';
-import NewPublisher from './components/NewPublisher';
+import Publishers from './components/usersComponents/Publishers';
+import NewPublisher from './components/usersComponents/NewPublisher';
 
 class App extends Component {
   state = {

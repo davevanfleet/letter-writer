@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Nav, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { config } from '../constants';
+import { config } from '../../constants';
 
 
 const Publishers = props => {

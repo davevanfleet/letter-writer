@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { config } from '../constants';
+import { config } from '../../constants';
 
 
 const NewPublisher = props => {
