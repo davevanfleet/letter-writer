@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { config } from '../../constants';
 
 
 const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
@@ -51,7 +52,14 @@ const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
                 setProcessing(true)
                 setProcessingMessage("Processing payment...")
                 const payload = {
-                    paymentMethodId: paymentMethod.id,
+                    congregation: {
+                        name: congName,
+                        api_access: apiAccess
+                    },
+                    user: {
+                        name: name,
+                        email: email
+                    }
                 }
 
                 const configObj = {
@@ -62,13 +70,48 @@ const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
                     },
                     body: JSON.stringify(payload)
                 }
-                fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscriptions`, configObj)
+                fetch(`${config.url.API_URL}/congregations`, configObj)
                     .then(r => {
                         if(!r.ok){throw r}
                         else{return r.json()}
                     })
                     .then(d => {
-                        console.log(d)
+                        if (apiAccess) {
+                            let priceId;
+                            if (lang === "English"){
+                                priceId = config.priceIds.english
+                            }
+                            else if (lang === "Spanish") {
+                                priceId = config.priceIds.spanish
+                            }
+                            else {
+                                priceId = config.priceIds.foreignLang
+                            }
+                            const configObj = {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': "application/json",
+                                    'Accepts': "application/json",
+                                },
+                                body: JSON.stringify({
+                                    subscription: {
+                                        payment_method_id: paymentMethod.id,
+                                        price_id: priceId
+                                    }
+                                })
+                            }
+                            fetch(`${config.url.API_URL}/congregations/${d.id}/subscriptions`, configObj)
+                                .then(r => {
+                                    if (!r.ok){ throw r }
+                                    return r.json()
+                                })
+                                .then(d => {
+                                    console.log(d)
+                                })
+                                .catch(e => {
+                                    console.log(e)
+                                })
+                        }
                     })
                     .catch(e => {
                         console.log(e)
