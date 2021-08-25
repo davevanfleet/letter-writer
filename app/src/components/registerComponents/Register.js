@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "./CheckoutForm";
+import { config } from "../../constants";
 
 const Register = (props) => {
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -34,6 +35,11 @@ const Register = (props) => {
         }
     }
 
+    const languageOptions = []
+    for (const [code, language] of Object.entries(config.languageMapping)) {
+        languageOptions.push(<option value={code}>{language}</option>)
+    }
+
     switch (page) {
         case 0:
             return (
@@ -52,9 +58,7 @@ const Register = (props) => {
                             <select name="lang"
                                     value={lang}
                                     onChange={handleLangChange}>
-                                <option value="English">English</option>
-                                <option value="Spanish">Spanish</option>
-                                <option value="Chinese">Chinese</option>
+                                {languageOptions}
                             </select>
                         </div>
                     </div>
