@@ -159,7 +159,7 @@ ul.csv-requirements {
   text-align: left;
 }
 
-#new-publisher-form {
+#new-publisher-form, #confirm-user, #new-territory-form {
   max-width: 600px;
   margin: 1em auto;
 }

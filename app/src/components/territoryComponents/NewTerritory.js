@@ -1,16 +1,24 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useLoadScript, GoogleMap, DrawingManager, StandaloneSearchBox } from '@react-google-maps/api';
+import { useHistory } from 'react-router';
+import { config } from '../../constants';
 
 
 const NewTerritory = (props) => {
     const [ finished, setFinished ] = useState(false)
     const [ edit, setEdit ] = useState(false)
     const [ path, setPath ] = useState([])
+    const [ name, setName ] = useState('')
+    const handleNameChange = e => {
+        setName(e.target.value)
+    }
 
     const [ center, setCenter ] = useState({
         lng: -71.098,
         lat: 42.34
     });
+
+    const history = useHistory()
 
     useEffect(() => {
         const options = {
@@ -34,11 +42,6 @@ const NewTerritory = (props) => {
           
         navigator.geolocation.getCurrentPosition(success, error, options);
     }, [])
-
-    const [ name, setName ] = useState('')
-    const handleNameChange = e => {
-        setName(e.target.value)
-    }
 
     const { isLoaded } = useLoadScript({
         id: 'google-map-script',
@@ -112,15 +115,50 @@ const NewTerritory = (props) => {
         })
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const configObj = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            },
+            body: JSON.stringify({
+                territory: {
+                    name,
+                    points: path
+                }
+            })
+        }
+        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories`, configObj)
+            .then(r => {
+                if (!r.ok) { throw r }
+                return r.json()
+            })
+            .then(d => {
+                history.push(`/territories?territory=${d.territory.id}`)
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    }
+
     return (
         <div id="new-territory">
-            <h1>Add Territory</h1>
-            <div className="input-row">
-                <label htmlFor="territoryName">Territory Name:</label>
-                <input type="text"
-                   name="territoryName"
-                   value={name}
-                   onChange={handleNameChange} />
+            <div id="new-territory-form">
+                <h1>Add Territory</h1>
+                <div className="input-row">
+                    <label htmlFor="territoryName">Territory Name:</label>
+                    <input type="text"
+                    name="territoryName"
+                    value={name}
+                    onChange={handleNameChange} />
+                </div>
+                {finished && 
+                    <button className="btn btn-primary" onClick={handleSubmit}>
+                        Add Territory
+                    </button>
+                }
             </div>
             {isLoaded &&
                 <GoogleMap mapContainerStyle={containerStyle}
@@ -130,7 +168,7 @@ const NewTerritory = (props) => {
                     <StandaloneSearchBox onLoad={onLoadSearchBox}
                                          onPlacesChanged={onPlacesChanged}>
                         <input type="text"
-                               placeholder="Customized your placeholder"
+                               placeholder="Search for address"
                                style={{
                                     boxSizing: `border-box`,
                                     border: `1px solid transparent`,
@@ -143,6 +181,7 @@ const NewTerritory = (props) => {
                                     outline: `none`,
                                     textOverflow: `ellipses`,
                                     position: "absolute",
+                                    top: "5px",
                                     left: "50%",
                                     marginLeft: "-120px"}} />
                     </StandaloneSearchBox>

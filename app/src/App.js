@@ -19,6 +19,7 @@ import {GoogleApiWrapper} from 'google-maps-react';
 import Register from './components/registerComponents/Register';
 import Publishers from './components/usersComponents/Publishers';
 import NewPublisher from './components/usersComponents/NewPublisher';
+import ConfirmNewUser from './components/usersComponents/ConfirmNewUser';
 
 class App extends Component {
   state = {
@@ -160,6 +161,9 @@ class App extends Component {
                 </Route>
                 <Route exact path="/register">
                   <Register />
+                </Route>
+                <Route path="/confirm/:token">
+                  <ConfirmNewUser />
                 </Route>
                 <Route>
                   <LoginForm login={this.login} />

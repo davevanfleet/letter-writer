@@ -49,6 +49,7 @@ const Territory = (props) => {
         { label: "Name", key: "name" },
         { label: "Address", key: "address" },
         { label: "Phone", key: "phone" },
+        { label: "Phone Type", key: "phone_type" },
         { label: "Primary Language", key: "lang" },
         { label: "Check When Finished", key: "blank"}
       ]
@@ -91,7 +92,7 @@ const Territory = (props) => {
             </tr>
         )})
 
-    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td>{contact.lang}</td><CheckBox id={contact.id} /></tr>)
+    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td>{contact.phone_type}</td><td>{contact.lang && config.languageMapping[contact.lang]}</td><CheckBox id={contact.id} /></tr>)
     const dncRows = props.dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
         <div>
@@ -149,6 +150,7 @@ const Territory = (props) => {
                         <th>Name</th>
                         <th>Address</th>
                         <th>Phone</th>
+                        <th>Phone Type</th>
                         <th>Primary Language</th>
                         <th>Check When Done</th>
                     </tr>

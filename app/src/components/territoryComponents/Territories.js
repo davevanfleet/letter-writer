@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router';
+import queryString from 'query-string';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useJsApiLoader, GoogleMap, Polygon } from '@react-google-maps/api';
@@ -7,13 +9,12 @@ import uuid from 'uuid';
 import Territory from './Territory';
 
 const Territories = (props) => {
-    const [ territoryId, setTerritoryId ] = useState(0)
-    const [ territoryName, setTerritoryName ] = useState('')
+    const [ territoryId, setTerritoryId ] = useState()
+    const [ territoryName, setTerritoryName ] = useState()
     const [ territories, setTerritories ] = useState([])
     const [ path, setPath ] = useState([])
     const [ contacts, setContacts ] = useState([])
     const [ contactsLoaded, setContactsLoaded ] = useState(false)
-
     const [ edit, setEdit ] = useState(false)
 
     const handleUpdateMap = (e) => {
@@ -112,15 +113,21 @@ const Territories = (props) => {
 
     const getTerritory = (id = territoryId) => {
         fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${id}`)
-                .then(r => r.json())
+                .then(r => {
+                    if (!r.ok) { throw r }
+                    return r.json()
+                })
                 .then(d => {
+                    setPath(d.points)
                     setContactsLoaded(false)
                     polygonRef.current = new window.google.maps.Polygon({paths: d.points})
                     setTerritoryName(d.name)
                     setDncs(d.dncs)
-                    setAssignments(d.assignments)
+                    setAssignments(d.sorted_assignments)
                     updateContacts(id)
-                    setPath(d.points)
+                })
+                .catch(e => {
+                    console.log(e)
                 })
     }
 
@@ -129,6 +136,16 @@ const Territories = (props) => {
         setContactsLoaded(false)
         getTerritory(e.target.value)
     }
+
+    const location = useLocation()
+    const territoryQuery = queryString.parse(location.search)["territory"]
+    useEffect(() => {
+        if (territoryQuery){
+            setTerritoryId(territoryQuery)
+            setContactsLoaded(false)
+            getTerritory(territoryQuery)
+        }
+    }, [territoryQuery])
         
     const territoryOptions = territories.sort((a, b) => {return (a.name < b.name ? -1 : 1)}).map(t => <option key={uuid()} value={t.id}>{t.name}</option>)
         
