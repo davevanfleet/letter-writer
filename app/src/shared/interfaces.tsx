@@ -28,4 +28,21 @@ export interface ICongregation {
 export interface ITerritory {
     id: number;
     name: string;
+    sorted_assignments: IAssignment[];
+}
+
+export interface IAssignment {
+    id: number;
+    publisher: string;
+    checked_out: string;
+    checked_in: string;
+}
+
+export interface IContact {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    phone_type: 'mobile|landline';
+    lang: string;
 }

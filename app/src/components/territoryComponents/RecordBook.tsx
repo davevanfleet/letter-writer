@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import { config } from '../../constants';
+import { IAssignment, ITerritory, IUser } from '../../shared/interfaces';
 
+interface IRecordBookProps {
+    currentUser: IUser
+}
 
-const RecordBook = (props) => {
-    const [ territories, setTerritories ] = useState([])
+const RecordBook = ({currentUser}: IRecordBookProps): JSX.Element => {
+    const [ territories, setTerritories ] = useState<ITerritory[]>([])
 
     useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories`)
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories`)
             .then(r => {
                 if (!r.ok) { throw r }
                 return r.json()
@@ -66,7 +70,7 @@ const RecordBook = (props) => {
         }
     });
 
-    const assignmentBoxes = assignments => {
+    const assignmentBoxes = (assignments: IAssignment[]) => {
         const boxes = []
         for (let i = 0; i++, i < 25;){
             if (assignments[i -1]){
@@ -105,7 +109,7 @@ const RecordBook = (props) => {
         return boxes
     }
 
-    const territoryCols = territories.map(territory => {
+    const territoryCols = territories.map((territory: ITerritory) => {
         return (
             <View style={styles.territoryCol}>
                 <View style={styles.territoryName}>

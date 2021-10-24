@@ -190,7 +190,7 @@ const Territories = (props) => {
                     </GoogleMap>
                 }
                 <Territory contacts={contacts}
-                           name={territoryName}
+                           territoryName={territoryName}
                            dncs={dncs}
                            assignments={assignments}
                            territoryId={territoryId}

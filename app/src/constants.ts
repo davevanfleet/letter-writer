@@ -1,4 +1,4 @@
-const languageMapping = {
+const LANGUAGE_MAPPING:{ [index:string] : string } = {
   "abk":	"Abkhaz",
   "aar":	"Afar",
   "afr":	"Afrikaans",
@@ -197,7 +197,7 @@ const prod = {
     spanish: "price_1JQeFVGG42J6bTfiR7humddn",
     foreignLang: "price_1JQeG3GG42J6bTfi8eJh5zme"
   },
-  languageMapping: languageMapping
+  languageMapping: LANGUAGE_MAPPING
 };
 
 const dev = {
@@ -209,7 +209,7 @@ const dev = {
     spanish: "price_1JQeFVGG42J6bTfiR7humddn",
     foreignLang: "price_1JQeG3GG42J6bTfi8eJh5zme"
   },
-  languageMapping: languageMapping
+  languageMapping: LANGUAGE_MAPPING
 };
 
 export const config = process.env.NODE_ENV === 'development' ? dev : prod;
