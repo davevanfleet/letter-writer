@@ -2,27 +2,30 @@ import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { config } from '../../constants';
 
+interface ParamTypes {
+    token: string;
+}
 
-const ConfirmNewUser = (props) => {
+const ConfirmNewUser = (): JSX.Element => {
     const history = useHistory()
-    const { token } = useParams()
+    const { token } = useParams<ParamTypes>()
 
     const [ name, setName ] = useState('')
-    const handleNameChange = (e) => {
+    const handleNameChange = (e: any) => {
         setName(e.currentTarget.value)
     }
 
     const [ password, setPassword ] = useState('')
-    const handlePasswordChange = (e) => [
+    const handlePasswordChange = (e: any) => [
         setPassword(e.currentTarget.value)
     ]
 
     const [ confirmPassword, setConfirmPassword ] = useState('')
-    const handleConfirmPasswordChange = (e) => {
+    const handleConfirmPasswordChange = (e: any) => {
         setConfirmPassword(e.currentTarget.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
         const configObj = {
             method: 'POST',

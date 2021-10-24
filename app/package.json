@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@types/react-csv": "^1.1.2",
-    "@types/react-router": "^5.1.17"
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.1"
   }
 }
