@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Nav, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { config } from '../../constants';
+import { IUser } from '../../shared/interfaces';
 
+interface IPublishersProps {
+    currentUser: IUser;
+}
 
-const Publishers = props => {
+const Publishers = ({currentUser}: IPublishersProps): JSX.Element => {
     const [ users, setUsers ] = useState([])
     useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/users`)
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/users`)
             .then(r => {
                 if (!r.ok){ throw r }
                 return r.json()
@@ -18,9 +22,9 @@ const Publishers = props => {
             .catch(e => {
                 console.log(e)
             })
-    }, [props.currentUser.congregation.id])
+    }, [currentUser.congregation.id])
 
-    const userRows = users.map(user => {
+    const userRows = users.map((user: IUser) => {
         return (
             <tr>
                 <td>{user.name}</td>

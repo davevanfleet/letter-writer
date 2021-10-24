@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import { config } from '../../constants';
+import { IUser } from '../../shared/interfaces';
 
+interface INewPublisherProps {
+    currentUser: IUser;
+}
 
-const NewPublisher = props => {
+const NewPublisher = ({currentUser}: INewPublisherProps): JSX.Element => {
     const [ name, setName ] = useState("")
-    const handleNameChange = e => {
+    const handleNameChange = (e: any) => {
         setName(e.currentTarget.value)
     }
 
     const [ email, setEmail ] = useState("")
-    const handleEmailChange = e => {
+    const handleEmailChange = (e: any) => {
         setEmail(e.currentTarget.value)
     }
 
     const [ role, setRole ] = useState("Publisher")
-    const handleRoleChange = e => {
+    const handleRoleChange = (e: any) => {
         setRole(e.currentTarget.value)
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
         const configObj = {
             method: 'POST',
@@ -34,7 +38,7 @@ const NewPublisher = props => {
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/users`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/users`, configObj)
             .then(r => {
                 if (!r.ok) { throw r }
                 return r.json()

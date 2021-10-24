@@ -20,6 +20,7 @@ import Register from './components/registerComponents/Register';
 import Publishers from './components/usersComponents/Publishers';
 import NewPublisher from './components/usersComponents/NewPublisher';
 import ConfirmNewUser from './components/usersComponents/ConfirmNewUser';
+import RecordBook from './components/territoryComponents/RecordBook';
 
 class App extends Component {
   state = {
@@ -116,6 +117,9 @@ class App extends Component {
                 </Route>
                 <Route exact path="/new_territory">
                   <NewTerritory currentUser={this.state.currentUser} />
+                </Route>
+                <Route exact path="/territory_records">
+                  <RecordBook currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/upload_contacts">
                   <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash}/>

@@ -3,18 +3,24 @@ import { config } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
-const NewAssignmentModal = (props) => {
+interface INewAssignmentModalProps {
+    handleClose: () => void;
+    congregationId: number;
+    territoryId: number;
+}
+
+const NewAssignmentModal = ({congregationId, territoryId, handleClose}: INewAssignmentModalProps): JSX.Element => {
     const [ publisher, setPublisher ] = useState('')
-    const handlePublisherChange = (e) => {
+    const handlePublisherChange = (e: any) => {
         setPublisher(e.currentTarget.value)
     }
 
     const [ checkOut, setCheckOut ] = useState('')
-    const handleCheckOutChange = (e) => {
+    const handleCheckOutChange = (e: any) => {
         setCheckOut(e.currentTarget.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
         const configObj = {
             method: 'POST',
@@ -29,13 +35,13 @@ const NewAssignmentModal = (props) => {
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.congregationId}/territories/${props.territoryId}/assignments`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${congregationId}/territories/${territoryId}/assignments`, configObj)
             .then( r => {
                 if (!r.ok){ throw r }
                 return r.json()
             })
             .then(d => {
-                props.handleClose()
+                handleClose()
             })
             .catch(e => {
                 console.log(e)
@@ -48,7 +54,7 @@ const NewAssignmentModal = (props) => {
                 <FontAwesomeIcon className="close-btn"
                                  icon={faTimesCircle}
                                  size="3x"
-                                 onClick={props.handleClose} />
+                                 onClick={handleClose} />
                 <h1>Checkout Territory</h1>
                 <div className="input-row">
                     <label htmlFor="pubName">Publisher Name:</label>

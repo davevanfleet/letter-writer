@@ -2,9 +2,14 @@ import React from 'react';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import { Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { IUser } from '../shared/interfaces';
 
+interface ITopMenuProps {
+    currentUser: IUser;
+    logout: () => void;
+}
 
-const TopMenu = props => {
+const TopMenu = ({currentUser, logout}: ITopMenuProps) => {
     return (
         <Navbar collapseOnSelect expand="md" bg="light">
             <LinkContainer to="/">
@@ -12,11 +17,11 @@ const TopMenu = props => {
                     <img src={process.env.PUBLIC_URL + '/counterSilhouette.png'} alt="Home" /> 
                 </Navbar.Brand>
             </LinkContainer>
-            {props.currentUser ?
+            {currentUser ?
                 <>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        {props.currentUser.role === "Admin" &&
+                        {currentUser.role === "Admin" &&
                         <>
                             <NavDropdown title="Territories" id="basic-nav-dropdown">
                                 <LinkContainer to="/territories">
@@ -24,6 +29,9 @@ const TopMenu = props => {
                                 </LinkContainer>
                                 <LinkContainer to="/new_territory">
                                     <NavDropdown.Item>Add Territory</NavDropdown.Item>
+                                </LinkContainer>
+                                <LinkContainer to="/territory_records">
+                                    <NavDropdown.Item>Territory Record Book</NavDropdown.Item>
                                 </LinkContainer>
                                 <LinkContainer to="/upload_contacts">
                                     <NavDropdown.Item>Upload Contact List</NavDropdown.Item>
@@ -46,7 +54,7 @@ const TopMenu = props => {
                                 <Nav.Link>Publishers</Nav.Link>
                             </LinkContainer>
                             <LinkContainer to="/">
-                                <Nav.Link onClick={event => props.logout(event)}>Logout</Nav.Link>
+                                <Nav.Link onClick={logout}>Logout</Nav.Link>
                             </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>

@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 import { config } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { IAssignment } from '../../shared/interfaces';
 
-const CheckInModal = (props) => {
+interface ICheckInModalProps {
+    assignment: IAssignment;
+    congregationId: number;
+    territoryId: number;
+    handleClose: () => void;
+}
+
+const CheckInModal = ({assignment, congregationId, territoryId, handleClose}: ICheckInModalProps): JSX.Element => {
     const [ checkIn, setCheckIn ] = useState('')
-    const handleCheckInChange = (e) => {
+    const handleCheckInChange = (e: any) => {
         setCheckIn(e.currentTarget.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
         const configObj = {
             method: 'PUT',
@@ -19,18 +27,18 @@ const CheckInModal = (props) => {
             },
             body: JSON.stringify({
                 assignment: {
-                    ...props.assignment,
+                    ...assignment,
                     checked_in: checkIn
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.congregationId}/territories/${props.territoryId}/assignments/${props.assignment.id}`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${congregationId}/territories/${territoryId}/assignments/${assignment.id}`, configObj)
             .then( r => {
                 if (!r.ok){ throw r }
                 return r.json()
             })
             .then(d => {
-                props.handleClose()
+                handleClose()
             })
             .catch(e => {
                 console.log(e)
@@ -43,10 +51,10 @@ const CheckInModal = (props) => {
                 <FontAwesomeIcon className="close-btn"
                                  icon={faTimesCircle}
                                  size="3x"
-                                 onClick={props.handleClose} />
+                                 onClick={handleClose} />
                 <h1>Check In Territory</h1>
-                <p>Publisher: <em>{props.assignment.publisher}</em></p>
-                <p>Checked Out: <em>{props.assignment.checked_out}</em></p>
+                <p>Publisher: <em>{assignment.publisher}</em></p>
+                <p>Checked Out: <em>{assignment.checked_out}</em></p>
                 <div className="input-row">
                     <label htmlFor="date">Check In Date:</label>
                     <input type="date"

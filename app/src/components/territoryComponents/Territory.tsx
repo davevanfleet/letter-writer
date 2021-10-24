@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import uuid from 'uuid';
 import { CSVLink } from "react-csv";
 import CheckBox from '../CheckBox';
 import { config } from '../../constants';
 import NewAssignmentModal from './NewAssignmentModal';
 import CheckInModal from './CheckInModal';
 import UpdateAssignmentModal from './UpdateAssignmentModal';
+import { IAssignment, IContact, IDnc, IUser } from '../../shared/interfaces';
 
+interface ITerritoryProps {
+    refreshTerritory: () => void;
+    currentUser: IUser;
+    territoryId: number;
+    assignments: IAssignment[];
+    contacts: IContact[];
+    dncs: IDnc[];
+    territoryName: string;
+}
 
-const Territory = (props) => {
+const Territory = ({currentUser, territoryId, assignments, contacts, dncs, territoryName, refreshTerritory}: ITerritoryProps): JSX.Element => {
     const [ displayAssignmentModal, setDisplayAssignmentModal ] = useState(false)
     const [ displayCheckInModal, setDisplayCheckInModal ] = useState(false)
     const [ displayUpdateModal, setDisplayUpdateModal ] = useState(false)
-    const [ assignmentFocus, setAssignmentFocus ] = useState()
+    const [ assignmentFocus, setAssignmentFocus ] = useState<IAssignment|undefined>()
 
     const handleCloseModals = () => {
         setDisplayAssignmentModal(false)
         setDisplayCheckInModal(false)
         setDisplayUpdateModal(false)
-        props.refreshTerritory()
+        refreshTerritory()
     }
 
-    const deleteAssignment = (id) => {
+    const deleteAssignment = (id: number) => {
         const configObj = {
             method: 'DELETE',
             headers: {
@@ -30,7 +39,7 @@ const Territory = (props) => {
                 'Accepts': 'application/json'
             }
         }
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.territoryId}/assignments/${id}`, configObj)
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/assignments/${id}`, configObj)
             .then(r => {
 
                 if (!r.ok){ throw r }
@@ -38,7 +47,7 @@ const Territory = (props) => {
             })
             .then(d => {
                 console.log("in delete")
-                props.refreshTerritory()
+                refreshTerritory()
             })
             .catch(e => {
                 console.log(e)
@@ -59,9 +68,9 @@ const Territory = (props) => {
       { label: "Date", key: "date" }
     ]
 
-    const assignmentRows = props.assignments.map(assignment => {
+    const assignmentRows = assignments.map(assignment => {
         return (
-            <tr key={uuid()}>
+            <tr key={assignment.id}>
                 <td>{assignment.publisher}</td>
                 <td>{assignment.checked_out}</td>
                 <td>{assignment.checked_in || <button className="btn btn-secondary"
@@ -92,8 +101,8 @@ const Territory = (props) => {
             </tr>
         )})
 
-    const contacts = props.contacts.map(contact => <tr key={uuid()}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td>{contact.phone_type}</td><td>{contact.lang && config.languageMapping[contact.lang]}</td><CheckBox id={contact.id} /></tr>)
-    const dncRows = props.dncs.map(dnc => <tr key={uuid()}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
+    const contactRows = contacts.map(contact => <tr key={contact.id}><td>{contact.name}</td><td>{contact.address}</td><td>{contact.phone}</td><td>{contact.phone_type}</td><td>{contact.lang && config.languageMapping[contact.lang]}</td><CheckBox id={contact.id} /></tr>)
+    const dncRows = dncs.map(dnc => <tr key={dnc.id}><td>{dnc.address}</td><td>{dnc.date}</td></tr>)
     return(
         <div>
             <h2>Assignments</h2>
@@ -111,7 +120,7 @@ const Territory = (props) => {
                     { assignmentRows }
                 </tbody>
             </Table>
-            {(!props.assignments[props.assignments.length -1] || props.assignments[props.assignments.length -1].checked_in) && 
+            {(!assignments[assignments.length -1] || assignments[assignments.length -1].checked_in) && 
                 <button className="btn btn-primary"
                         onClick={() => setDisplayAssignmentModal(true)}>
                     Check Out
@@ -119,9 +128,9 @@ const Territory = (props) => {
             }
 
             <h2>DNCs</h2>
-            <CSVLink data={props.dncs} 
+            <CSVLink data={dncs} 
                      headers={dncHeaders}
-                     filename={`${props.name}-DNCs.csv`}
+                     filename={`${territoryName}-DNCs.csv`}
                      className="btn btn-primary">
                          Download DNCs
             </CSVLink>
@@ -137,10 +146,10 @@ const Territory = (props) => {
                 </tbody>
             </Table>
             <h2>Contacts</h2>
-            <p>{props.contacts.length} contacts loaded</p>
-            <CSVLink data={props.contacts} 
+            <p>{contacts.length} contacts loaded</p>
+            <CSVLink data={contacts} 
                      headers={headers}
-                     filename={`${props.name}.csv`}
+                     filename={`${territoryName}.csv`}
                      className="btn btn-primary">
                          Download Territory
             </CSVLink>
@@ -156,13 +165,13 @@ const Territory = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    { contacts }
+                    { contactRows }
                 </tbody>
             </Table>
             <br />
-            {displayAssignmentModal && <NewAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} handleClose={handleCloseModals} />}
-            {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
-            {displayUpdateModal && assignmentFocus && <UpdateAssignmentModal congregationId={props.currentUser.congregation.id} territoryId={props.territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
+            {displayAssignmentModal && <NewAssignmentModal congregationId={currentUser.congregation.id} territoryId={territoryId} handleClose={handleCloseModals} />}
+            {displayCheckInModal && assignmentFocus && <CheckInModal congregationId={currentUser.congregation.id} territoryId={territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
+            {displayUpdateModal && assignmentFocus && <UpdateAssignmentModal congregationId={currentUser.congregation.id} territoryId={territoryId} assignment={assignmentFocus} handleClose={handleCloseModals} />}
         </div>
     )
 }
