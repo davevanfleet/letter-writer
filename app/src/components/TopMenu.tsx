@@ -63,9 +63,9 @@ const TopMenu = ({ currentUser, logout }: ITopMenuProps) => (
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <LinkContainer to="/register">
+            {/* <LinkContainer to="/register">
               <Nav.Link>Register</Nav.Link>
-            </LinkContainer>
+            </LinkContainer> */}
             <LinkContainer to="/login">
               <Nav.Link>Login</Nav.Link>
             </LinkContainer>
