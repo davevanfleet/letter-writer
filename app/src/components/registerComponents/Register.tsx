@@ -4,8 +4,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "./CheckoutForm";
 import { config } from "../../constants";
 
-const Register = (props) => {
-    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const Register = (): JSX.Element => {
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY!);
 
     const [ page, setPage ] = useState(0)
     const nextPage = () => {
@@ -16,17 +16,17 @@ const Register = (props) => {
     }
 
     const [ congName, setCongName ] = useState("")
-    const handleCongNameChange = e => {
+    const handleCongNameChange = (e: any) => {
         setCongName(e.currentTarget.value)
     }
 
     const [ lang, setLang ] = useState("English")
-    const handleLangChange = e => {
+    const handleLangChange = (e: any) => {
         setLang(e.currentTarget.value)
     }
 
     const [ apiAccess, setApiAccess ] = useState(true)
-    const handleApiAccessChange = e => {
+    const handleApiAccessChange = (e: any) => {
         if (e.currentTarget.value === "1") {
             setApiAccess(true)
         }

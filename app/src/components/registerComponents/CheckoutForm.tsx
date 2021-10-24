@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { config } from '../../constants';
 
+interface ICheckoutFormProps {
+    congName: string;
+    lang: string;
+    apiAccess: boolean;
+    prevPage: () => void;
+}
 
-const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
+const CheckoutForm = ({ congName, lang, apiAccess, prevPage }: ICheckoutFormProps): JSX.Element => {
     const stripe = useStripe()
     const elements = useElements()
 
-    const [ validationErrors, setValidationErrors ] = useState("")
-    const addValidationError = (error) => {
+    const [ validationErrors, setValidationErrors ] = useState<string | undefined>("")
+    const addValidationError = (error: string | undefined) => {
         setValidationErrors(error)
     }
 
@@ -16,31 +22,31 @@ const CheckoutForm = ({ congName, lang, apiAccess, prevPage }) => {
     const [ processingMessage, setProcessingMessage ] = useState("")
 
     const [ name, setName ] = useState("")
-    const handleNameChange = (e) => {
+    const handleNameChange = (e: any) => {
         setName(e.currentTarget.value)
     }
 
     const [ email, setEmail ] = useState("")
-    const handleEmailChange = (e) => {
+    const handleEmailChange = (e: any) => {
         setEmail(e.currentTarget.value)
     }
 
     const [ confirmEmail, setConfirmEmail ] = useState("")
-    const handleConfirmEmailChange = (e) => {
+    const handleConfirmEmailChange = (e: any) => {
         setConfirmEmail(e.currentTarget.value)
     }
 
     const [ cardholderName, setCardholderName ] = useState("")
-    const handleCardholderNameChange = (e) => {
+    const handleCardholderNameChange = (e: any) => {
         setCardholderName(e.currentTarget.value)
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if ((stripe && elements) && (email === confirmEmail)){
             const {error, paymentMethod} = await stripe.createPaymentMethod({
                 type: 'card',
-                card: elements.getElement(CardElement),
+                card: elements.getElement(CardElement)!,
             })
             // If anything goes wrong above, error will be created.  Add it to validation errors.
             if (error){
