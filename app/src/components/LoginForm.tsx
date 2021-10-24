@@ -26,3 +26,5 @@ const LoginForm = ({login}: ILoginFormProps): JSX.Element => {
         </div>
     )
 }
+
+export default LoginForm;
