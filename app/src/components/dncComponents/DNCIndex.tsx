@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { config } from '../../constants';
 import { CSVLink } from "react-csv";
 import { Table } from 'react-bootstrap';
+import { IDnc, IUser } from '../../shared/interfaces';
 
 
-const DNCIndex = (props) => {
-    const [dncs, setDncs] = useState([])
+interface IDNCIndexProps {
+    currentUser: IUser;
+}
+
+const DNCIndex = ({currentUser,}: IDNCIndexProps): JSX.Element => {
+    const [dncs, setDncs] = useState<IDnc[]>([])
     useEffect(() => {
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/dncs`)
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/dncs`)
             .then(r => {
                 if(!r.ok){throw r}
                 return r.json()

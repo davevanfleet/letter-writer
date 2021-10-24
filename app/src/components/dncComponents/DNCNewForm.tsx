@@ -1,51 +1,66 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import { config } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { IUser } from '../../shared/interfaces';
 
-const DNCEditForm = (props) => {
-    const [address, setAddress] = useState(props.dnc.address)
-    const handleAddressChange = (e) => {
+interface IDNCNewFormProps {
+    territoryId: number;
+    currentUser: IUser;
+    handleFinishCreate: () => void;
+    handleClose: () => void;
+}
+
+const DNCNewForm = ({territoryId, currentUser, handleFinishCreate, handleClose}: IDNCNewFormProps): JSX.Element => {
+    const [address, setAddress] = useState('')
+    const handleAddressChange = (e: any) => {
         setAddress(e.target.value)
     }
 
-    const [name, setName] = useState(props.dnc.name || '')
-    const handleNameChange = (e) => {
+    const [name, setName] = useState('')
+    const handleNameChange = (e: any) => {
         setName(e.target.value)
     }
 
-    const [publisher, setPublisher] = useState(props.dnc.publisher || '')
-    const handlePublisherChange = (e) => {
+    const [publisher, setPublisher] = useState('')
+    const handlePublisherChange = (e: any) => {
         setPublisher(e.target.value)
     }
 
-    const [description, setDescription] = useState(props.dnc.notes || '')
-    const handleDescriptionChange = (e) => {
+    const [description, setDescription] = useState('')
+    const handleDescriptionChange = (e: any) => {
         setDescription(e.target.value)
     }
 
-    const [date, setDate] = useState(props.dnc.date)
-    const handleDateChange = (e) => {
+    const today = new Date()
+    let month;
+    if(today.getMonth() < 9){
+        month = `0${today.getMonth() + 1}`
+    } else {
+        month = `${today.getMonth() + 1}`
+    }
+    const [date, setDate] = useState(`${today.getFullYear()}-${month}-${today.getDate()}`)
+    const handleDateChange = (e: any) => {
         setDate(e.target.value)
     }
 
-    useEffect(() => {
-        setAddress(props.dnc.address)
-        setDate(props.dnc.date)
-    }, [props.dnc])
+    // const [territoryId, setTerritoryId] = useState('0')
+    // const handleTerritoryChange = (e) => {
+    //     setTerritoryId(e.target.value)
+    // }
 
-    const handleSubmit = (e) => {
+    const submitDnc = (e: any) => {
         e.preventDefault()
         const configObj = {
-            "method": "PUT",
+            "method": "POST",
             "headers": {
-                "content-type": "application/json",
+                "Content-Type": "application/json",
                 "accepts": "application/json"
             },
             "body": JSON.stringify({
                 "dnc": {
                     address,
-                    "territory_id": props.dnc.territory_id,
+                    "territory_id": territoryId,
                     name,
                     publisher,
                     "notes": description,
@@ -53,17 +68,18 @@ const DNCEditForm = (props) => {
                 }
             })
         }
-        fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${props.dnc.territory_id}/dncs/${props.dnc.id}`, configObj)
-            .then(r => r.json())
+        fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/dncs`, configObj)
+            .then(r=>r.json())
             .then(d => {
-                props.handleFinishEdit()
+                setAddress('')
+                handleFinishCreate()
             })
-    }
+    } 
 
-    return (
+    return(
         <div className="dnc-form">
-            <h3>Edit Do-Not-Call</h3>
-            <form onSubmit={e => handleSubmit(e)}>
+            <h3>Add New Do-Not-Call</h3>
+            <form onSubmit={e => submitDnc(e)}>
                 <div className="input-row">
                     <label htmlFor="address">Address:</label><input type="text" name="address" value={address} onChange={e => handleAddressChange(e)} />
                 </div>
@@ -79,11 +95,12 @@ const DNCEditForm = (props) => {
                 <div className="input-row">
                     <label>Date:</label><input type="date" name="date" value={date} onChange={e => handleDateChange(e)} />
                 </div>
-                <input type="submit" className="btn btn-primary" value="Update DNC" />
+                <input type="submit" className="btn btn-primary" value="Add DNC" />
             </form>
-            <FontAwesomeIcon icon={faTimesCircle} onClick={props.handleClose}/>
+            
+            <FontAwesomeIcon icon={faTimesCircle} onClick={handleClose}/>
         </div>
     )
 }
 
-export default DNCEditForm;
+export default DNCNewForm;
