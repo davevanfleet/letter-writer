@@ -13,7 +13,7 @@ import LoginForm from './components/LoginForm';
 import NewPublisher from './components/usersComponents/NewPublisher';
 import NewTerritory from './components/territoryComponents/NewTerritory';
 import Publishers from './components/usersComponents/Publishers';
-import RecordBook from './components/territoryComponents/RecordBook';
+import RecordBookShow from './components/territoryComponents/RecordBookShow';
 import Register from './components/registerComponents/Register';
 import Territories from './components/territoryComponents/Territories';
 import UploadContacts from './components/uploadsComponents/UploadContacts';
@@ -121,7 +121,7 @@ class App extends Component {
                   <NewTerritory currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/territory_records">
-                  <RecordBook currentUser={this.state.currentUser} />
+                  <RecordBookShow currentUser={this.state.currentUser} />
                 </Route>
                 <Route exact path="/upload_contacts">
                   <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash} />

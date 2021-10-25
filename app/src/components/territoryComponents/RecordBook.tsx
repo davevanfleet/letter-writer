@@ -1,4 +1,4 @@
-import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { IAssignment, ITerritory, IUser } from '../../shared/interfaces';
 import React, { useEffect, useState } from 'react';
 import { config } from '../../constants';
@@ -40,6 +40,8 @@ const RecordBook = ({ currentUser }: IRecordBookProps): JSX.Element => {
     },
     territoryName: {
       width: '100%',
+      fontSize: '12pt',
+      textAlign: 'center',
     },
     assignmentBox: {
       display: 'flex',
@@ -51,17 +53,19 @@ const RecordBook = ({ currentUser }: IRecordBookProps): JSX.Element => {
       width: '100%',
       borderBottom: '1px solid black',
       borderTop: '1px solid black',
-      height: '1.5em',
+      height: '14pt',
     },
     assignmentNameText: {
       textAlign: 'center',
-      width: '100%',
+      fontSize: '10pt',
     },
     assignmentBoxDatesRow: {
       display: 'flex',
       flexDirection: 'row',
-      height: '1.5em',
+      height: '14pt',
       borderBottom: '1px solid black',
+      fontSize: '8pt',
+      textAlign: 'center',
     },
     assignmentBoxCheckOut: {
       width: '50%',
@@ -110,25 +114,29 @@ const RecordBook = ({ currentUser }: IRecordBookProps): JSX.Element => {
   const territoryCols = territories.map((territory: ITerritory) => {
     return (
       <View style={styles.territoryCol} key={territory.id}>
-        <View style={styles.territoryName}>{territory.name}</View>
+        <View style={styles.territoryName}>
+          <Text>{territory.name}</Text>
+        </View>
         {assignmentBoxes(territory.sorted_assignments)}
       </View>
     );
   });
 
-  // const pages = () => {
-  //     let result = [];
-  //     let i = 0;
-  //     while (i < )
-  // }
+  const pages = () => {
+    let result = [];
+    let i = 0;
+    while (i < territories.length) {
+      result.push(
+        <Page size="A4" style={styles.page}>
+          {territoryCols.slice(i, i + 5)}
+        </Page>,
+      );
+      i += 5;
+    }
+    return result;
+  };
 
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {territoryCols.slice(0, 5)}
-      </Page>
-    </Document>
-  );
+  return <Document>{pages()}</Document>;
 };
 
 export default RecordBook;
