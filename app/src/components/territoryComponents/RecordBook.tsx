@@ -1,17 +1,15 @@
 import { Document, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { IAssignment, ITerritory, IUser } from '../../shared/interfaces';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 
-interface IRecordBookProps {
-  currentUser: IUser;
-}
-
-const RecordBook = ({ currentUser }: IRecordBookProps): JSX.Element => {
+const RecordBook = (): JSX.Element => {
+  const { currentUser } = useContext(UserContext);
   const [territories, setTerritories] = useState<ITerritory[]>([]);
 
   useEffect(() => {
-    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories`)
+    fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/territories`)
       .then((r) => {
         if (!r.ok) {
           throw r;

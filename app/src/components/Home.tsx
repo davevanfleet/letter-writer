@@ -3,20 +3,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import React from 'react';
 
-interface IHomeProps {
-  currentUser: IUser;
-}
-
-const Home = ({ currentUser }: IHomeProps): JSX.Element => (
+const Home = (): JSX.Element => (
   <>
     <h1>Territory Counter</h1>
     <div className="home">
-      {currentUser && (
-        <p>
-          Hello,
-          {currentUser.name}!
-        </p>
-      )}
       <p>
         Welcome to Territory Counter, used to maintain congregation territories and do-not-calls.
       </p>

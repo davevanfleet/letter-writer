@@ -4,11 +4,13 @@ import {
   StandaloneSearchBox,
   useLoadScript,
 } from '@react-google-maps/api';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { useHistory } from 'react-router';
 
-const NewTerritory = (props) => {
+const NewTerritory = () => {
+  const { currentUser } = useContext(UserContext);
   const [finished, setFinished] = useState(false);
   const [edit, setEdit] = useState(false);
   const [path, setPath] = useState([]);
@@ -136,7 +138,7 @@ const NewTerritory = (props) => {
     };
     fetch(
       // eslint-disable-next-line react/prop-types
-      `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories`,
+      `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories`,
       configObj,
     )
       .then((r) => {

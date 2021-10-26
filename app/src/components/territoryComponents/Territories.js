@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { GoogleMap, Polygon, useJsApiLoader } from '@react-google-maps/api';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Territory from './Territory';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import queryString from 'query-string';
@@ -10,6 +11,7 @@ import { useLocation } from 'react-router';
 import uuid from 'uuid';
 
 const Territories = (props) => {
+  const { currentUser } = useContext(UserContext);
   const [territoryId, setTerritoryId] = useState();
   const [territoryName, setTerritoryName] = useState();
   const [territories, setTerritories] = useState([]);
@@ -30,7 +32,7 @@ const Territories = (props) => {
       body: JSON.stringify({ territory: { points: path } }),
     };
     fetch(
-      `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}`,
+      `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}`,
       configObj,
     )
       .then((r) => r.json())
@@ -85,12 +87,12 @@ const Territories = (props) => {
   }, []);
 
   useEffect(() => {
-    fetch(`${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories`)
+    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories`)
       .then((r) => r.json())
       .then((data) => {
         setTerritories(data);
       });
-  }, [props.currentUser.congregation.id]);
+  }, [currentUser.congregation.id]);
 
   const getCenter = (points) => {
     const lngCenter =
@@ -107,9 +109,9 @@ const Territories = (props) => {
   };
 
   const updateContacts = (territoryId) => {
-    const url = props.currentUser.congregation.api_access
-      ? `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}/contacts`
-      : `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${territoryId}/external_contacts`;
+    const url = currentUser.congregation.api_access
+      ? `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/contacts`
+      : `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/external_contacts`;
     fetch(url)
       .then((r) => r.json())
       .then((d) => {
@@ -122,9 +124,7 @@ const Territories = (props) => {
   const [assignments, setAssignments] = useState([]);
 
   const getTerritory = (id = territoryId) => {
-    fetch(
-      `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/territories/${id}`,
-    )
+    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${id}`)
       .then((r) => {
         if (!r.ok) {
           throw r;
@@ -227,7 +227,7 @@ const Territories = (props) => {
             dncs={dncs}
             assignments={assignments}
             territoryId={territoryId}
-            currentUser={props.currentUser}
+            currentUser={currentUser}
             refreshTerritory={getTerritory}
           />
         </>

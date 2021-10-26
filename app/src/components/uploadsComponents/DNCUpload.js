@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import * as XLSX from 'xlsx';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 
-const DNCUpload = (props) => {
+const DNCUpload = () => {
+  const { currentUser } = useContext(UserContext);
   const [uploading, setUploading] = useState(false);
 
   const history = useHistory();
@@ -64,20 +66,17 @@ const DNCUpload = (props) => {
       },
       body: JSON.stringify({ dnc: { dncs: csvRows } }),
     };
-    fetch(
-      `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/dncs`,
-      configObj,
-    )
+    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/dncs`, configObj)
       .then((r) => r.json())
       .then((d) => {
-        props.addFlash(
-          'List submitted for update. Please be patient for do-not-calls to completely load, it may take a few minutes.',
-        );
+        // props.addFlash(
+        //   'List submitted for update. Please be patient for do-not-calls to completely load, it may take a few minutes.',
+        // );
         setUploading(false);
         history.push('/DNCs');
       })
       .catch((e) => {
-        props.addFlash('Uh oh! Something went wrong, please try again.');
+        // props.addFlash('Uh oh! Something went wrong, please try again.');
         setUploading(false);
       });
   };

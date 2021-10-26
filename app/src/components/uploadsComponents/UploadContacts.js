@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import * as XLSX from 'xlsx';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 
-const UploadContacts = (props) => {
+const UploadContacts = () => {
   const [uploading, setUploading] = useState(false);
 
   const form = useRef(null);
@@ -77,19 +78,19 @@ const UploadContacts = (props) => {
       body: JSON.stringify({ external_contact: { contacts: csvRows } }),
     };
     fetch(
-      `${config.url.API_URL}/congregations/${props.currentUser.congregation.id}/external_contacts`,
+      `${config.url.API_URL}/congregations/${currentUser.congregation.id}/external_contacts`,
       configObj,
     )
       .then((r) => r.json())
       .then((d) => {
-        props.addFlash(
-          'List submitted for update. Please be patient for contacts to completely load, it may take a few minutes.',
-        );
+        // props.addFlash(
+        //   'List submitted for update. Please be patient for contacts to completely load, it may take a few minutes.',
+        // );
         setUploading(false);
         history.push('/territories');
       })
       .catch((d) => {
-        props.addFlash('Uh Oh! Something went wrong. Please try again.');
+        // props.addFlash('Uh Oh! Something went wrong. Please try again.');
         history.push('/territories');
       });
   };

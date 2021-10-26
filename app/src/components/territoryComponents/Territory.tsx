@@ -1,16 +1,16 @@
 import { IAssignment, IContact, IDnc, IUser } from '../../shared/interfaces';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import CheckBox from '../CheckBox';
 import CheckInModal from './CheckInModal';
 import NewAssignmentModal from './NewAssignmentModal';
 import Table from 'react-bootstrap/Table';
 import UpdateAssignmentModal from './UpdateAssignmentModal';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 
 interface ITerritoryProps {
   refreshTerritory: () => void;
-  currentUser: IUser;
   territoryId: number;
   assignments: IAssignment[];
   contacts: IContact[];
@@ -19,7 +19,6 @@ interface ITerritoryProps {
 }
 
 const Territory = ({
-  currentUser,
   territoryId,
   assignments,
   contacts,
@@ -27,6 +26,7 @@ const Territory = ({
   territoryName,
   refreshTerritory,
 }: ITerritoryProps): JSX.Element => {
+  const { currentUser } = useContext(UserContext);
   const [displayAssignmentModal, setDisplayAssignmentModal] = useState(false);
   const [displayCheckInModal, setDisplayCheckInModal] = useState(false);
   const [displayUpdateModal, setDisplayUpdateModal] = useState(false);
@@ -48,7 +48,9 @@ const Territory = ({
       },
     };
     fetch(
-      `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/assignments/${id}`,
+      `${config.url.API_URL}/congregations/${
+        currentUser!.congregation.id
+      }/territories/${territoryId}/assignments/${id}`,
       configObj,
     )
       .then((r) => {
@@ -206,14 +208,14 @@ const Territory = ({
       <br />
       {displayAssignmentModal && (
         <NewAssignmentModal
-          congregationId={currentUser.congregation.id}
+          congregationId={currentUser!.congregation.id}
           territoryId={territoryId}
           handleClose={handleCloseModals}
         />
       )}
       {displayCheckInModal && assignmentFocus && (
         <CheckInModal
-          congregationId={currentUser.congregation.id}
+          congregationId={currentUser!.congregation.id}
           territoryId={territoryId}
           assignment={assignmentFocus}
           handleClose={handleCloseModals}
@@ -221,7 +223,7 @@ const Territory = ({
       )}
       {displayUpdateModal && assignmentFocus && (
         <UpdateAssignmentModal
-          congregationId={currentUser.congregation.id}
+          congregationId={currentUser!.congregation.id}
           territoryId={territoryId}
           assignment={assignmentFocus}
           handleClose={handleCloseModals}

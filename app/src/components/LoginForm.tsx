@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface ILoginFormProps {
-  login: () => void;
+  login: (e: any) => void;
 }
 
 const LoginForm = ({ login }: ILoginFormProps): JSX.Element => {
