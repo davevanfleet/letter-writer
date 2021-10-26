@@ -1,6 +1,7 @@
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { IUser } from '../shared/interfaces';
 import React from 'react';
-import TopMenu from './TopMenu';
+import TopMenu from './menuComponents/TopMenu';
 
 interface ILayoutProps {
   currentUser: IUser;
@@ -9,12 +10,17 @@ interface ILayoutProps {
   flash: string[];
 }
 
+const theme = createTheme({ spacing: 4 });
+
 const Layout = ({ currentUser, logout, children, flash }: ILayoutProps): JSX.Element => (
-  <div className="layout">
-    <TopMenu currentUser={currentUser} logout={logout} />
-    {flash.length > 0 && <div className="alert alert-primary">{flash}</div>}
-    {children}
-  </div>
+  <ThemeProvider theme={theme}>
+    <div className="layout">
+      {/* <TopMenu currentUser={currentUser} logout={logout} /> */}
+      <TopMenu />
+      {flash.length > 0 && <div className="alert alert-primary">{flash}</div>}
+      {children}
+    </div>
+  </ThemeProvider>
 );
 
 export default Layout;

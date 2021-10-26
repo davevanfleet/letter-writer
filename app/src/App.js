@@ -11,13 +11,12 @@ import Home from './components/Home';
 import Layout from './components/Layout';
 import LoginForm from './components/LoginForm';
 import NewPublisher from './components/usersComponents/NewPublisher';
-import NewTerritory from './components/territoryComponents/NewTerritory';
 import Publishers from './components/usersComponents/Publishers';
-import RecordBookShow from './components/territoryComponents/RecordBookShow';
 import Register from './components/registerComponents/Register';
-import Territories from './components/territoryComponents/Territories';
+import TerritoryRoot from './components/territoryComponents/TerritoryRoot';
 import UploadContacts from './components/uploadsComponents/UploadContacts';
 import { config } from './constants';
+import UploaderRoot from './components/uploadsComponents/UploaderRoot';
 
 class App extends Component {
   state = {
@@ -114,15 +113,7 @@ class App extends Component {
                 <Route exact path="/login">
                   <Redirect to="/" />
                 </Route>
-                <Route exact path="/territories">
-                  <Territories currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/new_territory">
-                  <NewTerritory currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/territory_records">
-                  <RecordBookShow currentUser={this.state.currentUser} />
-                </Route>
+                <Route path="/territories" component={TerritoryRoot} />
                 <Route exact path="/upload_contacts">
                   <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash} />
                 </Route>
@@ -132,9 +123,7 @@ class App extends Component {
                 <Route exact path="/all_DNCs">
                   <DNCIndex currentUser={this.state.currentUser} />
                 </Route>
-                <Route exact path="/upload_DNCs">
-                  <DNCUpload currentUser={this.state.currentUser} addFlash={this.addFlash} />
-                </Route>
+                <Route path="/uploader" component={UploaderRoot} />
                 <Route exact path="/users">
                   <Publishers currentUser={this.state.currentUser} />
                 </Route>
