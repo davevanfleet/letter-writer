@@ -15,7 +15,7 @@ const DesktopMenu = (): JSX.Element => (
       paddingRight: 16,
       paddingTop: 4,
       paddingBottom: 4,
-      backgroundColor: 'grey.50',
+      backgroundColor: 'grey.200',
     }}
   >
     {R.map(

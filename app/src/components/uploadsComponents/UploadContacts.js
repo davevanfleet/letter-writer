@@ -8,6 +8,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 
 const UploadContacts = () => {
+  const { currentUser } = useContext(UserContext);
   const [uploading, setUploading] = useState(false);
 
   const form = useRef(null);
