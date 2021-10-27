@@ -3,15 +3,19 @@ import { config } from '../../constants';
 const ROUTES = {
   home: {
     path: '/',
+    exact: true,
   },
   dashboard: {
     path: '/dashboard',
+    exact: false,
   },
   territories: {
     path: '/territories',
+    exact: false,
   },
   dncs: {
     path: '/dncs',
+    exact: false,
   },
 };
 

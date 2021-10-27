@@ -1,24 +1,22 @@
 import { IDnc, ITerritory, IUser } from '../../shared/interfaces';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DNCEditForm from './DNCEditForm';
 import DNCList from './DNCList';
 import DNCNewForm from './DNCNewForm';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 
-interface IDNCsProps {
-  currentUser: IUser;
-}
-
-const DNCs = ({ currentUser }: IDNCsProps): JSX.Element => {
+const DNCs = (): JSX.Element => {
+  const { currentUser } = useContext(UserContext);
   const [territories, setTerritories] = useState<ITerritory[]>([]);
   useEffect(() => {
-    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories`)
+    fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/territories`)
       .then((r) => r.json())
       .then((d) => setTerritories(d));
   }, []);
 
   const getDncs = () => {
-    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/dncs`)
+    fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/dncs`)
       .then((r) => r.json())
       .then((d) => setAllDncs(d));
   };
@@ -72,7 +70,7 @@ const DNCs = ({ currentUser }: IDNCsProps): JSX.Element => {
         territoryId={parseInt(territoryId, 10)}
         allDncs={allDncs}
         handleEditClick={handleEditClick}
-        currentUser={currentUser}
+        currentUser={currentUser!}
       />
       <br />
       {displayEdit && dnc && (
@@ -80,7 +78,7 @@ const DNCs = ({ currentUser }: IDNCsProps): JSX.Element => {
           dnc={dnc}
           handleClose={handleCloseForms}
           handleFinishEdit={handleFinishEdit}
-          currentUser={currentUser}
+          currentUser={currentUser!}
         />
       )}
       {displayNew && !displayEdit ? (
@@ -88,7 +86,7 @@ const DNCs = ({ currentUser }: IDNCsProps): JSX.Element => {
           territoryId={parseInt(territoryId, 10)}
           handleClose={handleCloseForms}
           handleFinishCreate={handleFinishCreate}
-          currentUser={currentUser}
+          currentUser={currentUser!}
         />
       ) : (
         territoryId !== '0' &&

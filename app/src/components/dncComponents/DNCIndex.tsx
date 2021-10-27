@@ -1,17 +1,15 @@
 import { IDnc, IUser } from '../../shared/interfaces';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { Table } from 'react-bootstrap';
+import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 
-interface IDNCIndexProps {
-  currentUser: IUser;
-}
-
-const DNCIndex = ({ currentUser }: IDNCIndexProps): JSX.Element => {
+const DNCIndex = (): JSX.Element => {
+  const { currentUser } = useContext(UserContext);
   const [dncs, setDncs] = useState<IDnc[]>([]);
   useEffect(() => {
-    fetch(`${config.url.API_URL}/congregations/${currentUser.congregation.id}/dncs`)
+    fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/dncs`)
       .then((r) => {
         if (!r.ok) {
           throw r;
