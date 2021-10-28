@@ -25,7 +25,7 @@ const MobileMenu = (): JSX.Element => {
   return (
     <Box mb={5} sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ backgroundColor: 'grey.600' }}>
           <IconButton
             size="large"
             edge="start"

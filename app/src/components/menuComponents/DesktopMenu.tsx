@@ -1,9 +1,11 @@
 import * as R from 'ramda';
-import { makeStyles, useTheme } from '@material-ui/core';
+import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
+import React, { useContext, useState } from 'react';
 import { ADMIN_ROUTES } from './dashboard.routes';
-import { Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import React from 'react';
+import UserContext from '../../contexts/UserContext';
+import { makeStyles } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   navBar: {
@@ -16,25 +18,40 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     color: theme.palette.common.black,
-    paddingRight: 4,
-    paddingLeft: 4,
+    paddingRight: 6,
+    paddingLeft: 6,
     '&:hover': { textDecoration: 'none', color: theme.palette.primary.main },
   },
   activeLink: {
     color: theme.palette.primary.main,
-    paddingRight: 4,
-    paddingLeft: 4,
+    paddingRight: 6,
+    paddingLeft: 6,
     '&:hover': { textDecoration: 'none', color: theme.palette.primary.main },
   },
 }));
 
 const DesktopMenu = (): JSX.Element => {
+  const { currentUser } = useContext(UserContext);
   const classes = useStyles();
+  const history = useHistory();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleNav = (path: string) => {
+    history.push(path);
+    handleClose();
+  };
   return (
     <Box
-      mb={5}
       display="flex"
       flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
       sx={{
         paddingLeft: 16,
         paddingRight: 16,
@@ -44,15 +61,50 @@ const DesktopMenu = (): JSX.Element => {
         boxShadow: '0 1px 4px 0 #c5c6c6',
       }}
     >
-      {R.map(
-        ({ path, exact, name, desktop }) =>
-          desktop ? (
-            <NavLink to={path} exact className={classes.link} activeClassName={classes.activeLink}>
-              {name}
-            </NavLink>
-          ) : null,
-        R.values(ADMIN_ROUTES),
-      )}
+      <Box>
+        {R.map(
+          ({ path, exact, name, desktop }) =>
+            desktop ? (
+              <NavLink
+                to={path}
+                exact={exact}
+                className={classes.link}
+                activeClassName={classes.activeLink}
+              >
+                {name}
+              </NavLink>
+            ) : null,
+          R.values(ADMIN_ROUTES),
+        )}
+      </Box>
+      <Box>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          sx={{ mr: 2, padding: 0 }}
+        >
+          <Avatar sx={{ width: 36, height: 36 }}>{currentUser?.name[0]}</Avatar>
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          {R.map(
+            ({ path, name, desktop }) =>
+              desktop ? <MenuItem onClick={() => handleNav(path)}>{name}</MenuItem> : null,
+            R.values(ADMIN_ROUTES),
+          )}
+        </Menu>
+      </Box>
     </Box>
   );
 };

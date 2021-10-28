@@ -90,7 +90,7 @@ const App = (): JSX.Element => {
               <Route exact path="/" component={Home} />
               <Route path="/territories" component={TerritoryRoot} />
               <Route path="/dncs" component={DNCRoot} />
-              <Route path="/uploader" component={UploaderRoot} />
+              <Route path="/upload" component={UploaderRoot} />
               <Route path="/users" component={UsersRoot} />
               <Route component={Home} />
             </Switch>
