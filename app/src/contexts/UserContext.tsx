@@ -1,19 +1,24 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { IUser } from '../shared/interfaces';
 import { config } from '../constants';
-interface UserProviderProps {
+interface IUserProviderProps {
   children: JSX.Element;
 }
 
-interface UserProviderValues {
+interface IUserProviderValues {
   currentUser?: IUser;
   login: (e: any) => void;
   logout: (e: any) => void;
 }
 
-const UserContext = createContext({} as UserProviderValues);
+interface ICredentials {
+  username: string;
+  password: string;
+}
 
-const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
+const UserContext = createContext({} as IUserProviderValues);
+
+const UserProvider = ({ children }: IUserProviderProps): JSX.Element => {
   const [currentUser, setCurrentUser] = useState<IUser | undefined>();
   const loginAuthToken: string | null = localStorage.getItem('token');
 
@@ -32,11 +37,10 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     }
   }, [loginAuthToken]);
 
-  const login = (e: any) => {
-    e.preventDefault();
+  const login = ({ username, password }: ICredentials) => {
     const credentials = {
-      username: e.target[0].value,
-      password: e.target[1].value,
+      username,
+      password,
     };
     const configObj = {
       method: 'POST',
@@ -80,6 +84,6 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
   );
 };
 
-const useUserContext = (): UserProviderValues => useContext(UserContext);
+const useUserContext = (): IUserProviderValues => useContext(UserContext);
 
 export { UserProvider, useUserContext };

@@ -1,28 +1,24 @@
-import { IUser } from '../shared/interfaces';
-import { LinkContainer } from 'react-router-bootstrap';
-import Nav from 'react-bootstrap/Nav';
+import { List, ListItem, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 const Home = (): JSX.Element => (
   <>
-    <h1>Territory Counter</h1>
-    <div className="home">
-      <p>
+    <Typography variant="h1">Territory Counter</Typography>
+    <Box>
+      <Typography>
         Welcome to Territory Counter, used to maintain congregation territories and do-not-calls.
-      </p>
-      <ul>
-        <li>
-          <LinkContainer to="/territories">
-            <Nav.Link>View Territories</Nav.Link>
-          </LinkContainer>
-        </li>
-        <li>
-          <LinkContainer to="/DNCs">
-            <Nav.Link>View/Maintain DNC List</Nav.Link>
-          </LinkContainer>
-        </li>
-      </ul>
-    </div>
+      </Typography>
+      <List>
+        <ListItem>
+          <Link to="/territories">View Territories</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="dncs">View/Maintain DNC List</Link>
+        </ListItem>
+      </List>
+    </Box>
   </>
 );
 

@@ -1,4 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Box } from '@mui/system';
 import React from 'react';
 import TopMenu from './menuComponents/TopMenu';
 
@@ -15,7 +16,9 @@ const Layout = ({ logout, children, flash }: ILayoutProps): JSX.Element => (
     <div className="layout">
       <TopMenu />
       {flash.length > 0 && <div className="alert alert-primary">{flash}</div>}
-      {children}
+      <Box ml="auto" mr="auto" sx={{ maxWidth: 1000 }}>
+        {children}
+      </Box>
     </div>
   </ThemeProvider>
 );

@@ -1,4 +1,6 @@
+import { Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { Box } from '@mui/system';
 import { useUserContext } from '../contexts/UserContext';
 
 const LoginForm = (): JSX.Element => {
@@ -13,23 +15,35 @@ const LoginForm = (): JSX.Element => {
     setPassword(e.currentTarget.value);
   };
 
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    login({ username, password });
+  };
+
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={login}>
-        <label>
-          Username:{' '}
-          <input name="username" type="text" value={username} onChange={handleUsernameChange} />
-        </label>
-        <br />
-        <label>
-          Password:{' '}
-          <input name="password" type="password" value={password} onChange={handlePasswordChange} />
-        </label>
-        <br />
-        <input type="submit" value="Login" />
+    <>
+      <Typography variant="h1">Login</Typography>
+      <form onSubmit={handleLogin}>
+        <Box ml="auto" mr="auto" display="flex" flexDirection="column" sx={{ maxWidth: 500 }}>
+          <TextField
+            label="Username"
+            margin="normal"
+            value={username}
+            onChange={handleUsernameChange}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            margin="normal"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <Button variant="contained" type="submit">
+            Login
+          </Button>
+        </Box>
       </form>
-    </div>
+    </>
   );
 };
 
