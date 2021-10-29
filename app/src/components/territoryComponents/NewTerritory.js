@@ -1,3 +1,4 @@
+import { Button, TextField, Typography } from '@mui/material';
 import {
   DrawingManager,
   GoogleMap,
@@ -5,6 +6,7 @@ import {
   useLoadScript,
 } from '@react-google-maps/api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Box } from '@mui/system';
 import { config } from '../../constants';
 import { useHistory } from 'react-router';
 import { useUserContext } from '../../contexts/UserContext';
@@ -156,19 +158,22 @@ const NewTerritory = () => {
   };
 
   return (
-    <div id="new-territory">
-      <div id="new-territory-form">
-        <h1>Add Territory</h1>
-        <div className="input-row">
-          <label htmlFor="territoryName">Territory Name:</label>
-          <input type="text" name="territoryName" value={name} onChange={handleNameChange} />
-        </div>
+    <>
+      <Typography variant="h1">Add Territory</Typography>
+      <Box mb={4} display="flex" flexDirection="column">
+        <TextField
+          margin="normal"
+          label="Territory Name"
+          helperText="Enter a name for the territory and enter its boundaries in the map below."
+          value={name}
+          onChange={handleNameChange}
+        />
         {finished && (
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <Button variant="contained" onClick={handleSubmit}>
             Add Territory
-          </button>
+          </Button>
         )}
-      </div>
+      </Box>
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -216,7 +221,7 @@ const NewTerritory = () => {
           />
         </GoogleMap>
       )}
-    </div>
+    </>
   );
 };
 

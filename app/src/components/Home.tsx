@@ -10,14 +10,6 @@ const Home = (): JSX.Element => (
       <Typography>
         Welcome to Territory Counter, used to maintain congregation territories and do-not-calls.
       </Typography>
-      <List>
-        <ListItem>
-          <Link to="/territories">View Territories</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="dncs">View/Maintain DNC List</Link>
-        </ListItem>
-      </List>
     </Box>
   </>
 );

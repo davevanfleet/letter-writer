@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router';
 import { useUserContext } from '../../contexts/UserContext';
 import uuid from 'uuid';
+import { TextField, Typography } from '@mui/material';
 
 const Territories = (props) => {
   const { currentUser } = useUserContext();
@@ -166,7 +167,7 @@ const Territories = (props) => {
       return a.name < b.name ? -1 : 1;
     })
     .map((t) => (
-      <option key={uuid()} value={t.id}>
+      <option key={t.value} value={t.id}>
         {t.name}
       </option>
     ));
@@ -177,14 +178,22 @@ const Territories = (props) => {
   };
 
   return (
-    <div>
-      <h3>Select a Territory</h3>
-      <select name="territoryId" onChange={handleChange} value={territoryId}>
-        <option key={uuid()} value="0">
-          Select a Territory
-        </option>
+    <>
+      <Typography variant="h1">View Territory</Typography>
+      <TextField
+        select
+        SelectProps={{
+          native: true,
+        }}
+        name="territoryId"
+        label="Select Territory"
+        helperText="Please select a territory to view"
+        onChange={handleChange}
+        value={territoryId}
+      >
+        <option key={0} value="0"></option>
         {territoryOptions}
-      </select>
+      </TextField>
       {contactsLoaded ? (
         <>
           <br />
@@ -238,7 +247,7 @@ const Territories = (props) => {
           <FontAwesomeIcon icon={faSpinner} size="6x" spin />
         </>
       ) : null}
-    </div>
+    </>
   );
 };
 
