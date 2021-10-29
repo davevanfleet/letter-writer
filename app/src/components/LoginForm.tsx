@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
+import { useUserContext } from '../contexts/UserContext';
 
-interface ILoginFormProps {
-  login: (e: any) => void;
-}
-
-const LoginForm = ({ login }: ILoginFormProps): JSX.Element => {
+const LoginForm = (): JSX.Element => {
+  const { login } = useUserContext();
   const [username, setUsername] = useState('');
   const handleUsernameChange = (e: any) => {
     setUsername(e.currentTarget.value);

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DesktopMenu = (): JSX.Element => {
-  const { currentUser } = useUserContext();
+  const { currentUser, logout } = useUserContext();
 
   const classes = useStyles();
   const history = useHistory();
@@ -99,10 +99,10 @@ const DesktopMenu = (): JSX.Element => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          {R.map(
-            ({ path, name, desktop }) =>
-              desktop ? <MenuItem onClick={() => handleNav(path)}>{name}</MenuItem> : null,
-            R.values(ADMIN_ROUTES),
+          {currentUser ? (
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          ) : (
+            <MenuItem onClick={() => handleNav('/login')}>Login</MenuItem>
           )}
         </Menu>
       </Box>

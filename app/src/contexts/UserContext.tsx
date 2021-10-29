@@ -7,6 +7,8 @@ interface UserProviderProps {
 
 interface UserProviderValues {
   currentUser?: IUser;
+  login: (e: any) => void;
+  logout: (e: any) => void;
 }
 
 const UserContext = createContext({} as UserProviderValues);
@@ -30,10 +32,47 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     }
   }, [loginAuthToken]);
 
+  const login = (e: any) => {
+    e.preventDefault();
+    const credentials = {
+      username: e.target[0].value,
+      password: e.target[1].value,
+    };
+    const configObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accepts: 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    };
+
+    fetch(`${config.url.API_URL}/login`, configObj)
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.error) {
+          throw json.error;
+        }
+        const user = JSON.parse(json.user);
+        setCurrentUser(user);
+        localStorage.setItem('token', json.jwt);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    setCurrentUser(undefined);
+  };
+
   return (
     <UserContext.Provider
       value={{
         currentUser,
+        login,
+        logout,
       }}
     >
       {children}
