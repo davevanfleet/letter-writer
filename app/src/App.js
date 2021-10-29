@@ -18,7 +18,8 @@ import Register from './components/registerComponents/Register';
 import Territories from './components/territoryComponents/Territories';
 import UploadContacts from './components/uploadsComponents/UploadContacts';
 import { config } from './constants';
-
+import {UserProvider} from './context/UserContext'
+;
 class App extends Component {
   state = {
     currentUser: null,
@@ -101,52 +102,50 @@ class App extends Component {
     if (this.state.currentUser) {
       return (
         <div className="App">
-          <Router>
-            <Layout
-              currentUser={this.state.currentUser}
-              logout={this.logout}
-              flash={this.state.flash}
-            >
-              <Switch>
-                <Route exact path="/">
-                  <Home currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/login">
-                  <Redirect to="/" />
-                </Route>
-                <Route exact path="/territories">
-                  <Territories currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/new_territory">
-                  <NewTerritory currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/territory_records">
-                  <RecordBookShow currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/upload_contacts">
-                  <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash} />
-                </Route>
-                <Route exact path="/DNCs">
-                  <DNCs currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/all_DNCs">
-                  <DNCIndex currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/upload_DNCs">
-                  <DNCUpload currentUser={this.state.currentUser} addFlash={this.addFlash} />
-                </Route>
-                <Route exact path="/users">
-                  <Publishers currentUser={this.state.currentUser} />
-                </Route>
-                <Route exact path="/create_user">
-                  <NewPublisher currentUser={this.state.currentUser} />
-                </Route>
-                <Route>
-                  <Home currentUser={this.state.currentUser} />
-                </Route>
-              </Switch>
-            </Layout>
-          </Router>
+          <UserProvider>
+            <Router>
+              <Layout logout={this.logout} flash={this.state.flash}>
+                <Switch>
+                  <Route exact path="/">
+                    <Home currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/login">
+                    <Redirect to="/" />
+                  </Route>
+                  <Route exact path="/territories">
+                    <Territories currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/new_territory">
+                    <NewTerritory currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/territory_records">
+                    <RecordBookShow currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/upload_contacts">
+                    <UploadContacts currentUser={this.state.currentUser} addFlash={this.addFlash} />
+                  </Route>
+                  <Route exact path="/DNCs">
+                    <DNCs currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/all_DNCs">
+                    <DNCIndex currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/upload_DNCs">
+                    <DNCUpload currentUser={this.state.currentUser} addFlash={this.addFlash} />
+                  </Route>
+                  <Route exact path="/users">
+                    <Publishers currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route exact path="/create_user">
+                    <NewPublisher currentUser={this.state.currentUser} />
+                  </Route>
+                  <Route>
+                    <Home currentUser={this.state.currentUser} />
+                  </Route>
+                </Switch>
+              </Layout>
+            </Router>
+          </UserProvider>
         </div>
       );
     } else {
