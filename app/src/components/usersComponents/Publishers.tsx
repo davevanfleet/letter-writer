@@ -1,12 +1,12 @@
 import { Nav, Table } from 'react-bootstrap';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IUser } from '../../shared/interfaces';
 import { Link } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
+import { useUserContext } from '../../contexts/UserContext';
 
 const Publishers = (): JSX.Element => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [users, setUsers] = useState([]);
   useEffect(() => {
     fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/users`)

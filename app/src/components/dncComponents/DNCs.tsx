@@ -1,13 +1,13 @@
-import { IDnc, ITerritory, IUser } from '../../shared/interfaces';
-import React, { useContext, useEffect, useState } from 'react';
+import { IDnc, ITerritory } from '../../shared/interfaces';
+import React, { useEffect, useState } from 'react';
 import DNCEditForm from './DNCEditForm';
 import DNCList from './DNCList';
 import DNCNewForm from './DNCNewForm';
-import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
+import { useUserContext } from '../../contexts/UserContext';
 
 const DNCs = (): JSX.Element => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [territories, setTerritories] = useState<ITerritory[]>([]);
   useEffect(() => {
     fetch(`${config.url.API_URL}/congregations/${currentUser!.congregation.id}/territories`)

@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import * as XLSX from 'xlsx';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
+import { useUserContext } from '../../contexts/UserContext';
 
 const UploadContacts = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [uploading, setUploading] = useState(false);
 
   const form = useRef(null);

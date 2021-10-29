@@ -1,13 +1,13 @@
 import { IAssignment, IContact, IDnc, IUser } from '../../shared/interfaces';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { CSVLink } from 'react-csv';
 import CheckBox from '../CheckBox';
 import CheckInModal from './CheckInModal';
 import NewAssignmentModal from './NewAssignmentModal';
 import Table from 'react-bootstrap/Table';
 import UpdateAssignmentModal from './UpdateAssignmentModal';
-import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
+import { useUserContext } from '../../contexts/UserContext';
 
 interface ITerritoryProps {
   refreshTerritory: () => void;
@@ -26,7 +26,7 @@ const Territory = ({
   territoryName,
   refreshTerritory,
 }: ITerritoryProps): JSX.Element => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [displayAssignmentModal, setDisplayAssignmentModal] = useState(false);
   const [displayCheckInModal, setDisplayCheckInModal] = useState(false);
   const [displayUpdateModal, setDisplayUpdateModal] = useState(false);

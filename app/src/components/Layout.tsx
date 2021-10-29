@@ -1,5 +1,4 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { IUser } from '../shared/interfaces';
 import React from 'react';
 import TopMenu from './menuComponents/TopMenu';
 

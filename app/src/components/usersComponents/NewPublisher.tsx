@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
+import React, { useState } from 'react';
 import { config } from '../../constants';
+import { useUserContext } from '../../contexts/UserContext';
 
 const NewPublisher = (): JSX.Element => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [name, setName] = useState('');
   const handleNameChange = (e: any) => {
     setName(e.currentTarget.value);

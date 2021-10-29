@@ -1,11 +1,11 @@
 import * as R from 'ramda';
 import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ADMIN_ROUTES } from './dashboard.routes';
 import { NavLink } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext';
 import { makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import { useUserContext } from '../../contexts/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   navBar: {
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DesktopMenu = (): JSX.Element => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
+
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

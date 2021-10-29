@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
 import { GoogleMap, Polygon, useJsApiLoader } from '@react-google-maps/api';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Territory from './Territory';
-import UserContext from '../../contexts/UserContext';
 import { config } from '../../constants';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import queryString from 'query-string';
 import { useLocation } from 'react-router';
+import { useUserContext } from '../../contexts/UserContext';
 import uuid from 'uuid';
 
 const Territories = (props) => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [territoryId, setTerritoryId] = useState();
   const [territoryName, setTerritoryName] = useState();
   const [territories, setTerritories] = useState([]);

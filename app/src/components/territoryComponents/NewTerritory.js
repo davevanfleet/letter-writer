@@ -4,13 +4,13 @@ import {
   StandaloneSearchBox,
   useLoadScript,
 } from '@react-google-maps/api';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { config } from '../../constants';
 import { useHistory } from 'react-router';
+import { useUserContext } from '../../contexts/UserContext';
 
 const NewTerritory = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   const [finished, setFinished] = useState(false);
   const [edit, setEdit] = useState(false);
   const [path, setPath] = useState([]);
