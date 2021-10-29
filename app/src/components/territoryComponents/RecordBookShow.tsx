@@ -7,7 +7,7 @@ import { useUserContext } from '../../contexts/UserContext';
 const RecordBookShow = (): JSX.Element => {
   const { currentUser } = useUserContext();
   return (
-    <Box width="100vw" height="100vh">
+    <Box width="100%" height="80vh">
       <PDFViewer width="100%" height="100%">
         <RecordBook congregationId={currentUser!.congregation.id} />
       </PDFViewer>
