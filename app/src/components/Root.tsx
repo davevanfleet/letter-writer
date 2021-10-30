@@ -1,28 +1,29 @@
+import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ConfirmNewUser from './usersComponents/ConfirmNewUser';
-import DNCRoot from './dncComponents/DNCRoot';
 import Home from './Home';
 import LoginForm from './LoginForm';
-import React from 'react';
 import Register from './registerComponents/Register';
-import TerritoryRoot from './territoryComponents/TerritoryRoot';
-import UploaderRoot from './uploadsComponents/UploaderRoot';
-import UsersRoot from './usersComponents/UsersRoot';
-import { config } from '../constants';
 import { useUserContext } from '../contexts/UserContext';
 
-const Root = () => {
-  const { currentUser, login } = useUserContext();
+const TerritoryRoot = lazy(() => import('./territoryComponents/TerritoryRoot'));
+const DNCRoot = lazy(() => import('./dncComponents/DNCRoot'));
+const UploaderRoot = lazy(() => import('./uploadsComponents/UploaderRoot'));
+const UsersRoot = lazy(() => import('./usersComponents/UsersRoot'));
 
+const Root = () => {
+  const { currentUser } = useUserContext();
   return currentUser ? (
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/territories" component={TerritoryRoot} />
-      <Route path="/dncs" component={DNCRoot} />
-      <Route path="/upload" component={UploaderRoot} />
-      <Route path="/users" component={UsersRoot} />
-      <Route component={Home} />
-    </Switch>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/territories" component={TerritoryRoot} />
+        <Route path="/dncs" component={DNCRoot} />
+        <Route path="/upload" component={UploaderRoot} />
+        <Route path="/users" component={UsersRoot} />
+        <Route component={Home} />
+      </Switch>
+    </Suspense>
   ) : (
     <Switch>
       <Route exact path="/" component={Home} />
