@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { Avatar, Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
-import { ADMIN_ROUTES } from './dashboard.routes';
+import { ADMIN_ROUTES, PUBLISHER_ROUTES } from './dashboard.routes';
 import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router';
@@ -35,6 +35,9 @@ const DesktopMenu = (): JSX.Element => {
 
   const classes = useStyles();
   const history = useHistory();
+
+  const isAdmin = () => currentUser?.role === 'Admin';
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -75,7 +78,7 @@ const DesktopMenu = (): JSX.Element => {
                 {name}
               </NavLink>
             ) : null,
-          R.values(ADMIN_ROUTES),
+          R.values(isAdmin() ? ADMIN_ROUTES : PUBLISHER_ROUTES),
         )}
       </Box>
       <Box>

@@ -1,9 +1,18 @@
-import { Nav, Table } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { IUser } from '../../shared/interfaces';
 import { Link } from 'react-router-dom';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 
 const Publishers = (): JSX.Element => {
   const { currentUser } = useUserContext();
@@ -26,35 +35,35 @@ const Publishers = (): JSX.Element => {
 
   const userRows = users.map((user: IUser) => {
     return (
-      <tr key={user.id}>
-        <td>{user.name}</td>
-        <td>{user.email}</td>
-        <td>{user.role}</td>
-      </tr>
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{user.role}</TableCell>
+      </TableRow>
     );
   });
 
   return (
-    <div id="manage-publishers">
-      <h1>Manage Publishers</h1>
-      <p>
+    <>
+      <Typography variant="h1">Manage Publishers</Typography>
+      <Typography>
         This page can be used to create new accounts or manage existing accounts for publishers in
         your congregation. Publishers with accounts can use them to access their territories online.
-      </p>
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>{userRows}</tbody>
-      </Table>
-      <Link className="btn btn-primary" to="/create_user">
-        Add Publisher
-      </Link>
-    </div>
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Role</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{userRows}</TableBody>
+        </Table>
+      </TableContainer>
+      <Link to="/users/new">Add Publisher</Link>
+    </>
   );
 };
 

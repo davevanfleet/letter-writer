@@ -34,6 +34,13 @@ const ROUTES = {
     desktop: true,
     authenticated: true,
   },
+  users: {
+    path: '/users',
+    exact: false,
+    name: 'Users',
+    desktop: true,
+    authenticated: true,
+  },
 };
 
 export const PUBLISHER_ROUTES = {
@@ -53,6 +60,9 @@ export const ADMIN_ROUTES = {
   uploader: {
     ...ROUTES.uploader,
   },
+  users: {
+    ...ROUTES.users,
+  }
 };
 
 export const SUB_NAV_ROUTES: { [index: string]: any } = {

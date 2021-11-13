@@ -1,3 +1,13 @@
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';
@@ -51,44 +61,69 @@ const NewPublisher = (): JSX.Element => {
   };
 
   return (
-    <div id="new-publisher-form">
-      <h1>Add Publisher</h1>
+    <Box>
+      <Typography variant="h1">Add Publisher</Typography>
       <form onSubmit={handleSubmit}>
-        <div className="input-row">
-          <label htmlFor="name">Publisher Name*:</label>
-          <input type="text" name="name" value={name} onChange={handleNameChange} />
-        </div>
-        <div className="input-row">
-          <label htmlFor="email">Email:</label>
-          <input type="text" name="email" value={email} onChange={handleEmailChange} />
-        </div>
+        <Box ml="auto" mr="auto" display="flex" flexDirection="column" sx={{ maxWidth: 500 }}>
+          <TextField
+            label="Publisher Name"
+            margin="normal"
+            value={name}
+            onChange={handleNameChange}
+            helperText="Enter name as it will appear on territory records"
+          />
+          <TextField
+            label="Publisher Email"
+            margin="normal"
+            value={email}
+            onChange={handleEmailChange}
+          />
+        </Box>
         <hr />
-        <h2 style={{ textAlign: 'left' }}>Role:</h2>
-        <div className="radio-row">
-          <input
-            type="radio"
-            name="role1"
-            value="Publisher"
-            onChange={handleRoleChange}
-            checked={role === 'Publisher'}
-          />
-          <label htmlFor="role1">Publisher (can only see their assigned territories)</label>
-        </div>
-        <div className="radio-row">
-          <input
-            type="radio"
-            name="role2"
-            value="Admin"
-            onChange={handleRoleChange}
-            checked={role === 'Admin'}
-          />
-          <label htmlFor="role2">
-            Admin (can see all territories, make changes to records, and manage user accounts)
-          </label>
-        </div>
-        <input type="submit" className="btn btn-primary" value="Create Account" />
+        <Typography variant="h2">Role:</Typography>
+        <Box ml="auto" mr="auto" display="flex" flexDirection="column" sx={{ maxWidth: 500 }}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="role"
+              defaultValue="t"
+              name="api-access"
+              value={role}
+              onChange={handleRoleChange}
+            >
+              <FormControlLabel
+                value="Admin"
+                control={<Radio />}
+                sx={{ textAlign: 'left' }}
+                label={
+                  <>
+                    <Typography>Admin</Typography>
+                    <Typography variant="caption">
+                      can see all territories, make changes to records, and manage user accounts
+                    </Typography>
+                  </>
+                }
+              />
+              <FormControlLabel
+                value="Publisher"
+                control={<Radio />}
+                sx={{ textAlign: 'left' }}
+                label={
+                  <>
+                    <Typography>Publisher</Typography>
+                    <Typography variant="caption">
+                      can only see their assigned territories
+                    </Typography>
+                  </>
+                }
+              />
+            </RadioGroup>
+          </FormControl>
+          <Button variant="contained" type="submit">
+            Create Account
+          </Button>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 };
 

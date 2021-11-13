@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { IUser } from '../shared/interfaces';
 import { config } from '../constants';
 interface IUserProviderProps {
@@ -7,6 +15,7 @@ interface IUserProviderProps {
 
 interface IUserProviderValues {
   currentUser?: IUser;
+  setCurrentUser: Dispatch<SetStateAction<IUser | undefined>>;
   login: (e: any) => void;
   logout: (e: any) => void;
 }
@@ -75,6 +84,7 @@ const UserProvider = ({ children }: IUserProviderProps): JSX.Element => {
     <UserContext.Provider
       value={{
         currentUser,
+        setCurrentUser,
         login,
         logout,
       }}

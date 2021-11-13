@@ -87,7 +87,7 @@ const Register = (): JSX.Element => {
           </Box>
           <FormControl component="fieldset">
             <RadioGroup
-              aria-label="gender"
+              aria-label="api-access"
               defaultValue="t"
               name="api-access"
               value={apiAccess}
