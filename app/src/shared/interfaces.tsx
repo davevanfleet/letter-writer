@@ -34,7 +34,8 @@ export interface IAssignment {
   id: number;
   publisher: string;
   checked_out: string;
-  checked_in: string;
+  checked_in?: string;
+  territory: { id: number; name: string };
 }
 
 export interface IContact {

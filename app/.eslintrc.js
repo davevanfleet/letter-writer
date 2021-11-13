@@ -19,8 +19,8 @@ module.exports = {
     //'react/prop-types': ['warn'], //we have typescript, shouldn't need this
     'react/display-name': ['warn'],
     'no-duplicate-imports': ['error'],
-    'sort-imports': ['warn'],
+    'sort-imports': ['error'],
     'prettier/prettier': 'error',
   },
-  ignorePatterns: ['**/@streamlinehq/**/*.js', 'cypress', 'webpack'],
+  ignorePatterns: ['cypress', 'webpack'],
 };

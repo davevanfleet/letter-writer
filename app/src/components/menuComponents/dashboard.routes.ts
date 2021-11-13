@@ -64,6 +64,9 @@ export const ADMIN_ROUTES = {
   dncs: {
     ...ROUTES.dncs,
   },
+  territories: {
+    ...ROUTES.territories,
+  },
   uploader: {
     ...ROUTES.uploader,
   },

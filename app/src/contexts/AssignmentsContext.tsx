@@ -28,11 +28,15 @@ const AssignmentsProvider = ({ children }: IAssignmentsProviderProps): JSX.Eleme
 
   useEffect(() => {
     if (currentUser) {
-      fetch(`${config.url.API_URL}/assignments?user_id=${currentUser?.id}`)
+      fetch(`${config.url.API_URL}/assignments/in_progress?user_id=${currentUser?.id}`)
         .then((r) => r.json())
         .then((json) => {
-          setInProgressAssignments(json.in_progress_assignments);
-          setCompletedAssignments(json.completed_assignments);
+          setInProgressAssignments(json);
+        });
+      fetch(`${config.url.API_URL}/assignments/completed?user_id=${currentUser?.id}`)
+        .then((r) => r.json())
+        .then((json) => {
+          setCompletedAssignments(json);
         });
     }
   }, [currentUser]);
