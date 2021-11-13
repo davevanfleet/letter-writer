@@ -1,3 +1,4 @@
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useState } from 'react';
 import { config } from '../../constants';
@@ -131,69 +132,61 @@ const CheckoutForm = ({ congName, lang, apiAccess, prevPage }: ICheckoutFormProp
 
   return (
     <>
-      <h3>Your Account</h3>
-      <h4>Create your Territory Counter account.</h4>
-
-      <div className="input-row">
-        <label htmlFor="name">Your Full Name</label>
-        <input type="text" name="name" value={name} onChange={handleNameChange} />
-      </div>
-      <div className="input-row">
-        <label htmlFor="email">Your Email Address</label>
-        <input type="email" name="email" value={email} onChange={handleEmailChange} />
-      </div>
-      <div className="input-row">
-        <label htmlFor="confirmEmail">Confirm Your Email</label>
-        <input
-          type="email"
-          name="confirmEmail"
-          value={confirmEmail}
-          onChange={handleConfirmEmailChange}
-        />
-      </div>
-
-      <p className="form-info">
-        <em>
-          Once {apiAccess && 'your payment is processed and'} we have set up your congregation we
-          will send you a confirmation email.
-        </em>
-      </p>
-      <p className="form-info">
-        <em>
-          To finish setting up your account, please click the link in the confirmation email and
-          complete the form.
-        </em>
-      </p>
-
+      <Typography variant="h3">Your Account</Typography>
+      <Typography variant="h4">Create your Territory Counter account.</Typography>
+      <TextField
+        name="name"
+        value={name}
+        onChange={handleNameChange}
+        label="Your Full Name"
+        margin="normal"
+        fullWidth
+      />
+      <TextField
+        name="email"
+        value={email}
+        onChange={handleEmailChange}
+        label="Your Email Address"
+        margin="normal"
+        fullWidth
+      />
+      <TextField
+        name="confirmEmail"
+        value={confirmEmail}
+        onChange={handleConfirmEmailChange}
+        label="Confirm Your Email"
+        margin="normal"
+        fullWidth
+      />
       <hr />
       {apiAccess && (
         <>
-          <div id="payment-section">
-            <h3>Payment Method</h3>
-            <div className="input-row">
-              <label htmlFor="cardholderName">Cardholder&apos;s Name</label>
-              <input
-                type="text"
-                name="cardholderName"
-                value={cardholderName}
-                onChange={handleCardholderNameChange}
-                id="cardholder-name"
-              />
-            </div>
+          <Typography variant="h3">Payment Method</Typography>
+          <TextField
+            name="cardholderName"
+            value={cardholderName}
+            onChange={handleCardholderNameChange}
+            label="Cardholder's Name"
+            margin="normal"
+            fullWidth
+          />
 
-            <div id="stripe-elements-wrapper">
-              <CardElement options={{ style: { base: {} } }} />
-            </div>
-          </div>
+          <Box>
+            <CardElement options={{ style: { base: {} } }} />
+          </Box>
           <hr />
         </>
       )}
-      <button onClick={prevPage} className="btn btn-primary">
-        Back
-      </button>
-      <button onClick={handleSubmit} className="btn btn-primary">
-        Next
-      </button>
+      <Typography variant="body2">
+        Once {apiAccess && 'your payment is processed and'} we have set up your congregation we will
+        send you a confirmation email.
+      </Typography>
+      <Typography variant="body2">
+        To finish setting up your account, please click the link in the confirmation email and
+        complete the form.
+      </Typography>
+      <Button onClick={prevPage}>Back</Button>
+      <Button onClick={handleSubmit}>Next</Button>
     </>
   );
 };

@@ -4,30 +4,35 @@ const ROUTES = {
     exact: true,
     name: 'Home',
     desktop: true,
+    authenticated: false,
   },
   dashboard: {
     path: '/dashboard',
     exact: false,
     name: 'Dashboard',
     desktop: true,
+    authenticated: false,
   },
   territories: {
     path: '/territories',
     exact: false,
     name: 'Territories',
     desktop: true,
+    authenticated: true,
   },
   dncs: {
     path: '/dncs',
     exact: false,
     name: 'DNCs',
     desktop: true,
+    authenticated: true,
   },
   uploader: {
     path: '/upload',
     exact: false,
     name: 'Uploads',
     desktop: true,
+    authenticated: true,
   },
 };
 

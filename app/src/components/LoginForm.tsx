@@ -26,7 +26,7 @@ const LoginForm = (): JSX.Element => {
       <form onSubmit={handleLogin}>
         <Box ml="auto" mr="auto" display="flex" flexDirection="column" sx={{ maxWidth: 500 }}>
           <TextField
-            label="Username"
+            label="Email"
             margin="normal"
             value={username}
             onChange={handleUsernameChange}

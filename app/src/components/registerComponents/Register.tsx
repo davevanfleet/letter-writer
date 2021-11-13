@@ -1,4 +1,18 @@
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
+import { Box } from '@mui/system';
 import CheckoutForm from './CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { config } from '../../constants';
@@ -20,108 +34,95 @@ const Register = (): JSX.Element => {
     setCongName(e.currentTarget.value);
   };
 
-  const [lang, setLang] = useState('English');
+  const [lang, setLang] = useState('eng');
   const handleLangChange = (e: any) => {
     setLang(e.currentTarget.value);
   };
 
-  const [apiAccess, setApiAccess] = useState(true);
+  const [apiAccess, setApiAccess] = useState('t');
   const handleApiAccessChange = (e: any) => {
-    if (e.currentTarget.value === '1') {
-      setApiAccess(true);
-    } else {
-      setApiAccess(false);
-    }
+    setApiAccess(e.currentTarget.value);
   };
 
   const languageOptions = [];
   for (const [code, language] of Object.entries(config.languageMapping)) {
-    languageOptions.push(<option value={code}>{language}</option>);
+    languageOptions.push(<MenuItem value={code}>{language}</MenuItem>);
   }
 
   switch (page) {
     case 0:
       return (
         <>
-          <h2>First, tell us about your congregation.</h2>
-          <div id="new-congregation-form-body">
-            <div className="input-row">
-              <label htmlFor="congName">Congregation Name: </label>
-              <input type="text" name="congName" value={congName} onChange={handleCongNameChange} />
-            </div>
-            <div className="input-row">
-              <label htmlFor="lang">Language: </label>
-              <select name="lang" value={lang} onChange={handleLangChange}>
-                {languageOptions}
-              </select>
-            </div>
-          </div>
+          <Typography variant="h2">First, tell us about your congregation.</Typography>
+          <TextField
+            name="congName"
+            value={congName}
+            onChange={handleCongNameChange}
+            label="Congregation Name"
+            margin="normal"
+            fullWidth
+          />
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <InputLabel>Language</InputLabel>
+            <Select name="lang" value={lang} onChange={handleLangChange} label="Language">
+              {languageOptions}
+            </Select>
+          </FormControl>
           <hr />
-          <button onClick={nextPage} className="btn btn-primary">
-            Next
-          </button>
+          <Button onClick={nextPage}>Next</Button>
         </>
       );
     case 1:
       return (
         <>
-          <div id="new-congregation-form-body">
-            <h2>Would you like access to our address database?</h2>
-            <p className="form-info">
+          <Box mb={4}>
+            <Typography variant="h2">Would you like access to our address database?</Typography>
+            <Typography variant="caption">
               This paid feature will give you access to names, contacts, and phone numbers (when
               available) of those in your congregation territory. If you are an English
               congregation, this will include all available records. If you are a Spanish or foreign
               language congregation, the contacts will be filtered to include only those whose
               primary language is that of your congregation.
-            </p>
-            <div className="radio-row">
-              <input
-                type="radio"
-                name="apiAccess"
-                value="1"
-                checked={apiAccess}
-                onChange={handleApiAccessChange}
+            </Typography>
+          </Box>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="gender"
+              defaultValue="t"
+              name="api-access"
+              value={apiAccess}
+              onChange={handleApiAccessChange}
+            >
+              <FormControlLabel
+                value="t"
+                control={<Radio />}
+                label={`Yes, we would like access. (${
+                  lang === 'eng' || lang === 'spa' ? '$500' : '$300'
+                } 
+              yearly subscription for your congregation)`}
               />
-              <label htmlFor="apiAccess">
-                Yes, we would like access. (
-                {lang === 'English' || lang === 'Spanish' ? '$500' : '$300'} yearly subscription for
-                your congregation)
-              </label>
-            </div>
-            <div className="radio-row">
-              <input
-                type="radio"
-                name="noApiAccess"
-                value="0"
-                checked={!apiAccess}
-                onChange={handleApiAccessChange}
+              <FormControlLabel
+                value="f"
+                control={<Radio />}
+                label="No, we have our own list we will upload and maintain."
               />
-              <label htmlFor="noApiAccess">
-                No, we have our own list we will upload and maintain.
-              </label>
-            </div>
-          </div>
+            </RadioGroup>
+          </FormControl>
           <hr />
-          <button onClick={prevPage} className="btn btn-primary">
-            Back
-          </button>
-          <button onClick={nextPage} className="btn btn-primary">
-            Next
-          </button>
+          <Button onClick={prevPage}>Back</Button>
+          <Button onClick={nextPage}>Next</Button>
         </>
       );
     case 2:
       return (
         <>
           <Elements stripe={stripePromise}>
-            <div id="new-congregation-form-body">
-              <CheckoutForm
-                congName={congName}
-                lang={lang}
-                apiAccess={apiAccess}
-                prevPage={prevPage}
-              />
-            </div>
+            <CheckoutForm
+              congName={congName}
+              lang={lang}
+              apiAccess={apiAccess === 't'}
+              prevPage={prevPage}
+            />
           </Elements>
         </>
       );

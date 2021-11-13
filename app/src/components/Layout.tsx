@@ -4,14 +4,13 @@ import React from 'react';
 import TopMenu from './menuComponents/TopMenu';
 
 interface ILayoutProps {
-  logout: () => void;
   children: React.ReactNode;
   flash: string;
 }
 
-const theme = createTheme({ spacing: 4 });
+const theme = createTheme({ spacing: 4, typography: { h1: { fontSize: '4rem' } } });
 
-const Layout = ({ logout, children, flash }: ILayoutProps): JSX.Element => (
+const Layout = ({ children, flash }: ILayoutProps): JSX.Element => (
   <ThemeProvider theme={theme}>
     <div className="layout">
       <TopMenu />

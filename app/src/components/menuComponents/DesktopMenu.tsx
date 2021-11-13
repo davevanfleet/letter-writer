@@ -64,8 +64,8 @@ const DesktopMenu = (): JSX.Element => {
     >
       <Box>
         {R.map(
-          ({ path, exact, name, desktop }) =>
-            desktop ? (
+          ({ path, exact, name, desktop, authenticated }) =>
+            desktop && (!authenticated || currentUser) ? (
               <NavLink
                 to={path}
                 exact={exact}
@@ -102,7 +102,10 @@ const DesktopMenu = (): JSX.Element => {
           {currentUser ? (
             <MenuItem onClick={logout}>Logout</MenuItem>
           ) : (
-            <MenuItem onClick={() => handleNav('/login')}>Login</MenuItem>
+            <>
+              {/* <MenuItem onClick={() => handleNav('/register')}>Register</MenuItem> */}
+              <MenuItem onClick={() => handleNav('/login')}>Login</MenuItem>
+            </>
           )}
         </Menu>
       </Box>

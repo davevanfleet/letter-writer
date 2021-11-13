@@ -8,14 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
 
 const App = (): JSX.Element => {
-  const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
-
   const [flash, setFlash] = useState('');
-
-  const logout = () => {
-    localStorage.clear();
-    // setCurrentUser(undefined);
-  };
 
   const addFlash = (message: string) => {
     setFlash(message);
@@ -27,7 +20,7 @@ const App = (): JSX.Element => {
     <div className="App">
       <UserProvider>
         <Router>
-          <Layout logout={logout} flash={flash}>
+          <Layout flash={flash}>
             <Root />
           </Layout>
         </Router>
