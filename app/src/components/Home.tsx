@@ -1,6 +1,5 @@
-import { List, ListItem, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { Link } from 'react-router-dom';
 import React from 'react';
 
 const Home = (): JSX.Element => (

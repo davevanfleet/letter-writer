@@ -41,14 +41,21 @@ const ROUTES = {
     desktop: true,
     authenticated: true,
   },
+  assignments: {
+    path: '/assignments',
+    exact: false,
+    name: 'Assignments',
+    desktop: true,
+    authenticated: true,
+  }
 };
 
 export const PUBLISHER_ROUTES = {
   home: {
     ...ROUTES.home,
   },
-  territories: {
-    ...ROUTES.territories,
+  assignments: {
+    ...ROUTES.assignments,
   },
 };
 

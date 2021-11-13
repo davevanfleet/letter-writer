@@ -1,4 +1,4 @@
-import { IDnc, IUser } from '../../shared/interfaces';
+import { IDnc } from '../../shared/interfaces';
 import React, { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { Table } from 'react-bootstrap';
@@ -19,7 +19,7 @@ const DNCIndex = (): JSX.Element => {
       .then((d) => {
         setDncs(d);
       });
-  }, []);
+  }, [currentUser]);
 
   const rows = dncs.map((dnc) => {
     return (

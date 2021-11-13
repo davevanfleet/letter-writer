@@ -3,8 +3,10 @@ import DNCIndex from './DNCIndex';
 import DNCs from './DNCs';
 import React from 'react';
 import SubNav from '../menuComponents/SubNav';
+import useAuthorization from '../../hooks/useAuthorization';
 
 const DNCRoot = (): JSX.Element => {
+  useAuthorization('Admin');
   const match = useRouteMatch();
   return (
     <>

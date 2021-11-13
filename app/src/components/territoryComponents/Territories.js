@@ -8,7 +8,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import queryString from 'query-string';
 import { useLocation } from 'react-router';
 import { useUserContext } from '../../contexts/UserContext';
-import uuid from 'uuid';
 import { TextField, Typography } from '@mui/material';
 
 const Territories = (props) => {

@@ -14,7 +14,6 @@ import { useUserContext } from '../../contexts/UserContext';
 const NewTerritory = () => {
   const { currentUser } = useUserContext();
   const [finished, setFinished] = useState(false);
-  const [edit, setEdit] = useState(false);
   const [path, setPath] = useState([]);
   const [name, setName] = useState('');
   const handleNameChange = (e) => {

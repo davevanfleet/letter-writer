@@ -70,6 +70,7 @@ const DesktopMenu = (): JSX.Element => {
           ({ path, exact, name, desktop, authenticated }) =>
             desktop && (!authenticated || currentUser) ? (
               <NavLink
+                key={path}
                 to={path}
                 exact={exact}
                 className={classes.link}
@@ -102,14 +103,17 @@ const DesktopMenu = (): JSX.Element => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          {currentUser ? (
-            <MenuItem onClick={logout}>Logout</MenuItem>
-          ) : (
-            <>
-              {/* <MenuItem onClick={() => handleNav('/register')}>Register</MenuItem> */}
-              <MenuItem onClick={() => handleNav('/login')}>Login</MenuItem>
-            </>
-          )}
+          {currentUser
+            ? [
+                <MenuItem key="logout" onClick={logout}>
+                  Logout
+                </MenuItem>,
+              ]
+            : [
+                <MenuItem key="login" onClick={() => handleNav('/login')}>
+                  Login
+                </MenuItem>,
+              ]}
         </Menu>
       </Box>
     </Box>

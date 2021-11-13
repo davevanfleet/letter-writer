@@ -10,6 +10,7 @@ const TerritoryRoot = lazy(() => import('./territoryComponents/TerritoryRoot'));
 const DNCRoot = lazy(() => import('./dncComponents/DNCRoot'));
 const UploaderRoot = lazy(() => import('./uploadsComponents/UploaderRoot'));
 const UsersRoot = lazy(() => import('./usersComponents/UsersRoot'));
+const AssignmentsRoot = lazy(() => import('./assignmentsComponents/AssignmentsRoot'));
 
 const Root = () => {
   const { currentUser } = useUserContext();
@@ -21,6 +22,7 @@ const Root = () => {
         <Route path="/dncs" component={DNCRoot} />
         <Route path="/upload" component={UploaderRoot} />
         <Route path="/users" component={UsersRoot} />
+        <Route path="/assignments" component={AssignmentsRoot} />
         <Route component={Home} />
       </Switch>
     </Suspense>

@@ -4,7 +4,6 @@ import React, {
   SetStateAction,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { IUser } from '../shared/interfaces';

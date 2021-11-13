@@ -188,6 +188,8 @@ const LANGUAGE_MAPPING: { [index: string]: string } = {
   zul: 'Zulu',
 };
 
+export type IRole = "Admin" | 'Publisher';
+
 const prod = {
   url: {
     API_URL: 'https://letter-writer-api.herokuapp.com/api',

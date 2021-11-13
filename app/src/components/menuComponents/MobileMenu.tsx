@@ -48,7 +48,11 @@ const MobileMenu = (): JSX.Element => {
           >
             {R.map(
               ({ path, name, desktop }) =>
-                desktop ? <MenuItem onClick={() => handleNav(path)}>{name}</MenuItem> : null,
+                desktop ? (
+                  <MenuItem key={path} onClick={() => handleNav(path)}>
+                    {name}
+                  </MenuItem>
+                ) : null,
               R.values(ADMIN_ROUTES),
             )}
           </Menu>
