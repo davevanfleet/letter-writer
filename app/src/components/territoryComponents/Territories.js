@@ -40,7 +40,7 @@ const Territories = (props) => {
         setContactsLoaded(false);
         setEdit(false);
         polygonRef.current = new window.google.maps.Polygon({ paths: path });
-        updateContacts(territoryId);
+        setContacts(d.contacts);
       });
   };
 
@@ -108,18 +108,6 @@ const Territories = (props) => {
     return { lng: lngCenter, lat: latCenter };
   };
 
-  const updateContacts = (territoryId) => {
-    const url = currentUser.congregation.api_access
-      ? `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/contacts`
-      : `${config.url.API_URL}/congregations/${currentUser.congregation.id}/territories/${territoryId}/external_contacts`;
-    fetch(url)
-      .then((r) => r.json())
-      .then((d) => {
-        setContacts(d);
-        setContactsLoaded(true);
-      });
-  };
-
   const [dncs, setDncs] = useState([]);
   const [assignments, setAssignments] = useState([]);
 
@@ -138,7 +126,7 @@ const Territories = (props) => {
         setTerritoryName(d.name);
         setDncs(d.dncs);
         setAssignments(d.sorted_assignments);
-        updateContacts(id);
+        setContacts(d.contacts);
       })
       .catch((e) => {
         console.log(e);
