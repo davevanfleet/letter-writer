@@ -8,6 +8,7 @@ import Table from 'react-bootstrap/Table';
 import UpdateAssignmentModal from './UpdateAssignmentModal';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';
+import ContactsTable from '../shared/ContactsTable';
 
 interface ITerritoryProps {
   refreshTerritory: () => void;
@@ -192,19 +193,7 @@ const Territory = ({
       >
         Download Territory
       </CSVLink>
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Phone Type</th>
-            <th>Primary Language</th>
-            <th>Check When Done</th>
-          </tr>
-        </thead>
-        <tbody>{contactRows}</tbody>
-      </Table>
+      <ContactsTable contacts={contacts} />
       <br />
       {displayAssignmentModal && (
         <NewAssignmentModal

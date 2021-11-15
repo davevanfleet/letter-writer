@@ -4,6 +4,7 @@ import React from 'react';
 import RecordBookShow from './RecordBookShow';
 import SubNav from '../menuComponents/SubNav';
 import Territories from './Territories';
+import Territory from './Territory';
 
 const TerritoryRoot = (): JSX.Element => {
   const match = useRouteMatch();

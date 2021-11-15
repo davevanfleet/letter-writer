@@ -1,8 +1,7 @@
 import * as R from 'ramda';
-import { AppBar, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
+import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { ADMIN_ROUTES } from './dashboard.routes';
-import { Box } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useHistory } from 'react-router';
 import { useTheme } from '@mui/material/styles';

@@ -1,12 +1,5 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { IAssignment, IUser } from '../shared/interfaces';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { IAssignment } from '../shared/interfaces';
 import { config } from '../constants';
 import { useUserContext } from './UserContext';
 
@@ -17,6 +10,7 @@ interface IAssignmentsProviderProps {
 interface IAssignmentsProviderValues {
   inProgressAssignments: IAssignment[];
   completedAssignments: IAssignment[];
+  selectedAssignment?: IAssignment;
 }
 
 const AssignmentsContext = createContext({} as IAssignmentsProviderValues);

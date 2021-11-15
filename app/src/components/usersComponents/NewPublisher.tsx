@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormControlLabel,
@@ -7,7 +8,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';

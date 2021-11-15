@@ -36,6 +36,7 @@ export interface IAssignment {
   checked_out: string;
   checked_in?: string;
   territory: { id: number; name: string };
+  contacts: IContact[];
 }
 
 export interface IContact {

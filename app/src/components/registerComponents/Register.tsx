@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormControlLabel,
@@ -12,7 +13,6 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { Box } from '@mui/system';
 import CheckoutForm from './CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { config } from '../../constants';

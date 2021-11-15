@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import {
   DrawingManager,
   GoogleMap,
@@ -6,7 +6,6 @@ import {
   useLoadScript,
 } from '@react-google-maps/api';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box } from '@mui/system';
 import { config } from '../../constants';
 import { useHistory } from 'react-router';
 import { useUserContext } from '../../contexts/UserContext';

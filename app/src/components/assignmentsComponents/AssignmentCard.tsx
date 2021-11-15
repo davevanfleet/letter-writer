@@ -1,6 +1,7 @@
-import { Card, CardHeader, Typography, useTheme } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardHeader, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { IAssignment } from '../../shared/interfaces';
+import { useHistory } from 'react-router';
 
 interface IAssignmentCardProps {
   assignment: IAssignment;
@@ -13,12 +14,13 @@ const AssignmentCard = ({ assignment }: IAssignmentCardProps): JSX.Element => {
   );
   let color;
   if (dateDiff < 45) {
-    color = theme.palette.grey['100'];
+    color = theme.palette.background.paper;
   } else if (dateDiff < 90) {
     color = theme.palette.warning.main;
   } else {
     color = theme.palette.warning.main;
   }
+  const history = useHistory();
   return (
     <Card
       sx={{
@@ -26,15 +28,19 @@ const AssignmentCard = ({ assignment }: IAssignmentCardProps): JSX.Element => {
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 4,
-        paddingBottom: 2,
         backgroundColor: color,
       }}
     >
-      <CardHeader title={assignment.territory.name} />
-      <Typography variant="caption">
-        Checked out {new Date(assignment.checked_out).toLocaleDateString()} ({dateDiff} days ago)
-      </Typography>
-      <Typography>{assignment.checked_in}</Typography>
+      <CardActionArea onClick={() => history.push(`/assignments/${assignment.id}`)}>
+        <CardHeader title={assignment.territory.name} />
+        <CardContent>
+          <Typography variant="caption">
+            Checked out {new Date(assignment.checked_out).toLocaleDateString()} ({dateDiff} days
+            ago)
+          </Typography>
+          <Typography>{assignment.checked_in}</Typography>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

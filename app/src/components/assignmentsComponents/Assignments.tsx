@@ -12,7 +12,7 @@ const Assignments = (): JSX.Element => {
       <Typography>In-Progress Assignments</Typography>
       {inProgressAssignments.length > 0 ? (
         inProgressAssignments.map((assignment: IAssignment) => (
-          <AssignmentCard assignment={assignment} />
+          <AssignmentCard key={assignment.id} assignment={assignment} />
         ))
       ) : (
         <EmptyAssignments />
@@ -21,7 +21,7 @@ const Assignments = (): JSX.Element => {
         <>
           <Typography>Completed Assignments</Typography>
           {completedAssignments.map((assignment: IAssignment) => (
-            <AssignmentCard assignment={assignment} />
+            <AssignmentCard key={assignment.id} assignment={assignment} />
           ))}
         </>
       )}
