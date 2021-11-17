@@ -123,7 +123,7 @@ const Territories = (props) => {
         polygonRef.current = new window.google.maps.Polygon({ paths: d.points });
         setTerritoryName(d.name);
         setDncs(d.dncs);
-        setAssignments(d.sorted_assignments);
+        setAssignments(d.assignments);
         setContacts(d.contacts);
         setContactsLoaded(true);
       })

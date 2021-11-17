@@ -27,12 +27,12 @@ export interface ICongregation {
 export interface ITerritory {
   id: number;
   name: string;
-  sorted_assignments: IAssignment[];
+  assignments: IAssignment[];
 }
 
 export interface IAssignment {
   id: number;
-  publisher: string;
+  user: IUser;
   checked_out: string;
   checked_in?: string;
   territory: { id: number; name: string };

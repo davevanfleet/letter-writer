@@ -84,7 +84,7 @@ const RecordBook = ({ congregationId }: IRecordBookProps): JSX.Element => {
         boxes.push(
           <View style={styles.assignmentBox}>
             <View style={styles.assignmentBoxName}>
-              <Text style={styles.assignmentNameText}>{assignment.publisher}</Text>
+              <Text style={styles.assignmentNameText}>{assignment.user.name}</Text>
             </View>
             <View style={styles.assignmentBoxDatesRow}>
               <View style={styles.assignmentBoxCheckOut}>
@@ -117,7 +117,7 @@ const RecordBook = ({ congregationId }: IRecordBookProps): JSX.Element => {
         <View style={styles.territoryName}>
           <Text>{territory.name}</Text>
         </View>
-        {assignmentBoxes(territory.sorted_assignments)}
+        {assignmentBoxes(territory.assignments)}
       </View>
     );
   });

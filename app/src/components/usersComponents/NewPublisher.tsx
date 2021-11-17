@@ -77,6 +77,7 @@ const NewPublisher = (): JSX.Element => {
             margin="normal"
             value={email}
             onChange={handleEmailChange}
+            helperText="Enter an email only if you would like to invite this publisher to create an account. Otherwise, leave it blank."
           />
         </Box>
         <hr />

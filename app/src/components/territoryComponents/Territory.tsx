@@ -7,12 +7,12 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { IAssignment, IContact, IDnc, IUser } from '../../shared/interfaces';
+import { IAssignment, IContact, IDnc } from '../../shared/interfaces';
 import React, { useState } from 'react';
 import { CSVLink } from 'react-csv';
-import CheckInModal from './CheckInModal';
-import NewAssignmentModal from './NewAssignmentModal';
-import UpdateAssignmentModal from './UpdateAssignmentModal';
+import CheckInDialog from './CheckInDialog';
+import NewAssignmentDialog from './NewAssignmentDialog';
+import UpdateAssignmentDialog from './UpdateAssignmentDialog';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';
 import ContactsTable from '../shared/ContactsTable';
@@ -92,7 +92,7 @@ const Territory = ({
 
   const assignmentRows = assignments.map((assignment) => (
     <TableRow key={assignment.id}>
-      <TableCell>{assignment.publisher}</TableCell>
+      <TableCell>{assignment.user.name}</TableCell>
       <TableCell>{assignment.checked_out}</TableCell>
       <TableCell>
         {assignment.checked_in || (
@@ -177,28 +177,29 @@ const Territory = ({
       </CSVLink>
       <ContactsTable contacts={contacts} />
       <br />
-      {displayAssignmentModal && (
-        <NewAssignmentModal
-          congregationId={currentUser!.congregation.id}
-          territoryId={territoryId}
-          handleClose={handleCloseModals}
-        />
-      )}
-      {displayCheckInModal && assignmentFocus && (
-        <CheckInModal
-          congregationId={currentUser!.congregation.id}
-          territoryId={territoryId}
-          assignment={assignmentFocus}
-          handleClose={handleCloseModals}
-        />
-      )}
-      {displayUpdateModal && assignmentFocus && (
-        <UpdateAssignmentModal
-          congregationId={currentUser!.congregation.id}
-          territoryId={territoryId}
-          assignment={assignmentFocus}
-          handleClose={handleCloseModals}
-        />
+      <NewAssignmentDialog
+        congregationId={currentUser!.congregation.id}
+        territoryId={territoryId}
+        handleClose={handleCloseModals}
+        open={displayAssignmentModal}
+      />
+      {assignmentFocus && (
+        <>
+          <CheckInDialog
+            congregationId={currentUser!.congregation.id}
+            territoryId={territoryId}
+            assignment={assignmentFocus}
+            handleClose={handleCloseModals}
+            open={displayCheckInModal}
+          />
+          <UpdateAssignmentDialog
+            congregationId={currentUser!.congregation.id}
+            territoryId={territoryId}
+            assignment={assignmentFocus}
+            handleClose={handleCloseModals}
+            open={displayUpdateModal}
+          />
+        </>
       )}
     </>
   );
