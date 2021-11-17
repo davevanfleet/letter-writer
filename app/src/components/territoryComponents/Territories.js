@@ -37,7 +37,6 @@ const Territories = (props) => {
     )
       .then((r) => r.json())
       .then((d) => {
-        setContactsLoaded(false);
         setEdit(false);
         polygonRef.current = new window.google.maps.Polygon({ paths: path });
         setContacts(d.contacts);
@@ -121,12 +120,12 @@ const Territories = (props) => {
       })
       .then((d) => {
         setPath(d.points);
-        setContactsLoaded(false);
         polygonRef.current = new window.google.maps.Polygon({ paths: d.points });
         setTerritoryName(d.name);
         setDncs(d.dncs);
         setAssignments(d.sorted_assignments);
         setContacts(d.contacts);
+        setContactsLoaded(true);
       })
       .catch((e) => {
         console.log(e);
@@ -135,7 +134,6 @@ const Territories = (props) => {
 
   const handleChange = (e) => {
     setTerritoryId(e.target.value);
-    setContactsLoaded(false);
     getTerritory(e.target.value);
   };
 
@@ -144,7 +142,6 @@ const Territories = (props) => {
   useEffect(() => {
     if (territoryQuery) {
       setTerritoryId(territoryQuery);
-      setContactsLoaded(false);
       getTerritory(territoryQuery);
     }
   }, [territoryQuery]);

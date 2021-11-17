@@ -1,10 +1,17 @@
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { IAssignment, IContact, IDnc, IUser } from '../../shared/interfaces';
 import React, { useState } from 'react';
 import { CSVLink } from 'react-csv';
-import CheckBox from '../CheckBox';
 import CheckInModal from './CheckInModal';
 import NewAssignmentModal from './NewAssignmentModal';
-import Table from 'react-bootstrap/Table';
 import UpdateAssignmentModal from './UpdateAssignmentModal';
 import { config } from '../../constants';
 import { useUserContext } from '../../contexts/UserContext';
@@ -83,115 +90,90 @@ const Territory = ({
     { label: 'Date', key: 'date' },
   ];
 
-  const assignmentRows = assignments.map((assignment) => {
-    return (
-      <tr key={assignment.id}>
-        <td>{assignment.publisher}</td>
-        <td>{assignment.checked_out}</td>
-        <td>
-          {assignment.checked_in || (
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                setAssignmentFocus(assignment);
-                setDisplayCheckInModal(true);
-              }}
-            >
-              Check In
-            </button>
-          )}
-        </td>
-        <td>
-          {assignment.checked_out && assignment.checked_in && (
-            <button
-              className="btn btn-warning"
-              onClick={() => {
-                setAssignmentFocus(assignment);
-                setDisplayUpdateModal(true);
-              }}
-            >
-              Edit
-            </button>
-          )}
-        </td>
-        <td>
-          <button
-            className="btn btn-danger"
+  const assignmentRows = assignments.map((assignment) => (
+    <TableRow key={assignment.id}>
+      <TableCell>{assignment.publisher}</TableCell>
+      <TableCell>{assignment.checked_out}</TableCell>
+      <TableCell>
+        {assignment.checked_in || (
+          <Button
             onClick={() => {
-              deleteAssignment(assignment.id);
+              setAssignmentFocus(assignment);
+              setDisplayCheckInModal(true);
             }}
           >
-            Delete
-          </button>
-        </td>
-      </tr>
-    );
-  });
+            Check In
+          </Button>
+        )}
+      </TableCell>
+      <TableCell>
+        {assignment.checked_out && assignment.checked_in && (
+          <Button
+            onClick={() => {
+              setAssignmentFocus(assignment);
+              setDisplayUpdateModal(true);
+            }}
+          >
+            Edit
+          </Button>
+        )}
+      </TableCell>
+      <TableCell>
+        <Button
+          onClick={() => {
+            deleteAssignment(assignment.id);
+          }}
+        >
+          Delete
+        </Button>
+      </TableCell>
+    </TableRow>
+  ));
 
-  const contactRows = contacts.map((contact) => (
-    <tr key={contact.id}>
-      <td>{contact.name}</td>
-      <td>{contact.address}</td>
-      <td>{contact.phone}</td>
-      <td>{contact.phone_type}</td>
-      <td>{contact.lang && config.languageMapping[contact.lang]}</td>
-      <CheckBox id={contact.id} />
-    </tr>
-  ));
   const dncRows = dncs.map((dnc) => (
-    <tr key={dnc.id}>
-      <td>{dnc.address}</td>
-      <td>{dnc.date}</td>
-    </tr>
+    <TableRow key={dnc.id}>
+      <TableCell>{dnc.address}</TableCell>
+      <TableCell>{dnc.date}</TableCell>
+    </TableRow>
   ));
+
   return (
-    <div>
-      <h2>Assignments</h2>
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>Publisher:</th>
-            <th>Checked Out:</th>
-            <th>Checked In:</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{assignmentRows}</tbody>
+    <>
+      <Typography variant="h2">Assignments</Typography>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Publisher:</TableCell>
+            <TableCell>Checked Out:</TableCell>
+            <TableCell>Checked In:</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{assignmentRows}</TableBody>
       </Table>
       {(!assignments[assignments.length - 1] || assignments[assignments.length - 1].checked_in) && (
-        <button className="btn btn-primary" onClick={() => setDisplayAssignmentModal(true)}>
-          Check Out
-        </button>
+        <Button onClick={() => setDisplayAssignmentModal(true)}>Check Out</Button>
       )}
 
-      <h2>DNCs</h2>
-      <CSVLink
-        data={dncs}
-        headers={dncHeaders}
-        filename={`${territoryName}-DNCs.csv`}
-        className="btn btn-primary"
-      >
-        Download DNCs
+      <Typography variant="h2">DNCs</Typography>
+      <CSVLink data={dncs} headers={dncHeaders} filename={`${territoryName}-DNCs.csv`}>
+        <Button>Download DNCs</Button>
       </CSVLink>
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>Address</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>{dncRows}</tbody>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Address</TableCell>
+            <TableCell>Date</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{dncRows}</TableBody>
       </Table>
-      <h2>Contacts</h2>
-      <p>{contacts.length} contacts loaded</p>
-      <CSVLink
-        data={contacts}
-        headers={headers}
-        filename={`${territoryName}.csv`}
-        className="btn btn-primary"
-      >
-        Download Territory
+
+      <Typography variant="h2">Contacts</Typography>
+      <Typography>{contacts.length} contacts loaded</Typography>
+      <CSVLink data={contacts} headers={headers} filename={`${territoryName}.csv`}>
+        <Button>Download Territory</Button>
       </CSVLink>
       <ContactsTable contacts={contacts} />
       <br />
@@ -218,7 +200,7 @@ const Territory = ({
           handleClose={handleCloseModals}
         />
       )}
-    </div>
+    </>
   );
 };
 
