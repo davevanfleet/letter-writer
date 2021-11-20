@@ -8,7 +8,10 @@ interface ILayoutProps {
   flash: string;
 }
 
-const theme = createTheme({ spacing: 4, typography: { h1: { fontSize: '4rem' } } });
+const theme = createTheme({
+  spacing: 4,
+  typography: { h1: { fontSize: '4rem' }, h2: { fontSize: '3rem' } },
+});
 
 const Layout = ({ children, flash }: ILayoutProps): JSX.Element => (
   <ThemeProvider theme={theme}>

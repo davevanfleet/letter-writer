@@ -16,6 +16,7 @@ export interface IUser {
   email: string;
   name: string;
   role: string;
+  account_access: boolean;
 }
 
 export interface ICongregation {

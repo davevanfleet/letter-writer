@@ -50,7 +50,7 @@ const NewAssignmentModal = ({
       },
       body: JSON.stringify({
         assignment: {
-          publisher_id: publisherId,
+          user_id: publisherId,
           checked_out: checkOut,
         },
       }),
