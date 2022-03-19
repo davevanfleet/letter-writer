@@ -31,6 +31,7 @@ const UploadContacts = () => {
       'zipCode',
       'lat',
       'lng',
+      'ownership',
       'lang',
     ];
     const list = [];
@@ -138,17 +139,15 @@ const UploadContacts = () => {
               <ol>
                 <li>First Name of Householder</li>
                 <li>Last Name of Householder</li>
-                <li>
-                  Phone Number (must be present - can list &quot;Not Available&quot; if no phone
-                  number)
-                </li>
+                <li>Phone Number</li>
                 <li>Address</li>
                 <li>City</li>
                 <li>State</li>
                 <li>Zip Code</li>
                 <li>Latitude</li>
                 <li>Longitude</li>
-                <li>Primary Language (optional)</li>
+                <li>Home Ownership</li>
+                <li>Primary Language</li>
               </ol>
             </li>
             <li>There must be no header row</li>

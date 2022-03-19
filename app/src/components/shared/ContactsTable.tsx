@@ -109,6 +109,7 @@ const ContactsTable = ({ contacts }: IContactsTableProps): JSX.Element => {
             <TableCell>Address</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Phone Type</TableCell>
+            <TableCell>Home Ownership</TableCell>
             <TableCell>Primary Language</TableCell>
             <TableCell>Check When Done</TableCell>
           </TableRow>
@@ -123,6 +124,7 @@ const ContactsTable = ({ contacts }: IContactsTableProps): JSX.Element => {
               <TableCell>{contact.address}</TableCell>
               <TableCell>{contact.phone}</TableCell>
               <TableCell>{contact.phone_type}</TableCell>
+              <TableCell>{contact.ownership}</TableCell>
               <TableCell>{contact.lang}</TableCell>
               <TableCell></TableCell>
             </TableRow>

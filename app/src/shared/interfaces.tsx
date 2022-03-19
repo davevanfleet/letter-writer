@@ -46,5 +46,6 @@ export interface IContact {
   address: string;
   phone: string;
   phone_type: 'mobile|landline';
+  ownership: string;
   lang: string;
 }

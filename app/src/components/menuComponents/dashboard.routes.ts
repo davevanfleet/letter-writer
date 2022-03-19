@@ -28,7 +28,7 @@ const ROUTES = {
     authenticated: true,
   },
   uploader: {
-    path: '/upload',
+    path: '/upload/contacts',
     exact: false,
     name: 'Uploads',
     desktop: true,
