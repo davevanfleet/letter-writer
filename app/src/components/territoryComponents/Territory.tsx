@@ -81,6 +81,7 @@ const Territory = ({
     { label: 'Address', key: 'address' },
     { label: 'Phone', key: 'phone' },
     { label: 'Phone Type', key: 'phone_type' },
+    { label: 'Home Ownership', key: 'ownership' },
     { label: 'Primary Language', key: 'lang' },
     { label: 'Check When Finished', key: 'blank' },
   ];
