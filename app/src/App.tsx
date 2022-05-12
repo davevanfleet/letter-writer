@@ -5,6 +5,7 @@ import { IUser } from './shared/interfaces';
 import Layout from './components/Layout';
 import Root from './components/Root';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import { UserProvider } from './contexts/UserContext';
 
 const App = (): JSX.Element => {
@@ -18,13 +19,15 @@ const App = (): JSX.Element => {
   };
   return (
     <div className="App">
-      <UserProvider>
-        <Router>
-          <Layout flash={flash}>
-            <Root />
-          </Layout>
-        </Router>
-      </UserProvider>
+      <SnackbarProvider>
+        <UserProvider>
+          <Router>
+            <Layout flash={flash}>
+              <Root />
+            </Layout>
+          </Router>
+        </UserProvider>
+      </SnackbarProvider>
     </div>
   );
 };

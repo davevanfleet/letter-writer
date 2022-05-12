@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 import { IUser } from '../shared/interfaces';
 import { config } from '../constants';
+import { useSnackbar } from 'notistack';
+
 interface IUserProviderProps {
   children: JSX.Element;
 }
@@ -27,6 +29,7 @@ interface ICredentials {
 const UserContext = createContext({} as IUserProviderValues);
 
 const UserProvider = ({ children }: IUserProviderProps): JSX.Element => {
+  const { enqueueSnackbar } = useSnackbar();
   const [currentUser, setCurrentUser] = useState<IUser | undefined>();
   const loginAuthToken: string | null = localStorage.getItem('token');
 
@@ -70,7 +73,7 @@ const UserProvider = ({ children }: IUserProviderProps): JSX.Element => {
         localStorage.setItem('token', json.jwt);
       })
       .catch((e) => {
-        console.log(e);
+        enqueueSnackbar(e, { variant: 'error' });
       });
   };
 
